@@ -1,23 +1,32 @@
-import { useNavigate, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import LoginForm from "../components/LoginForm";
+import SignupForm from "../components/SignupForm";
+import Cookies from "js-cookie";
 
 const Login = ({ token, SetToken }) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  if (Cookies.get("token")) {
+    SetToken(Cookies.get("token"));
+  }
 
   return (
-    <div>
+    <div className="page-align grey-bkg font">
       {token ? (
         <Navigate to="/home" />
       ) : (
-        <div>
-          <h1> No connexion detected : Login Page</h1>
-          <button
-            onClick={() => {
-              SetToken("sebastien");
-              navigate("/home");
-            }}
-          >
-            Connexion
-          </button>
+        <div className="main-container">
+          <div>
+            <h1 className="text-center"> Bienvenue sur Connectify !</h1>
+          </div>
+          <div className="forms-container">
+            <div>
+              <LoginForm SetToken={SetToken} />
+            </div>
+            <div className="separator" />
+            <div>
+              <SignupForm SetToken={SetToken} />
+            </div>
+          </div>
         </div>
       )}
     </div>

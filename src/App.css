@@ -1,8 +1,77 @@
-/* HEADER */
+/* GENERAL */
+.grey-bkg {
+  background-color: #efefef;
+}
+
+.black-bkg {
+  background-color: #191919;
+}
+
+.border-red {
+  border: 1px solid red;
+}
+
+.page-align {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .font {
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
+.main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 30px;
+  width: 80%;
+  height: calc(100% - 300px);
+  contain: content;
+}
+
+h1 {
+  font-size: 30px;
+  margin: 20px;
+}
+
+h2 {
+  font-size: 20px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.text-center {
+  text-align: center;
+}
+
+.forms-style {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.forms-style input {
+  border: lightgrey 1px solid;
+  height: 30px;
+  width: 250px;
+  padding: 15px;
+}
+
+.forms-style button {
+  border: none;
+  height: 30px;
+  width: 250px;
+  background-color: #b42f5a;
+  color: white;
+  cursor: pointer;
+}
+
+.error-message {
+  color: #b42f5a;
+  font-size: 12px;
+}
+
+/* HEADER */
 
 .header-container {
   display: flex;
@@ -26,4 +95,38 @@
 .header-text {
   color: white;
   margin-right: 15px;
+}
+
+/* FOOTER */
+.footer {
+  height: 200px;
+}
+/* LOGIN PAGE */
+
+.forms-container {
+  margin-top: 80px;
+  margin-bottom: 80px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.separator {
+  background-color: grey;
+  width: 1px;
+  height: 300px;
+}
+
+@media (max-width: 500px) {
+  .separator {
+    visibility: hidden;
+    height: 0px;
+  }
+  .forms-container {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
 }

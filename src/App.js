@@ -6,12 +6,16 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
+//import dependencies
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
 import Edition from "./pages/Edition";
+
+// //import cookies
+// import Cookies from "js-cookie";
 
 function App() {
   const [token, SetToken] = useState("");

@@ -1,7 +1,13 @@
 import logo from "../assets/Logo-connectify.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Cookies from "js-cookie";
 
 const Header = ({ token, SetToken }) => {
+  let name = "";
+  if (Cookies.get("name")) {
+    name = JSON.parse(Cookies.get("name"));
+  }
+
   return (
     <div>
       <div className="header-container">
@@ -10,9 +16,11 @@ const Header = ({ token, SetToken }) => {
         <div>
           {token && (
             <div className="header-right font">
-              <p className="header-text">Bienvenue Sébastien</p>{" "}
+              <p className="header-text">{name}</p>{" "}
               <div
                 onClick={() => {
+                  Cookies.remove("token");
+                  Cookies.remove("name");
                   SetToken("");
                 }}
               >
