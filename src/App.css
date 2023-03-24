@@ -24,6 +24,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   margin-top: 30px;
   width: 80%;
   height: calc(100% - 300px);
@@ -108,6 +109,7 @@ h2 {
   margin-bottom: 80px;
   display: flex;
   justify-content: space-around;
+  gap: 100px;
 }
 
 .separator {
@@ -116,17 +118,67 @@ h2 {
   height: 300px;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 900px) {
   .separator {
     visibility: hidden;
     height: 0px;
   }
   .forms-container {
     margin-top: 15px;
-    margin-bottom: 15px;
+    margin-bottom: 80px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 15px;
   }
+}
+
+/* HOME PAGE */
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+}
+.home-container {
+  margin-top: 40px;
+  width: 70%;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.contact-grid {
+  display: flex;
+  justify-content: flex-start;
+  gap: 60px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.contact-cards {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 255px;
+  width: 255px;
+  border: 1px solid lightgray;
+  padding-bottom: 15px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.top-bar input {
+  border: lightgrey 1px solid;
+  height: 30px;
+  width: 250px;
+  padding: 15px;
+}
+.top-bar select {
+  border: lightgrey 1px solid;
+  height: 30px;
+  width: 250px;
+  margin-right: 5px;
 }
