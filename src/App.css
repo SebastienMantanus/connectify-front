@@ -49,6 +49,20 @@ h2 {
   margin-top: 15px;
   margin-bottom: 15px;
 }
+
+h3 {
+  font-size: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+p {
+  font-size: 12px;
+}
+a {
+  text-decoration: none;
+  color: currentColor;
+}
 .text-center {
   text-align: center;
 }
@@ -189,6 +203,41 @@ h2 {
   padding-bottom: 15px;
   padding-right: 15px;
   padding-left: 15px;
+  border-radius: 5px;
+}
+.new-contact-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 255px;
+  width: 255px;
+  background-color: #b42f5a;
+  border: 1px solid #b42f5a;
+  padding-bottom: 15px;
+  padding-right: 15px;
+  padding-left: 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.new-contact-card:hover {
+  background-color: #a50a3b;
+}
+
+.new-contact-card > h1 {
+  color: white;
+}
+
+.new-contact-card img {
+  width: 50px;
+  height: 50px;
+  margin-left: 15px;
+}
+
+.contact-cards:hover {
+  box-shadow: 0px 0px 5px #b42f5a;
+  background-color: #fbfbfb;
+  border: #b42f5a solid 3px;
 }
 
 .top-bar input {
@@ -203,6 +252,14 @@ h2 {
   width: 250px;
   margin-right: 5px;
 }
+.create-button {
+  padding-left: 15px;
+  padding-right: 15px;
+  border: none;
+  height: 30px;
+  background-color: #b42f5a;
+  color: white;
+}
 
 /* CREATE CONTACT */
 
@@ -215,4 +272,74 @@ h2 {
 
 .display-buttons > div {
   cursor: pointer;
+}
+
+/* DETAIL CONTACT */
+
+.contact-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px gray solid;
+  width: 100%;
+  padding: 30px;
+}
+
+.created-by {
+  margin-bottom: 15px;
+  font-size: 12px;
+  color: grey;
+}
+
+.edition-name-option {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.edition-name-option-input {
+  font-size: 20px;
+  border: solid 1px lightcoral;
+  border-style: dotted;
+  padding: 15px;
+}
+
+.edition-contact-option {
+  font-size: 15px;
+  border: solid 1px lightcoral;
+  border-style: dotted;
+  padding: 15px;
+}
+
+.edition-contact-description {
+  font-size: 12px;
+  width: 585px;
+  height: 80px;
+  border: solid 1px green;
+  border-style: dotted;
+  padding: 15px;
+}
+
+.update-button {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border: none;
+  height: 30px;
+  /* width: 250px; */
+
+  color: white;
+  cursor: pointer;
+}
+.normal-button {
+  background-color: #b42f5a;
+}
+.red-button {
+  background-color: red;
+}
+
+.options-bar {
+  display: flex;
+  gap: 30px;
 }

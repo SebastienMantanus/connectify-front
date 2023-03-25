@@ -1,6 +1,7 @@
 import { useNavigate, Navigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import addIcon from "../assets/add.png";
 
 const Home = ({ token, SetToken }) => {
   const [isLoading, SetIsLoading] = useState(true);
@@ -39,7 +40,7 @@ const Home = ({ token, SetToken }) => {
     ) : (
       <div className="flex-center font">
         <div
-          className="home-container border-red
+          className="home-container 
   "
         >
           <div className="top-bar">
@@ -64,29 +65,35 @@ const Home = ({ token, SetToken }) => {
               />
             </div>
             <div>
-              <button
-                onClick={() => {
-                  navigate("/contact/create");
-                }}
-              >
-                Nouveau Contact
-              </button>
+              <h2>Bonjour {user.name}</h2>
             </div>
           </div>
 
           <div className="contact-grid">
+            <div
+              className="new-contact-card"
+              onClick={() => {
+                navigate("/contact/create");
+              }}
+            >
+              <img src={addIcon} alt="créer une fiche" />
+              <h1>Créer un nouveau contact</h1>
+            </div>
             {data.map((item, index) => {
+              const linkUrl = `/contact/${item._id}`;
               return (
-                <div key={item._id} className="contact-cards">
-                  <h2>{item.name}</h2>
-                  <h3>{item.contact}</h3>
-                  {item.description.length > 100 ? (
-                    <p>{item.description.substring(0, 100)}...</p>
-                  ) : (
-                    <p>{item.description}</p>
-                  )}
-                  <p>{item.telephone}</p>
-                </div>
+                <Link to={linkUrl}>
+                  <div key={item._id} className="contact-cards">
+                    <h2>{item.name}</h2>
+                    <h3>{item.contact}</h3>
+                    {item.description.length > 100 ? (
+                      <p>{item.description.substring(0, 100)}...</p>
+                    ) : (
+                      <p>{item.description}</p>
+                    )}
+                    <p>{item.telephone}</p>
+                  </div>
+                </Link>
               );
             })}
           </div>

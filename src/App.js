@@ -4,7 +4,12 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Fontawsome import
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import {
+  faRightFromBracket,
+  faPenToSquare,
+  faCheckSquare,
+  faCircleCheck,
+} from "@fortawesome/free-solid-svg-icons";
 
 //import dependencies
 import Header from "./components/Header";
@@ -20,7 +25,7 @@ import Newcontact from "./pages/Newcontact";
 
 function App() {
   const [token, SetToken] = useState("");
-  library.add(faRightFromBracket);
+  library.add(faCircleCheck, faRightFromBracket, faPenToSquare, faCheckSquare);
 
   return (
     <div className="App">
@@ -35,8 +40,10 @@ function App() {
             path="/home"
             element={<Home token={token} SetToken={SetToken} />}
           />
-          <Route path="/contact/" element={<Contact token={token} />} />
+          <Route path="/contact/:id" element={<Contact token={token} />} />
+
           <Route path="/contact/edition" element={<Edition />} />
+
           <Route
             path="/contact/create"
             element={<Newcontact token={token} />}
