@@ -20,6 +20,14 @@
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
+
+.margin-left {
+  margin-left: 20px;
+}
+
+.margin-botton {
+  margin-bottom: 40px;
+}
 .main-container {
   display: flex;
   flex-direction: column;
@@ -65,6 +73,19 @@ h2 {
   background-color: #b42f5a;
   color: white;
   cursor: pointer;
+}
+
+.forms-style label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.forms-style textarea {
+  width: 250px;
+  height: 200px;
+  border: lightgrey 1px solid;
+  padding: 15px;
 }
 
 .error-message {
@@ -181,4 +202,17 @@ h2 {
   height: 30px;
   width: 250px;
   margin-right: 5px;
+}
+
+/* CREATE CONTACT */
+
+.display-buttons {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  color: gray;
+}
+
+.display-buttons > div {
+  cursor: pointer;
 }

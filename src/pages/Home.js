@@ -1,4 +1,4 @@
-import { Navigate, Link } from "react-router-dom";
+import { useNavigate, Navigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -8,6 +8,7 @@ const Home = ({ token, SetToken }) => {
   const [user, SetUser] = useState();
   const [search, SetSearch] = useState("");
   const [searchType, SetSearchType] = useState("name");
+  const navigate = useNavigate(); // rappel
 
   let filter = "";
   if (search.length > 3) {
@@ -62,7 +63,15 @@ const Home = ({ token, SetToken }) => {
                 }}
               />
             </div>
-            <div>{searchType}</div>
+            <div>
+              <button
+                onClick={() => {
+                  navigate("/contact/create");
+                }}
+              >
+                Nouveau Contact
+              </button>
+            </div>
           </div>
 
           <div className="contact-grid">
@@ -71,7 +80,11 @@ const Home = ({ token, SetToken }) => {
                 <div key={item._id} className="contact-cards">
                   <h2>{item.name}</h2>
                   <h3>{item.contact}</h3>
-                  <p>{item.description}</p>
+                  {item.description.length > 100 ? (
+                    <p>{item.description.substring(0, 100)}...</p>
+                  ) : (
+                    <p>{item.description}</p>
+                  )}
                   <p>{item.telephone}</p>
                 </div>
               );

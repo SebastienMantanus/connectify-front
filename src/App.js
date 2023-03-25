@@ -13,6 +13,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
 import Edition from "./pages/Edition";
+import Newcontact from "./pages/Newcontact";
 
 // //import cookies
 // import Cookies from "js-cookie";
@@ -34,8 +35,12 @@ function App() {
             path="/home"
             element={<Home token={token} SetToken={SetToken} />}
           />
-          <Route path="/Contact/id:" element={<Contact />} />
-          <Route path="/Contact/edition" element={<Edition />} />
+          <Route path="/contact/" element={<Contact token={token} />} />
+          <Route path="/contact/edition" element={<Edition />} />
+          <Route
+            path="/contact/create"
+            element={<Newcontact token={token} />}
+          />
         </Routes>
         <Footer />
       </Router>
