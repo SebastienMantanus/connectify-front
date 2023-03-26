@@ -1,14 +1,13 @@
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import noAvatar from "../assets/contact.png";
 
 import axios from "axios";
 
 const Contact = ({ token }) => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [data, SetData] = useState();
+
   const [isLoading, SetIsLoading] = useState(true);
   const [nameEdition, SetNameEdition] = useState(false);
   const [contactEdition, SetContactEdition] = useState(false);
@@ -22,7 +21,7 @@ const Contact = ({ token }) => {
   const [telephone, setTelephone] = useState();
   const [email, setEmail] = useState();
   const [website, setWebsite] = useState();
-  const [avatar, setAvatar] = useState({ noAvatar });
+  const [favicon, setFavicon] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,14 +33,14 @@ const Contact = ({ token }) => {
           },
         }
       );
-      SetData(response.data);
+
       setName(response.data.name);
       setContact(response.data.contact);
       setDescription(response.data.description);
       setEmail(response.data.email);
       setTelephone(response.data.telephone);
       setWebsite(response.data.website);
-
+      setFavicon(response.data.favicon.secure_url);
       SetIsLoading(false);
     };
     fetchData();
@@ -244,8 +243,7 @@ const Contact = ({ token }) => {
               </h3>
             )}
           </div>
-          <img src={avatar} alt="company logo" />
-          <div>Logo du contact</div>
+          <img className="favicon" src={favicon} alt="company logo" />
         </div>
         <div className="options-bar">
           <button

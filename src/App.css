@@ -343,3 +343,8 @@ a {
   display: flex;
   gap: 30px;
 }
+
+.favicon {
+  width: 100px;
+  height: 100px;
+}

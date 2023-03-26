@@ -10,11 +10,13 @@ const Newcontact = ({ token }) => {
   const [description, SetDescription] = useState("");
   const [telephone, SetTelephone] = useState("");
   const [error, SetError] = useState("");
+  const [fetching, SetFetching] = useState(false);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    SetFetching(true);
     if (name && email && website && description && telephone && contact) {
       try {
         const response = await axios.post(
@@ -33,8 +35,18 @@ const Newcontact = ({ token }) => {
             },
           }
         );
-        console.log(response);
-        navigate("/");
+        // console.log(response.data._id);
+        try {
+          const favicon = await axios.get(
+            `http://localhost:3000/addfavicon/${response.data._id}`
+          );
+          console.log(favicon);
+          alert("favicon trouvée");
+          navigate("/");
+        } catch (error) {
+          alert("erreur de détection de la favicon");
+          navigate("/");
+        }
       } catch (error) {
         SetError(error);
       }
@@ -43,6 +55,7 @@ const Newcontact = ({ token }) => {
         "Merci de remplir tous les champs pour créer un nouveau contact"
       );
     }
+    SetFetching(false);
   };
 
   return (
@@ -120,14 +133,20 @@ const Newcontact = ({ token }) => {
             />
           </label>
           <div className="display-buttons">
-            <button>Créer le nouveau contact</button>
-            <div
-              onClick={() => {
-                navigate("/");
-              }}
-            >
-              Annuler
-            </div>
+            {!fetching ? (
+              <button>Créer le nouveau contact</button>
+            ) : (
+              <p>Creation du contact en cours...</p>
+            )}
+            {!fetching && (
+              <div
+                onClick={() => {
+                  navigate("/");
+                }}
+              >
+                Annuler
+              </div>
+            )}
           </div>
 
           {error && <p className="error-message">{error}</p>}
