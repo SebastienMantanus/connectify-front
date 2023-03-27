@@ -33,7 +33,7 @@ const SignupForm = ({ SetToken }) => {
     if (name && email && password && passwordConfirmation) {
       if (password === passwordConfirmation) {
         const response = await axios.post(
-          "http://localhost:3000/users/create",
+          "https://back--connectify--pcsmmwq8bwzd.code.run/users/create",
           {
             name: name,
             email: email,

@@ -19,7 +19,7 @@ const Home = ({ token, SetToken }) => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        `http://localhost:3000/affiliates-search?limit=12+${filter}`,
+        `https://back--connectify--pcsmmwq8bwzd.code.run/affiliates-search?limit=11+${filter}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

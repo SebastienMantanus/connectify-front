@@ -20,7 +20,7 @@ const Newcontact = ({ token }) => {
     if (name && email && website && description && telephone && contact) {
       try {
         const response = await axios.post(
-          "http://localhost:3000/affiliates/create",
+          "https://back--connectify--pcsmmwq8bwzd.code.run/affiliates/create",
           {
             name: name,
             email: email,
@@ -38,7 +38,7 @@ const Newcontact = ({ token }) => {
         // console.log(response.data._id);
         try {
           const favicon = await axios.get(
-            `http://localhost:3000/addfavicon/${response.data._id}`
+            `https://back--connectify--pcsmmwq8bwzd.code.run/addfavicon/${response.data._id}`
           );
           console.log(favicon);
           alert("favicon trouvée");

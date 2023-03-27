@@ -135,7 +135,15 @@ a {
 
 /* FOOTER */
 .footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #191919;
   height: 200px;
+}
+
+.footer-text {
+  color: #efefef;
 }
 /* LOGIN PAGE */
 

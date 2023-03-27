@@ -26,7 +26,7 @@ const Contact = ({ token }) => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        `http://localhost:3000/affiliates/${id}`,
+        `https://back--connectify--pcsmmwq8bwzd.code.run/affiliates/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -48,7 +48,7 @@ const Contact = ({ token }) => {
 
   const contactUpdate = async () => {
     const response = await axios.post(
-      `http://localhost:3000/affiliate/update/${id}`,
+      `https://back--connectify--pcsmmwq8bwzd.code.run/affiliate/update/${id}`,
       {
         name: name,
         email: email,
@@ -68,11 +68,14 @@ const Contact = ({ token }) => {
   };
 
   const contactDelete = async () => {
-    await axios.delete(`http://localhost:3000/affiliate/delete/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    await axios.delete(
+      `https://back--connectify--pcsmmwq8bwzd.code.run/affiliate/delete/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     alert("Contact supprimé");
     navigate("/");
   };
