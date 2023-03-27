@@ -191,19 +191,29 @@ a {
 
 .top-bar {
   display: flex;
+  width: 100%;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 40px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid lightgray;
 }
 
 .contact-grid {
   display: flex;
   width: 100%;
-  justify-content: flex-start;
-  gap: 5%;
+
+  justify-content: space-between;
+  gap: 40px;
   flex-wrap: wrap;
-  margin-bottom: 40px;
+  /* margin-bottom: 40px; */
+  margin: auto, 40px;
 }
 
+.contact-grid::after {
+  content: "";
+  width: 255px;
+}
 .contact-cards {
   display: flex;
   flex-direction: column;
@@ -291,6 +301,7 @@ a {
 .contact-container {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
   border: 1px gray solid;
   width: 100%;

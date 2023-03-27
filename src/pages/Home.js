@@ -6,7 +6,7 @@ import addIcon from "../assets/add.png";
 const Home = ({ token, SetToken }) => {
   const [isLoading, SetIsLoading] = useState(true);
   const [data, SetData] = useState();
-  const [user, SetUser] = useState();
+  // const [user, SetUser] = useState();
   const [search, SetSearch] = useState("");
   const [searchType, SetSearchType] = useState("name");
   const navigate = useNavigate(); // rappel
@@ -28,7 +28,7 @@ const Home = ({ token, SetToken }) => {
       );
 
       SetData(response.data[1]);
-      SetUser(response.data[0]);
+      // SetUser(response.data[0]);
       SetIsLoading(false);
     };
     fetchData();
@@ -44,7 +44,7 @@ const Home = ({ token, SetToken }) => {
   "
         >
           <div className="top-bar">
-            <div>{data.length} contacts</div>
+            <h2>{data.length} contacts</h2>
             <div>
               <select
                 onChange={(event) => {
@@ -64,12 +64,9 @@ const Home = ({ token, SetToken }) => {
                 }}
               />
             </div>
-            <div>
-              <h2>Bonjour {user.name}</h2>
-            </div>
           </div>
 
-          <div className="contact-grid">
+          <div className="contact-grid ">
             <div
               className="new-contact-card"
               onClick={() => {

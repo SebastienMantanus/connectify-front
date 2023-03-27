@@ -86,7 +86,7 @@ const Contact = ({ token }) => {
     <div className="flex-center">
       <div className="home-container font margin-botton">
         <div className="top-bar">
-          <h1>Détail du contact</h1>
+          <h2>Editer le contact</h2>
         </div>
 
         <div className="contact-container">
