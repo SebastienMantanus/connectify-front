@@ -35,7 +35,7 @@
   align-items: center;
   margin-top: 30px;
   width: 80%;
-  height: calc(100% - 300px);
+  height: calc(100vh - 300px);
   contain: content;
 }
 
@@ -59,6 +59,7 @@ h3 {
 p {
   font-size: 12px;
 }
+
 a {
   text-decoration: none;
   color: currentColor;
@@ -181,6 +182,7 @@ a {
 .flex-center {
   display: flex;
   justify-content: center;
+  height: calc(100% - 300px);
 }
 .home-container {
   margin-top: 40px;
@@ -195,8 +197,9 @@ a {
 
 .contact-grid {
   display: flex;
+  width: 100%;
   justify-content: flex-start;
-  gap: 60px;
+  gap: 5%;
   flex-wrap: wrap;
   margin-bottom: 40px;
 }
@@ -212,6 +215,7 @@ a {
   padding-right: 15px;
   padding-left: 15px;
   border-radius: 5px;
+  margin-bottom: 30px;
 }
 .new-contact-card {
   display: flex;
