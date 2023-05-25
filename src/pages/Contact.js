@@ -4,7 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import axios from "axios";
 
-const Contact = ({ token }) => {
+const Contact = ({ token, server }) => {
+  console.log("server>>", server);
+
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -25,22 +27,19 @@ const Contact = ({ token }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(
-        `https://back--connectify--pcsmmwq8bwzd.code.run/affiliates/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`${server}/affiliates/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-      setName(response.data.name);
-      setContact(response.data.contact);
-      setDescription(response.data.description);
-      setEmail(response.data.email);
-      setTelephone(response.data.telephone);
-      setWebsite(response.data.website);
-      setFavicon(response.data.favicon.secure_url);
+      setName(response.data.company_name);
+      setContact(response.data.contact_name);
+      setDescription(response.data.company_activity);
+      setEmail(response.data.contact_email);
+      setTelephone(response.data.contact_phone);
+      setWebsite(response.data.company_website);
+      setFavicon(response.data.company_favicon.url);
       SetIsLoading(false);
     };
     fetchData();
@@ -48,7 +47,7 @@ const Contact = ({ token }) => {
 
   const contactUpdate = async () => {
     const response = await axios.post(
-      `https://back--connectify--pcsmmwq8bwzd.code.run/affiliate/update/${id}`,
+      `${server}/affiliate/update/${id}`,
       {
         name: name,
         email: email,
@@ -68,14 +67,11 @@ const Contact = ({ token }) => {
   };
 
   const contactDelete = async () => {
-    await axios.delete(
-      `https://back--connectify--pcsmmwq8bwzd.code.run/affiliate/delete/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    await axios.delete(`${server}/affiliate/delete/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     alert("Contact supprimé");
     navigate("/");
   };

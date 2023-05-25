@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import addIcon from "../assets/add.png";
 
-const Home = ({ token, SetToken }) => {
+const Home = ({ token, server, SetToken }) => {
   const [isLoading, SetIsLoading] = useState(true);
   const [data, SetData] = useState();
   // const [user, SetUser] = useState();
@@ -19,7 +19,7 @@ const Home = ({ token, SetToken }) => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        `https://back--connectify--pcsmmwq8bwzd.code.run/affiliates-search?limit=11+${filter}`,
+        `${server}/affiliates-search?limit=11+${filter}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -70,7 +70,7 @@ const Home = ({ token, SetToken }) => {
             <div
               className="new-contact-card"
               onClick={() => {
-                navigate("/contact/create");
+                navigate("/contact/createv2");
               }}
             >
               <img src={addIcon} alt="créer une fiche" />
@@ -81,14 +81,14 @@ const Home = ({ token, SetToken }) => {
               return (
                 <Link to={linkUrl}>
                   <div key={item._id} className="contact-cards">
-                    <h2>{item.name}</h2>
-                    <h3>{item.contact}</h3>
-                    {item.description.length > 100 ? (
-                      <p>{item.description.substring(0, 100)}...</p>
+                    <h2>{item.company_name}</h2>
+                    <h3>{item.contact_name}</h3>
+                    {item.company_activity.length > 100 ? (
+                      <p>{item.company_activity.substring(0, 100)}...</p>
                     ) : (
-                      <p>{item.description}</p>
+                      <p>{item.company_activity}</p>
                     )}
-                    <p>{item.telephone}</p>
+                    <p>{item.contact_phone}</p>
                   </div>
                 </Link>
               );

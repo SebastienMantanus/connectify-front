@@ -1,8 +1,10 @@
+//OLD CREATION CONTACT PAGE
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const Newcontact = ({ token }) => {
+const Newcontact = ({ token, server }) => {
   const [name, SetName] = useState("");
   const [email, SetEmail] = useState("");
   const [website, SetWebsite] = useState("");
@@ -20,7 +22,7 @@ const Newcontact = ({ token }) => {
     if (name && email && website && description && telephone && contact) {
       try {
         const response = await axios.post(
-          "https://back--connectify--pcsmmwq8bwzd.code.run/affiliates/create",
+          "${server}/affiliates/create",
           {
             name: name,
             email: email,
@@ -38,7 +40,7 @@ const Newcontact = ({ token }) => {
         // console.log(response.data._id);
         try {
           const favicon = await axios.get(
-            `https://back--connectify--pcsmmwq8bwzd.code.run/addfavicon/${response.data._id}`
+            `${server}/addfavicon/${response.data._id}`
           );
           console.log(favicon);
           alert("favicon trouvée");

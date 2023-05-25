@@ -19,6 +19,11 @@ import Home from "./pages/Home";
 import Contact from "./pages/Contact";
 import Edition from "./pages/Edition";
 import Newcontact from "./pages/Newcontact";
+import Createcontact from "./pages/Createcontact";
+
+//switch between local and distant server
+
+const server = "http://localhost:3000";
 
 // //import cookies
 // import Cookies from "js-cookie";
@@ -34,19 +39,31 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={<Login token={token} SetToken={SetToken} />}
+            element={
+              <Login token={token} SetToken={SetToken} server={server} />
+            }
           />
           <Route
             path="/home"
-            element={<Home token={token} SetToken={SetToken} />}
+            element={<Home token={token} SetToken={SetToken} server={server} />}
           />
-          <Route path="/contact/:id" element={<Contact token={token} />} />
+          <Route
+            path="/contact/:id"
+            element={<Contact token={token} server={server} />}
+          />
 
-          <Route path="/contact/edition" element={<Edition />} />
+          <Route
+            path="/contact/edition"
+            element={<Edition server={server} />}
+          />
 
           <Route
             path="/contact/create"
-            element={<Newcontact token={token} />}
+            element={<Newcontact token={token} server={server} />}
+          />
+          <Route
+            path="/contact/createv2"
+            element={<Createcontact token={token} server={server} />}
           />
         </Routes>
         <Footer />

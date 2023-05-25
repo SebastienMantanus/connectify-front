@@ -3,7 +3,7 @@ import LoginForm from "../components/LoginForm";
 import SignupForm from "../components/SignupForm";
 import Cookies from "js-cookie";
 
-const Login = ({ token, SetToken }) => {
+const Login = ({ token, server, SetToken }) => {
   // const navigate = useNavigate();
   if (Cookies.get("token")) {
     SetToken(Cookies.get("token"));
@@ -20,11 +20,11 @@ const Login = ({ token, SetToken }) => {
           </div>
           <div className="forms-container">
             <div>
-              <LoginForm SetToken={SetToken} />
+              <LoginForm SetToken={SetToken} server={server} />
             </div>
             <div className="separator" />
             <div>
-              <SignupForm SetToken={SetToken} />
+              <SignupForm SetToken={SetToken} server={server} />
             </div>
           </div>
         </div>
