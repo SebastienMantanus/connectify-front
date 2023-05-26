@@ -9,7 +9,6 @@ const Createcontact = ({ token, server }) => {
   const [newContact, setNewContact] = useState();
   return (
     <div>
-      <h1>Create contact V2 Page</h1>
       <Autocomplete
         autocomplete={autocomplete}
         setAutocomplete={setAutocomplete}

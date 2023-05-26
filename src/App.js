@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Fontawsome import
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
+  faAngleRight,
   faRightFromBracket,
   faPenToSquare,
   faCheckSquare,
@@ -30,7 +31,13 @@ const server = "http://localhost:3000";
 
 function App() {
   const [token, SetToken] = useState("");
-  library.add(faCircleCheck, faRightFromBracket, faPenToSquare, faCheckSquare);
+  library.add(
+    faAngleRight,
+    faCircleCheck,
+    faRightFromBracket,
+    faPenToSquare,
+    faCheckSquare
+  );
 
   return (
     <div className="App">

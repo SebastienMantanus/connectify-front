@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import axios from "axios";
 
 const Autocomplete = ({
@@ -72,20 +74,24 @@ const Autocomplete = ({
   };
 
   return !newContact ? (
-    <div>
+    <div className="create-contact-container font">
       <div>
-        <h1>Autocomplete</h1>
+        <h1>Nouveau contact</h1>
         <input
           type="text"
+          placeholder="Nom de l'entreprise..."
           value={autocomplete}
           onChange={(e) => {
             setAutocomplete(e.target.value);
           }}
         />
+      </div>
+      <div>
         {results &&
           results.map((company, index) => {
             return (
               <div
+                className="create-contact-results"
                 key={index}
                 onClick={() => {
                   setNewContact({
@@ -104,20 +110,61 @@ const Autocomplete = ({
                   });
                 }}
               >
-                <h3>{company.company_name}</h3>
-                <p>
-                  {company.company_address}, {company.company_city}
-                </p>
+                <div>
+                  <h3>{company.company_name}</h3>
+                  <p>
+                    {company.company_activity}, {company.company_address},
+                    {company.company_zip} {company.company_city}
+                  </p>
+                </div>
+                <div>
+                  <FontAwesomeIcon
+                    icon="fa-solid fa-angle-right"
+                    size="lg"
+                    style={{ color: "#b42f5a" }}
+                  />
+                </div>
               </div>
             );
           })}
       </div>
     </div>
   ) : (
-    <div>
-      <h2>{newContact.company_name}</h2>
-      <h3>Informations de contact</h3>
+    <div className="create-contact-container font">
+      <div className="create-contact-company-resumee">
+        <a
+          onClick={() => {
+            setNewContact();
+          }}
+        >
+          Sélectionner une autre entreprise
+        </a>
+        <h2>{newContact.company_name}</h2>
+        <p>
+          {newContact.company_legalform} au capital de{" "}
+          {newContact.company_capital} €
+        </p>
+        <p>
+          {newContact.company_address.toLowerCase()} {newContact.company_zip}{" "}
+          {newContact.company_city}
+        </p>
+        {newContact.company_size_max - newContact.company_size_min > 1000 ? (
+          <>
+            <p>Effectifs : Au moins {newContact.company_size_min} salariés</p>
+          </>
+        ) : (
+          <>
+            <p>
+              Effectifs : entre {newContact.company_size_min} et{" "}
+              {newContact.company_size_max} salariés
+            </p>{" "}
+          </>
+        )}
+
+        <p>Date de création : {newContact.company_founded}</p>
+      </div>
       <form onSubmit={SaveContact}>
+        <h2>Informations du contact</h2>
         <input
           type="text"
           value={contactName}
