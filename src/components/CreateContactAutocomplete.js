@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { render } from "react-dom";
+import { Squares } from "react-activity";
+import "react-activity/dist/library.css";
 
 import axios from "axios";
 
@@ -18,6 +21,8 @@ const Autocomplete = ({
   const [companyWebsite, setCompanyWebsite] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [contactPhone, setContactPhone] = useState("");
+  const [error, setError] = useState("");
+  const [inProgress, setInProgress] = useState(false);
 
   const navigate = useNavigate();
 
@@ -37,40 +42,53 @@ const Autocomplete = ({
   const SaveContact = async (e) => {
     e.preventDefault();
 
-    newContact.contact_name = contactName;
-    newContact.contact_role = contactRole;
-    newContact.company_website = companyWebsite;
-    newContact.contact_email = contactEmail;
-    newContact.contact_phone = contactPhone;
+    if (
+      contactName &&
+      contactRole &&
+      companyWebsite &&
+      contactEmail &&
+      contactPhone
+    ) {
+      setInProgress(true);
 
-    const response = await axios.post(
-      `${server}/autocreate/contactcreate`,
-      {
-        company_name: newContact.company_name,
-        company_legalform: newContact.company_legalform,
-        company_address: newContact.company_address,
-        company_zip: newContact.company_zip,
-        company_city: newContact.company_city,
-        company_size_min: newContact.company_size_min,
-        company_size_max: newContact.company_size_max,
-        company_capital: newContact.company_capital,
-        company_activity: newContact.company_activity,
-        company_founded: newContact.company_founded,
-        company_registration_number: newContact.company_registration_number,
-        contact_name: newContact.contact_name,
-        contact_role: newContact.contact_role,
-        company_website: newContact.company_website,
-        contact_email: newContact.contact_email,
-        contact_phone: newContact.contact_phone,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      newContact.contact_name = contactName;
+      newContact.contact_role = contactRole;
+      newContact.company_website = companyWebsite;
+      newContact.contact_email = contactEmail;
+      newContact.contact_phone = contactPhone;
+
+      const response = await axios.post(
+        `${server}/autocreate/contactcreate`,
+        {
+          company_name: newContact.company_name,
+          company_legalform: newContact.company_legalform,
+          company_address: newContact.company_address,
+          company_zip: newContact.company_zip,
+          company_city: newContact.company_city,
+          company_size_min: newContact.company_size_min,
+          company_size_max: newContact.company_size_max,
+          company_capital: newContact.company_capital,
+          company_activity: newContact.company_activity,
+          company_founded: newContact.company_founded,
+          company_registration_number: newContact.company_registration_number,
+          contact_name: newContact.contact_name,
+          contact_role: newContact.contact_role,
+          company_website: newContact.company_website,
+          contact_email: newContact.contact_email,
+          contact_phone: newContact.contact_phone,
         },
-      }
-    );
-    alert("Le contact a été créé");
-    navigate("/home");
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      navigate(`/contact/${response.data._id}`);
+    } else
+      setError(
+        "Merci de renseigner tous les champs afin d'entregistrer le contact"
+      );
   };
 
   return !newContact ? (
@@ -150,8 +168,10 @@ const Autocomplete = ({
         </p>
         {newContact.company_size_max - newContact.company_size_min > 1000 ? (
           <>
-            <p>Effectifs : Au moins {newContact.company_size_min} salariés</p>
+            <p>Nombre de salariés : Au moins {newContact.company_size_min}</p>
           </>
+        ) : newContact.company_size_max === 0 ? (
+          <p>Aucun salarié</p>
         ) : (
           <>
             <p>
@@ -163,40 +183,51 @@ const Autocomplete = ({
 
         <p>Date de création : {newContact.company_founded}</p>
       </div>
-      <form onSubmit={SaveContact}>
-        <h2>Informations du contact</h2>
-        <input
-          type="text"
-          value={contactName}
-          placeholder={"Nom et prénom du contact"}
-          onChange={(e) => setcontactName(e.target.value)}
-        />
-        <input
-          type="text"
-          value={contactRole}
-          placeholder="Fonction"
-          onChange={(e) => setContactRole(e.target.value)}
-        />
-        <input
-          type="text"
-          value={companyWebsite}
-          placeholder="Site Internet"
-          onChange={(e) => setCompanyWebsite(e.target.value)}
-        />
-        <input
-          type="email"
-          value={contactEmail}
-          placeholder="Email"
-          onChange={(e) => setContactEmail(e.target.value)}
-        />
-        <input
-          type="text"
-          value={contactPhone}
-          placeholder="Numéro de téléphone"
-          onChange={(e) => setContactPhone(e.target.value)}
-        />
-        <button>Créer le contact</button>
-      </form>
+      {!inProgress ? (
+        <form onSubmit={SaveContact}>
+          <h2>Informations du contact</h2>
+          <input
+            type="text"
+            required
+            value={contactName}
+            placeholder={"Nom et prénom du contact"}
+            onChange={(e) => setcontactName(e.target.value)}
+          />
+          <input
+            type="text"
+            required
+            value={contactRole}
+            placeholder="Fonction"
+            onChange={(e) => setContactRole(e.target.value)}
+          />
+          <input
+            type="text"
+            required
+            value={companyWebsite}
+            placeholder="Site Internet"
+            onChange={(e) => setCompanyWebsite(e.target.value)}
+          />
+          <input
+            type="email"
+            required
+            value={contactEmail}
+            placeholder="Email"
+            onChange={(e) => setContactEmail(e.target.value)}
+          />
+          <input
+            type="text"
+            required
+            value={contactPhone}
+            placeholder="Numéro de téléphone"
+            onChange={(e) => setContactPhone(e.target.value)}
+          />
+          <button>Créer le contact</button>
+        </form>
+      ) : (
+        <div className="create-contact-activity">
+          <Squares color="#b42f5a" size="100" />
+        </div>
+      )}
     </div>
   );
 };

@@ -304,6 +304,7 @@ a {
   flex-direction: column;
   align-items: center;
   width: 70%;
+  min-height: calc(100vh - 300px);
   margin-left: auto;
   margin-right: auto;
 }
@@ -357,8 +358,14 @@ a {
   height: 45px;
   border: none;
   margin-top: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
+  cursor: pointer;
 }
+
+.create-contact-container button:hover {
+  background-color: #b42f5a;
+}
+
 .create-contact-container input:focus {
   outline: none;
   border: #a50a3b solid 2px;
@@ -382,9 +389,14 @@ a {
   width: 20px;
 }
 .create-contact-results:hover {
-  background-color: #efefef;
+  border: #a50a3b solid 2px;
   cursor: pointer;
 }
+
+.create-contact-activity {
+  text-align: center;
+}
+
 /* DETAIL CONTACT */
 
 .contact-container {
