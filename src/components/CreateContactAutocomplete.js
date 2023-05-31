@@ -30,7 +30,7 @@ const Autocomplete = ({
     if (autocomplete.length > 3) {
       const fetchData = async () => {
         const response = await axios.get(
-          `${server}/autocreate/autocomplete?q=${autocomplete}`
+          `${server}/affiliate/create/autocomplete?q=${autocomplete}`
         );
         setResults(response.data);
       };
@@ -58,7 +58,7 @@ const Autocomplete = ({
       newContact.contact_phone = contactPhone;
 
       const response = await axios.post(
-        `${server}/autocreate/contactcreate`,
+        `${server}/affiliate/create/savetodb`,
         {
           company_name: newContact.company_name,
           company_legalform: newContact.company_legalform,

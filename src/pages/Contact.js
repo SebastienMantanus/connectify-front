@@ -5,8 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 
 const Contact = ({ token, server }) => {
-  console.log("server>>", server);
-
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -27,7 +25,7 @@ const Contact = ({ token, server }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(`${server}/affiliates/${id}`, {
+      const response = await axios.get(`${server}/affiliate/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

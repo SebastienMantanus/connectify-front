@@ -2,13 +2,21 @@ import { useNavigate, Navigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import addIcon from "../assets/add.png";
+//import Filter component
+import Filters from "../components/Filters";
 
 const Home = ({ token, server, SetToken }) => {
   const [isLoading, SetIsLoading] = useState(true);
   const [data, SetData] = useState();
-  // const [user, SetUser] = useState();
   const [search, SetSearch] = useState("");
   const [searchType, SetSearchType] = useState("name");
+
+  // useStates for filters (contact_folder, contact_heat, contact_status, responsable)
+  const [contactFolder, setContactFolder] = useState("");
+  const [contactHeat, setContactHeat] = useState("");
+  const [contactStatus, setContactStatus] = useState("");
+  const [responsable, setResponsable] = useState("");
+
   const navigate = useNavigate(); // rappel
 
   let filter = "";
@@ -19,7 +27,7 @@ const Home = ({ token, server, SetToken }) => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        `${server}/affiliates-search?limit=11+${filter}`,
+        `${server}/affiliates?limit=11+${filter}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -27,8 +35,7 @@ const Home = ({ token, server, SetToken }) => {
         }
       );
 
-      SetData(response.data[1]);
-      // SetUser(response.data[0]);
+      SetData(response.data);
       SetIsLoading(false);
     };
     fetchData();
@@ -39,6 +46,21 @@ const Home = ({ token, server, SetToken }) => {
       <div>Loading in progress</div>
     ) : (
       <div className="flex-center font">
+        <div className="home-left">
+          <h2>Filtres</h2>
+          <Filters
+            token={token}
+            server={server}
+            contactFolder={contactFolder}
+            setContactFolder={setContactFolder}
+            responsable={responsable}
+            setResponsable={setResponsable}
+            contactHeat={contactHeat}
+            setContactHeat={setContactHeat}
+            contactStatus={contactStatus}
+            setContactStatus={setContactStatus}
+          />
+        </div>
         <div
           className="home-container 
   "
@@ -51,9 +73,9 @@ const Home = ({ token, server, SetToken }) => {
                   SetSearchType(event.target.value);
                 }}
               >
-                <option value="name">Entreprise</option>
-                <option value="contact">Contact</option>
-                <option value="email">Email</option>
+                <option value="company_name">Entreprise</option>
+                <option value="contact_name">Contact</option>
+                <option value="contact_email">Email</option>
               </select>
               <input
                 type="text"

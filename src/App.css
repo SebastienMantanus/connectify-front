@@ -182,11 +182,28 @@ a {
 .flex-center {
   display: flex;
   justify-content: center;
+  min-height: calc(100vh - 300px);
   height: calc(100% - 300px);
+  gap: 25px;
+  margin-right: 25px;
 }
+.home-left {
+  display: flex;
+  padding: 25px;
+  flex-direction: column;
+  justify-content: top;
+  align-items: left;
+  width: 20%;
+  min-height: calc(100vh - 300px);
+
+  height: calc(100% - 300px);
+  background-color: #efefef;
+}
+
 .home-container {
   margin-top: 40px;
-  width: 70%;
+  width: 100%;
+  border: #a50a3b 1px solid;
 }
 
 .top-bar {
@@ -281,6 +298,12 @@ a {
   height: 30px;
   background-color: #b42f5a;
   color: white;
+}
+
+/* FILTERS */
+
+.filters-hide {
+  display: none;
 }
 
 /* CREATE CONTACT */
