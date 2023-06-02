@@ -8,8 +8,7 @@ import Filters from "../components/Filters";
 const Home = ({ token, server, SetToken }) => {
   const [isLoading, SetIsLoading] = useState(true);
   const [data, SetData] = useState();
-  const [search, SetSearch] = useState("");
-  const [searchType, SetSearchType] = useState("name");
+  const [searchQuery, SetSearchQuery] = useState("");
 
   // useStates for filters (contact_folder, contact_heat, contact_status, responsable)
   const [contactFolder, setContactFolder] = useState("");
@@ -19,27 +18,45 @@ const Home = ({ token, server, SetToken }) => {
 
   const navigate = useNavigate(); // rappel
 
-  let filter = "";
-  if (search.length > 3) {
-    filter = `&${searchType}=${search}`;
+  let query = "";
+  if (searchQuery.length > 3) {
+    query = `q=${searchQuery}`;
+  }
+
+  // add filters to query if they are not empty
+  if (contactFolder) {
+    query = query + `&contact_folder=${contactFolder}`;
+  }
+  if (contactHeat) {
+    query = query + `&contact_heat=${contactHeat}`;
+  }
+  if (contactStatus) {
+    query = query + `&contact_status=${contactStatus}`;
+  }
+  if (responsable) {
+    query = query + `&responsable=${responsable}`;
   }
 
   useEffect(() => {
+    console.log("query>>", query);
     const fetchData = async () => {
-      const response = await axios.get(
-        `${server}/affiliates?limit=11+${filter}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`${server}/affiliates?${query}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       SetData(response.data);
       SetIsLoading(false);
     };
     fetchData();
-  }, [search, filter, token]);
+  }, [searchQuery, query, server, token]);
+
+  useEffect(() => {
+    console.log("contactFolder>>", contactFolder);
+    console.log("responsable>>", responsable);
+    console.log("contactHeat>>", contactHeat);
+  }, [contactFolder, responsable, contactHeat]);
 
   return token ? (
     isLoading ? (
@@ -68,21 +85,12 @@ const Home = ({ token, server, SetToken }) => {
           <div className="top-bar">
             <h2>{data.length} contacts</h2>
             <div>
-              <select
-                onChange={(event) => {
-                  SetSearchType(event.target.value);
-                }}
-              >
-                <option value="company_name">Entreprise</option>
-                <option value="contact_name">Contact</option>
-                <option value="contact_email">Email</option>
-              </select>
               <input
                 type="text"
                 placeholder="Rechercher..."
-                value={search}
+                value={searchQuery}
                 onChange={(event) => {
-                  SetSearch(event.target.value);
+                  SetSearchQuery(event.target.value);
                 }}
               />
             </div>

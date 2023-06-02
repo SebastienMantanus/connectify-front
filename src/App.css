@@ -196,7 +196,7 @@ a {
   width: 20%;
   min-height: calc(100vh - 300px);
 
-  height: calc(100% - 300px);
+  /* height: calc(100vh - 300px); */
   background-color: #efefef;
 }
 
