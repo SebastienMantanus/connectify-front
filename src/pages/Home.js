@@ -5,6 +5,12 @@ import addIcon from "../assets/add.png";
 //import Filter component
 import Filters from "../components/Filters";
 
+//import heat icons
+import heat0 from "../assets/heat_0.png";
+import heat1 from "../assets/heat_1.png";
+import heat2 from "../assets/heat_2.png";
+import heat3 from "../assets/heat_3.png";
+
 const Home = ({ token, server, SetToken }) => {
   const [isLoading, SetIsLoading] = useState(true);
   const [data, SetData] = useState();
@@ -52,11 +58,34 @@ const Home = ({ token, server, SetToken }) => {
     fetchData();
   }, [searchQuery, query, server, token]);
 
-  useEffect(() => {
-    console.log("contactFolder>>", contactFolder);
-    console.log("responsable>>", responsable);
-    console.log("contactHeat>>", contactHeat);
-  }, [contactFolder, responsable, contactHeat]);
+  //function to display heat icon
+  const displayHeat = (heat) => {
+    switch (heat) {
+      case 0:
+        return <img alt="unknow" src={heat0} />;
+      case 1:
+        return <img alt="cold" src={heat1} />;
+      case 2:
+        return <img alt="warm" src={heat2} />;
+      case 3:
+        return <img alt="hot" src={heat3} />;
+      default:
+        return <img alt="unknow" src={heat0} />;
+    }
+  };
+
+  // format contact_phone with spaces between eatch 2 numbers
+  const formatPhone = (phone) => {
+    const phoneArray = phone.split("");
+    const phoneArrayWithSpaces = phoneArray.map((number, index) => {
+      if (index === 1 || index === 3 || index === 5 || index === 7) {
+        return number + " ";
+      } else {
+        return number;
+      }
+    });
+    return phoneArrayWithSpaces.join("");
+  };
 
   return token ? (
     isLoading ? (
@@ -109,18 +138,32 @@ const Home = ({ token, server, SetToken }) => {
             {data.map((item, index) => {
               const linkUrl = `/contact/${item._id}`;
               return (
-                <Link to={linkUrl}>
-                  <div key={item._id} className="contact-cards">
-                    <h2>{item.company_name}</h2>
-                    <h3>{item.contact_name}</h3>
-                    {item.company_activity.length > 100 ? (
-                      <p>{item.company_activity.substring(0, 100)}...</p>
-                    ) : (
-                      <p>{item.company_activity}</p>
-                    )}
-                    <p>{item.contact_phone}</p>
+                // <Link to={linkUrl}>
+                <div key={item._id} className="contact-cards">
+                  {/* contact status */}
+                  <div
+                    style={{
+                      backgroundColor: item.contact_status.status_color,
+                      borderTopLeftRadius: "5px",
+                      borderTopRightRadius: "5px",
+                      marginTop: "-1px",
+
+                      height: "10px",
+                    }}
+                  ></div>
+                  {/* Contact informations */}
+                  <div>
+                    <div>
+                      {displayHeat(item.contact_heat)}
+                      <h2>{item.company_name}</h2>
+                      <h3>{item.contact_name}</h3>
+                      <p>{formatPhone("0" + item.contact_phone)}</p>
+                    </div>
+                    <div>
+                      <p>{item.contact_email}</p>
+                    </div>
                   </div>
-                </Link>
+                </div>
               );
             })}
           </div>

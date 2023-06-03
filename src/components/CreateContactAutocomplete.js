@@ -5,6 +5,10 @@ import { render } from "react-dom";
 import { Squares } from "react-activity";
 import "react-activity/dist/library.css";
 
+// Phone imput component import
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
+
 import axios from "axios";
 
 const Autocomplete = ({
@@ -184,45 +188,50 @@ const Autocomplete = ({
         <p>Date de création : {newContact.company_founded}</p>
       </div>
       {!inProgress ? (
-        <form onSubmit={SaveContact}>
-          <h2>Informations du contact</h2>
-          <input
-            type="text"
-            required
-            value={contactName}
-            placeholder={"Nom et prénom du contact"}
-            onChange={(e) => setcontactName(e.target.value)}
-          />
-          <input
-            type="text"
-            required
-            value={contactRole}
-            placeholder="Fonction"
-            onChange={(e) => setContactRole(e.target.value)}
-          />
-          <input
-            type="text"
-            required
-            value={companyWebsite}
-            placeholder="Site Internet"
-            onChange={(e) => setCompanyWebsite(e.target.value)}
-          />
-          <input
-            type="email"
-            required
-            value={contactEmail}
-            placeholder="Email"
-            onChange={(e) => setContactEmail(e.target.value)}
-          />
-          <input
-            type="text"
-            required
-            value={contactPhone}
-            placeholder="Numéro de téléphone"
-            onChange={(e) => setContactPhone(e.target.value)}
-          />
-          <button>Créer le contact</button>
-        </form>
+        <>
+          <form onSubmit={SaveContact}>
+            <h2>Informations du contact</h2>
+            <input
+              type="text"
+              required
+              value={contactName}
+              placeholder={"Nom et prénom du contact"}
+              onChange={(e) => setcontactName(e.target.value)}
+            />
+            <input
+              type="text"
+              required
+              value={contactRole}
+              placeholder="Fonction"
+              onChange={(e) => setContactRole(e.target.value)}
+            />
+            <input
+              type="text"
+              required
+              value={companyWebsite}
+              placeholder="Site Internet"
+              onChange={(e) => setCompanyWebsite(e.target.value)}
+            />
+            <input
+              type="email"
+              required
+              value={contactEmail}
+              placeholder="Email"
+              onChange={(e) => setContactEmail(e.target.value)}
+            />
+
+            <input
+              type="text"
+              required
+              value={contactPhone}
+              placeholder="Numéro de téléphone"
+              onChange={(e) => setContactPhone(e.target.value)}
+            />
+            <PhoneInput defaultCountry="FR" value={contactPhone} />
+
+            <button>Créer le contact</button>
+          </form>
+        </>
       ) : (
         <div className="create-contact-activity">
           <Squares color="#b42f5a" size="100" />
