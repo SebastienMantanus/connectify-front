@@ -11,6 +11,33 @@
   border: 1px solid red;
 }
 
+.PhoneInput {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.PhoneInputInput {
+  min-width: 92%;
+}
+
+.PhoneInputCountryIconImg {
+  width: 30px;
+  height: 40px;
+}
+
+.PhoneInputCountrySelect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  border: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
 .page-align {
   display: flex;
   flex-direction: column;
