@@ -5,11 +5,16 @@ import addIcon from "../assets/add.png";
 //import Filter component
 import Filters from "../components/Filters";
 
-//import heat icons
+//import heat icons assets
 import heat0 from "../assets/heat_0.png";
 import heat1 from "../assets/heat_1.png";
 import heat2 from "../assets/heat_2.png";
 import heat3 from "../assets/heat_3.png";
+
+//import responsbles folders & phone icons assets
+import folderIco from "../assets/folder_ico.png";
+import responsableIco from "../assets/responsable_ico.png";
+import phoneIco from "../assets/phone_ico.png";
 
 const Home = ({ token, server, SetToken }) => {
   const [isLoading, SetIsLoading] = useState(true);
@@ -24,6 +29,7 @@ const Home = ({ token, server, SetToken }) => {
 
   const navigate = useNavigate(); // rappel
 
+  // function to handle search input
   let query = "";
   if (searchQuery.length > 3) {
     query = `q=${searchQuery}`;
@@ -74,17 +80,23 @@ const Home = ({ token, server, SetToken }) => {
     }
   };
 
-  // format contact_phone with spaces between eatch 2 numbers
-  const formatPhone = (phone) => {
-    const phoneArray = phone.split("");
-    const phoneArrayWithSpaces = phoneArray.map((number, index) => {
-      if (index === 1 || index === 3 || index === 5 || index === 7) {
-        return number + " ";
-      } else {
-        return number;
-      }
-    });
-    return phoneArrayWithSpaces.join("");
+  //function to display the first world of the string legalform
+  const displayLegalform = (LegalForm) => {
+    const legalform = LegalForm.split(" ");
+    //if the last character of the string is , we remove it
+    if (legalform[0].charAt(legalform[0].length - 1) === ",") {
+      legalform[0] = legalform[0].slice(0, -1);
+    }
+    return legalform[0];
+  };
+
+  // shorten company name if it's more than 18 characters
+  const shortenCompanyName = (companyName) => {
+    if (companyName.length > 18) {
+      return companyName.slice(0, 18) + "...";
+    } else {
+      return companyName;
+    }
   };
 
   return token ? (
@@ -135,35 +147,90 @@ const Home = ({ token, server, SetToken }) => {
               <img src={addIcon} alt="créer une fiche" />
               <h1>Créer un nouveau contact</h1>
             </div>
-            {data.map((item, index) => {
+            {data.map((item) => {
               const linkUrl = `/contact/${item._id}`;
+              let quickActions = false;
+
               return (
                 // <Link to={linkUrl}>
-                <div key={item._id} className="contact-cards">
-                  {/* contact status */}
+                <>
                   <div
-                    style={{
-                      backgroundColor: item.contact_status.status_color,
-                      borderTopLeftRadius: "5px",
-                      borderTopRightRadius: "5px",
-                      marginTop: "-1px",
-
-                      height: "10px",
+                    key={item._id}
+                    className="contact-cards"
+                    // set quickActions to true when mouse is over the card
+                    onMouseEnter={() => {
+                      quickActions = true;
+                      console.log("quickActions", quickActions);
                     }}
-                  ></div>
-                  {/* Contact informations */}
-                  <div>
+                    onMouseLeave={() => {
+                      quickActions = false;
+                      console.log("quickActions", quickActions);
+                    }}
+                  >
                     <div>
-                      {displayHeat(item.contact_heat)}
-                      <h2>{item.company_name}</h2>
-                      <h3>{item.contact_name}</h3>
-                      <p>{formatPhone("0" + item.contact_phone)}</p>
+                      <div
+                        style={{
+                          backgroundColor: item.contact_status.status_color,
+                        }}
+                      >
+                        <p>{item.contact_status.status_name}</p>
+                      </div>
+                      <div>{displayHeat(item.contact_heat)}</div>
                     </div>
                     <div>
-                      <p>{item.contact_email}</p>
+                      <div>
+                        <img
+                          alt="company logo"
+                          src={item.company_favicon.url}
+                        />
+                      </div>
+                      <div>
+                        <h2>{item.contact_name}</h2>
+                        {/* <p>{item.contact_role}</p> */}
+                      </div>
+                    </div>
+                    <div>
+                      <h3>
+                        {shortenCompanyName(item.company_name)}{" "}
+                        {displayLegalform(item.company_legalform)}
+                      </h3>
+                      <p>{item.company_city}</p>
+
+                      {item.company_size_max - item.company_size_min > 1000 ? (
+                        <>
+                          <p>
+                            Au moins {item.company_size_min} {"salarié(s)"}
+                          </p>
+                        </>
+                      ) : item.company_size_max === 0 ? (
+                        <p>Aucun salarié</p>
+                      ) : (
+                        <>
+                          <p>
+                            Entre {item.company_size_min} et{" "}
+                            {item.company_size_max} salariés
+                          </p>{" "}
+                        </>
+                      )}
+                    </div>
+                    <div>
+                      <div>
+                        <img alt="Owner icon" src={responsableIco} />{" "}
+                        <span>{item.responsable.name}</span>
+                      </div>
+                      <div>
+                        {" "}
+                        <img alt="Folder icon" src={folderIco} />
+                        <span> {item.contact_folder.name}</span>
+                      </div>
+                    </div>
+
+                    <div>
+                      <img alt="phone icon" src={phoneIco} />
+                      <span>{item.contact_phone}</span>
                     </div>
                   </div>
-                </div>
+                </>
               );
             })}
           </div>

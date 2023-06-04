@@ -19,7 +19,6 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
 import Edition from "./pages/Edition";
-import Newcontact from "./pages/Newcontact";
 import Createcontact from "./pages/Createcontact";
 
 //switch between local and distant server
@@ -64,10 +63,6 @@ function App() {
             element={<Edition server={server} />}
           />
 
-          <Route
-            path="/contact/create"
-            element={<Newcontact token={token} server={server} />}
-          />
           <Route
             path="/contact/createv2"
             element={<Createcontact token={token} server={server} />}

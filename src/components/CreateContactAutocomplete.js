@@ -5,10 +5,6 @@ import { render } from "react-dom";
 import { Squares } from "react-activity";
 import "react-activity/dist/library.css";
 
-// Phone imput component import
-// import "react-phone-number-input/style.css";
-import PhoneInput from "react-phone-number-input";
-
 import axios from "axios";
 
 const Autocomplete = ({
@@ -220,18 +216,12 @@ const Autocomplete = ({
               onChange={(e) => setContactEmail(e.target.value)}
             />
 
-            {/* <input
+            <input
               type="text"
               required
               value={contactPhone}
               placeholder="Numéro de téléphone"
               onChange={(e) => setContactPhone(e.target.value)}
-            /> */}
-            <PhoneInput
-              defaultCountry="FR"
-              placeholder="Numéro de téléphone"
-              value={contactPhone}
-              onChange={setContactPhone}
             />
 
             <button>Créer le contact</button>

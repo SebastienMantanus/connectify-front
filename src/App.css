@@ -11,33 +11,6 @@
   border: 1px solid red;
 }
 
-.PhoneInput {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.PhoneInputInput {
-  min-width: 92%;
-}
-
-.PhoneInputCountryIconImg {
-  width: 30px;
-  height: 40px;
-}
-
-.PhoneInputCountrySelect {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  z-index: 1;
-  border: 0;
-  opacity: 0;
-  cursor: pointer;
-}
-
 .page-align {
   display: flex;
   flex-direction: column;
@@ -258,29 +231,139 @@ a {
   content: "";
   width: 255px;
 }
+
+/* Contact cards CSS */
 .contact-cards {
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
-  height: 255px;
+  justify-content: space-between;
+  height: 300px;
   width: 255px;
   border: 1px solid lightgray;
-  /* padding: 15px; */
   border-radius: 5px;
   margin-bottom: 30px;
 }
 
-.contact-cards > img {
-  width: 53px;
-  height: 19px;
-  margin-top: 10px;
+/* Status & Heat */
+.contact-cards > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.contact-cards > div:first-child > div:last-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 8px;
 }
 
+.contact-cards > div:first-child > div:first-child {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 70%;
+  color: white;
+  padding: 8px;
+  border-top-left-radius: 5px;
+}
+
+/* Favicon, company name and Contact name */
+.contact-cards > div:nth-child(2) {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  padding: 10px;
+}
+
+.contact-cards > div:nth-child(2) h2 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 18px;
+}
+
+.contact-cards > div:nth-child(2) p {
+  margin-top: 8px;
+}
+
+.contact-cards > div:nth-child(2) img {
+  margin-top: 10px;
+  width: 3Opx;
+  height: 30px;
+}
+
+/* City and company size */
+.contact-cards > div:nth-child(3) {
+  padding-left: 10px;
+  line-height: 25px;
+  color: gray;
+}
+.contact-cards > div:nth-child(3) h3 {
+  font-size: 14px;
+  font-weight: bold;
+  color: #b42f5a;
+  margin-top: 8px;
+  line-height: 20px;
+  margin-bottom: 0px;
+}
+
+/* Owner & Folder */
+.contact-cards > div:nth-child(4) {
+  padding: 10px;
+  line-height: 20px;
+  color: gray;
+}
+
+.contact-cards > div:nth-child(4) img {
+  width: 10px;
+  height: 10px;
+}
+
+.contact-cards > div:nth-child(4) span {
+  font-size: 10px;
+  padding-left: 7px;
+}
+
+/* Phone number */
+.contact-cards > div:last-child {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  padding: 10px;
+  background-color: #efefef;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.contact-cards > div:last-child img {
+  width: 15px;
+  height: 15px;
+}
+
+/* Quick Actions */
+.contact-cards-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 155px;
+  height: 300px;
+  background-color: rgba(180, 47, 90, 0.5);
+}
+
+.contact-cards-actions-hide {
+  display: none;
+}
+
+/* New Contact first grid card */
 .new-contact-card {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 255px;
+  height: 300px;
   width: 255px;
   background-color: #b42f5a;
   border: 1px solid #b42f5a;
