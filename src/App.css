@@ -203,7 +203,6 @@ a {
 .home-container {
   margin-top: 40px;
   width: 100%;
-  border: #a50a3b 1px solid;
 }
 
 .top-bar {
@@ -237,6 +236,7 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  position: relative;
   height: 300px;
   width: 255px;
   border: 1px solid lightgray;
@@ -255,6 +255,9 @@ a {
   justify-content: center;
   align-items: center;
   padding-right: 8px;
+}
+.contact-cards > div:first-child > div:last-child img {
+  height: 17px;
 }
 
 .contact-cards > div:first-child > div:first-child {
@@ -324,7 +327,7 @@ a {
 }
 
 /* Phone number */
-.contact-cards > div:last-child {
+.contact-cards > div:nth-child(5) {
   display: flex;
   gap: 10px;
   align-items: center;
@@ -336,7 +339,7 @@ a {
   border-bottom-right-radius: 5px;
 }
 
-.contact-cards > div:last-child img {
+.contact-cards > div:nth-child(5) img {
   width: 15px;
   height: 15px;
 }
@@ -347,15 +350,26 @@ a {
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 155px;
+  border-radius: 5px;
+  top: 0px;
+  left: 0px;
+  width: 255px;
   height: 300px;
-  background-color: rgba(180, 47, 90, 0.5);
+  background-color: rgba(180, 47, 90, 0.9);
+  color: white;
 }
 
-.contact-cards-actions-hide {
-  display: none;
+.contact-cards-actions div {
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.contact-cards-actions img {
+  width: 35px;
+  height: 35px;
 }
 
 /* New Contact first grid card */
@@ -387,12 +401,6 @@ a {
   height: 50px;
   margin-left: 15px;
 }
-
-/* .contact-cards:hover {
-  box-shadow: 0px 0px 5px #b42f5a;
-  background-color: #fbfbfb;
-  border: #b42f5a solid 3px;
-} */
 
 .top-bar input {
   border: lightgrey 1px solid;

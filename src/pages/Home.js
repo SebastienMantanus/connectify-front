@@ -16,6 +16,12 @@ import folderIco from "../assets/folder_ico.png";
 import responsableIco from "../assets/responsable_ico.png";
 import phoneIco from "../assets/phone_ico.png";
 
+// import smart_action icons assets
+import smartActionEmail from "../assets/smart_action_email.png";
+import smartActionWebsite from "../assets/smart_action_website.png";
+import smartActionPappers from "../assets/smart_action_pappers.png";
+import smartActionEdit from "../assets/smart_action_edit.png";
+
 const Home = ({ token, server, SetToken }) => {
   const [isLoading, SetIsLoading] = useState(true);
   const [data, SetData] = useState();
@@ -26,6 +32,9 @@ const Home = ({ token, server, SetToken }) => {
   const [contactHeat, setContactHeat] = useState("");
   const [contactStatus, setContactStatus] = useState("");
   const [responsable, setResponsable] = useState("");
+
+  // Hovered Index useState
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
   const navigate = useNavigate(); // rappel
 
@@ -149,24 +158,22 @@ const Home = ({ token, server, SetToken }) => {
             </div>
             {data.map((item) => {
               const linkUrl = `/contact/${item._id}`;
-              let quickActions = false;
 
               return (
                 // <Link to={linkUrl}>
-                <>
-                  <div
-                    key={item._id}
-                    className="contact-cards"
-                    // set quickActions to true when mouse is over the card
-                    onMouseEnter={() => {
-                      quickActions = true;
-                      console.log("quickActions", quickActions);
-                    }}
-                    onMouseLeave={() => {
-                      quickActions = false;
-                      console.log("quickActions", quickActions);
-                    }}
-                  >
+
+                <div
+                  key={item._id}
+                  // on mouse over, display quick actions
+                  onMouseOver={() => {
+                    setHoveredIndex(item._id);
+                  }}
+                  // on mouse out, hide quick actions
+                  onMouseOut={() => {
+                    setHoveredIndex(null);
+                  }}
+                >
+                  <div className="contact-cards">
                     <div>
                       <div
                         style={{
@@ -229,8 +236,48 @@ const Home = ({ token, server, SetToken }) => {
                       <img alt="phone icon" src={phoneIco} />
                       <span>{item.contact_phone}</span>
                     </div>
+                    {hoveredIndex === item._id && (
+                      <div className="contact-cards-actions">
+                        <div>
+                          <img
+                            alt="email icon"
+                            src={smartActionEmail}
+                            onClick={() => {
+                              window.open(`mailto:${item.contact_email}`);
+                            }}
+                            title="Envoyer un email"
+                          />
+                          <img
+                            alt="website icon"
+                            src={smartActionWebsite}
+                            onClick={() => {
+                              window.open(`https://${item.company_website}`);
+                            }}
+                            title="Voir le site web"
+                          />
+                          <img
+                            alt="Pappers icon"
+                            src={smartActionPappers}
+                            onClick={() => {
+                              window.open(
+                                `https://www.pappers.fr/entreprise/${item.company_registration_number}`
+                              );
+                            }}
+                            title="Voir la fiche sur Pappers"
+                          />
+                          <img
+                            alt="Edit icon"
+                            src={smartActionEdit}
+                            onClick={() => {
+                              navigate(linkUrl);
+                            }}
+                            title="Modifier la fiche"
+                          />
+                        </div>
+                      </div>
+                    )}
                   </div>
-                </>
+                </div>
               );
             })}
           </div>
