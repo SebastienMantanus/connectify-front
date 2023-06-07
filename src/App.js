@@ -59,8 +59,8 @@ function App() {
           />
 
           <Route
-            path="/contact/edition"
-            element={<Edition server={server} />}
+            path="/contact/:id/edition"
+            element={<Edition token={token} server={server} />}
           />
 
           <Route
