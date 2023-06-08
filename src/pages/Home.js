@@ -27,6 +27,8 @@ const Home = ({ token, server, SetToken }) => {
   const [data, SetData] = useState();
   const [searchQuery, SetSearchQuery] = useState("");
 
+  console.log("token>>", token);
+
   // useStates for filters (contact_folder, contact_heat, contact_status, responsable)
   const [contactFolder, setContactFolder] = useState("");
   const [contactHeat, setContactHeat] = useState("");
@@ -160,8 +162,6 @@ const Home = ({ token, server, SetToken }) => {
               const linkUrl = `/contact/${item._id}`;
 
               return (
-                // <Link to={linkUrl}>
-
                 <div
                   key={item._id}
                   // on mouse over, display quick actions

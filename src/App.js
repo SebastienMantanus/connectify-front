@@ -30,6 +30,7 @@ const server = "http://localhost:3000";
 
 function App() {
   const [token, SetToken] = useState("");
+
   library.add(
     faAngleRight,
     faCircleCheck,
@@ -53,14 +54,15 @@ function App() {
             path="/home"
             element={<Home token={token} SetToken={SetToken} server={server} />}
           />
+
           <Route
-            path="/contact/:id"
-            element={<Contact token={token} server={server} />}
+            path="/contact/:id/edit"
+            element={<Edition token={token} server={server} />}
           />
 
           <Route
-            path="/contact/:id/edition"
-            element={<Edition token={token} server={server} />}
+            path="/contact/:id"
+            element={<Contact token={token} server={server} />}
           />
 
           <Route
