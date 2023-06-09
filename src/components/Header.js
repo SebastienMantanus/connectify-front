@@ -5,8 +5,9 @@ import Cookies from "js-cookie";
 
 const Header = ({ token, SetToken }) => {
   let name = "";
-  if (Cookies.get("name")) {
-    name = JSON.parse(Cookies.get("name"));
+  let nameCookie = Cookies.get("name");
+  if (nameCookie) {
+    name = JSON.parse(nameCookie);
   }
 
   return (

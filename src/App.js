@@ -1,6 +1,8 @@
 import "./App.css";
 import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// //import cookies
+import Cookies from "js-cookie";
 
 // Fontawsome import
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -25,11 +27,8 @@ import Createcontact from "./pages/Createcontact";
 
 const server = "http://localhost:3000";
 
-// //import cookies
-// import Cookies from "js-cookie";
-
 function App() {
-  const [token, SetToken] = useState("");
+  const [token, SetToken] = useState(Cookies.get("token") || "");
 
   library.add(
     faAngleRight,

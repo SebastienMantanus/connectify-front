@@ -159,7 +159,7 @@ const Home = ({ token, server, SetToken }) => {
               <h1>Créer un nouveau contact</h1>
             </div>
             {data.map((item) => {
-              const linkUrl = `/contact/${item._id}`;
+              const linkUrl = `/contact/${item._id}/edit`;
 
               return (
                 <div
