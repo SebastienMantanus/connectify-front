@@ -1,26 +1,26 @@
 import { useNavigate, Navigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import addIcon from "../assets/add.png";
+import addIcon from "../assets/images/add.png";
 //import Filter component
 import Filters from "../components/Filters";
 
 //import heat icons assets
-import heat0 from "../assets/heat_0.png";
-import heat1 from "../assets/heat_1.png";
-import heat2 from "../assets/heat_2.png";
-import heat3 from "../assets/heat_3.png";
+import heat0 from "../assets/images/heat_0.png";
+import heat1 from "../assets/images/heat_1.png";
+import heat2 from "../assets/images/heat_2.png";
+import heat3 from "../assets/images/heat_3.png";
 
 //import responsbles folders & phone icons assets
-import folderIco from "../assets/folder_ico.png";
-import responsableIco from "../assets/responsable_ico.png";
-import phoneIco from "../assets/phone_ico.png";
+import folderIco from "../assets/images/folder_ico.png";
+import responsableIco from "../assets/images/responsable_ico.png";
+import phoneIco from "../assets/images/phone_ico.png";
 
 // import smart_action icons assets
-import smartActionEmail from "../assets/smart_action_email.png";
-import smartActionWebsite from "../assets/smart_action_website.png";
-import smartActionPappers from "../assets/smart_action_pappers.png";
-import smartActionEdit from "../assets/smart_action_edit.png";
+import smartActionEmail from "../assets/images/smart_action_email.png";
+import smartActionWebsite from "../assets/images/smart_action_website.png";
+import smartActionPappers from "../assets/images/smart_action_pappers.png";
+import smartActionEdit from "../assets/images/smart_action_edit.png";
 
 const Home = ({ token, server, SetToken }) => {
   const [isLoading, SetIsLoading] = useState(true);

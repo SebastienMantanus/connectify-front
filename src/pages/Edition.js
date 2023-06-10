@@ -3,12 +3,27 @@ import { useState, useEffect } from "react";
 
 import axios from "axios";
 
+//import components
+import QuickUpdate from "../components/QuickUpdate";
+
+//import icons assets
+import saWebsite from "../assets/images/smart_action_website_red.png";
+import saEmail from "../assets/images/smart_action_email_red.png";
+import saBack from "../assets/images/smart_action_back_red.png";
+import saPapper from "../assets/images/smart_action_pappers_red.png";
+
 const Edition = ({ token, server }) => {
+  // useNavigate hook
+  const navigate = useNavigate();
+
+  // get the contact's id from the url
   const { id } = useParams();
+
+  // useStates for the contact's informations
   const [isLoading, SetIsLoading] = useState(true);
+  const [toUpdate, setToUpdate] = useState(false);
 
-  //create a glogal state which will be used to display the contact's informations
-
+  //statew which will be used to display and update contact informations
   const [company_name, setCompany_name] = useState();
   const [company_website, setCompany_website] = useState();
   const [company_favicon, setCompany_favicon] = useState();
@@ -74,12 +89,13 @@ const Edition = ({ token, server }) => {
         setResponsable(response.data.responsable);
 
         SetIsLoading(false);
+        setToUpdate(false);
       };
       fetchData();
     } catch (error) {
       console.log(error.message);
     }
-  }, [id, token]);
+  }, [id, token, toUpdate]);
 
   //function to update the contact's informations
   const contactUpdate = async () => {
@@ -123,6 +139,28 @@ const Edition = ({ token, server }) => {
     }
   };
 
+  // auto resize the textareas height function
+  const autoResize = (input, characters) => {
+    if (input === company_name) {
+      if (characters > 18) {
+        return 2;
+      } else {
+        return 1;
+      }
+    }
+    if (input === company_legalform || input === company_activity) {
+      if (characters > 32) {
+        return characters / 32 + 1;
+      } else {
+        return 1;
+      }
+    }
+  };
+  // auto resize inputs width function
+  const autoResizeWidth = (characters) => {
+    return "80%";
+  };
+
   return isLoading ? (
     <div>Chargement en cours...</div>
   ) : (
@@ -133,9 +171,11 @@ const Edition = ({ token, server }) => {
         </div>
         <div>
           <img src={company_favicon.url} alt="company logo" />
-          <input
+          <textarea
             type="text"
-            style={{ fontSize: "25px", width: "60%" }}
+            cols={25}
+            rows={autoResize(company_name, company_name.length)}
+            style={{ fontSize: "18px", width: "60%", lineHeight: "1.2" }}
             placeholder={company_name}
             value={company_name}
             onChange={(event) => {
@@ -144,14 +184,46 @@ const Edition = ({ token, server }) => {
             }}
           />
         </div>
-        <div>Smart Actions</div>
         <div>
-          {saveChanges && <button onClick={contactUpdate}>Enregistrer</button>}
+          <img
+            src={saBack}
+            alt="smart action back"
+            onClick={() => navigate("/home")}
+            title="Retour à la liste de contacts"
+          />
+          <img
+            src={saWebsite}
+            alt="smart action website"
+            onClick={() => {
+              window.open(`https://${company_website}`);
+            }}
+            title="Ouvrir le site internet"
+          />
+          <img
+            src={saEmail}
+            alt="smart action email"
+            onClick={() => {
+              window.open(`mailto:${contact_email}`);
+            }}
+            title="Envoyer un email"
+          />
+          <img
+            src={saPapper}
+            alt="smart action papper"
+            onClick={() => {
+              window.open(
+                `https://www.pappers.fr/entreprise/${company_registration_number}`
+              );
+            }}
+            title="Voir les informations sur Pappers"
+          />
+        </div>
+        <div>
           <div>
             <p>Contact</p>
             <input
               type="text"
-              style={{ width: contact_name.length * 7.5 }}
+              style={{ width: autoResizeWidth(contact_name.length) }}
               placeholder={contact_name}
               value={contact_name}
               onChange={(event) => {
@@ -163,7 +235,7 @@ const Edition = ({ token, server }) => {
           <div>
             <p>Fonction</p>
             <input
-              style={{ width: contact_role.length * 7.5 }}
+              style={{ width: autoResizeWidth(contact_role.length) }}
               type="text"
               placeholder={contact_role}
               value={contact_role}
@@ -175,9 +247,10 @@ const Edition = ({ token, server }) => {
           </div>
           <div>
             <p>Telephone</p>
+
             <input
               type="text"
-              style={{ width: contact_phone.length * 7.5 }}
+              style={{ width: autoResizeWidth(contact_phone.length) }}
               placeholder={contact_phone}
               value={contact_phone}
               onChange={(event) => {
@@ -191,7 +264,7 @@ const Edition = ({ token, server }) => {
             <div style={{ display: "flex", flexDirection: "column" }}>
               <input
                 type="text"
-                style={{ width: company_address.length * 7 }}
+                style={{ width: autoResizeWidth(company_address.length) }}
                 placeholder={company_address}
                 value={company_address}
                 onChange={(event) => {
@@ -201,11 +274,12 @@ const Edition = ({ token, server }) => {
               />
               <div
                 style={{
-                  display: "inline-flex",
+                  display: "block",
+                  marginBottom: "-30px",
                 }}
               >
                 <input
-                  style={{ width: `50px` }}
+                  style={{ width: autoResizeWidth(company_zip.length) }}
                   type="text"
                   placeholder={company_zip}
                   value={company_zip}
@@ -216,7 +290,7 @@ const Edition = ({ token, server }) => {
                 />
                 <input
                   type="text"
-                  style={{ width: company_city.length * 8 }}
+                  style={{ width: autoResizeWidth(company_city.length) }}
                   placeholder={company_city}
                   value={company_city}
                   onChange={(event) => {
@@ -228,10 +302,15 @@ const Edition = ({ token, server }) => {
             </div>
           </div>
           <div>
-            <p>Site Internet</p>
+            <p
+              onClick={() => window.open(`https://${company_website}`)}
+              style={{ cursor: "pointer" }}
+            >
+              Site Internet
+            </p>
             <input
               type="text"
-              style={{ width: company_website.length * 7.5 }}
+              style={{ width: autoResizeWidth(company_website.length) }}
               placeholder={company_website}
               value={company_website}
               onChange={(event) => {
@@ -239,14 +318,11 @@ const Edition = ({ token, server }) => {
                 setSaveChanges(true);
               }}
             />
-            <span onClick={() => window.open(`https://${company_website}`)}>
-              lien
-            </span>
           </div>
           <div>
-            <p>Capital Social</p>
+            <p>Capital Social (€)</p>
             <input
-              style={{ width: "60px" }}
+              style={{ width: autoResizeWidth(company_capital.length) }}
               type="text"
               value={company_capital}
               onChange={(event) => {
@@ -254,14 +330,13 @@ const Edition = ({ token, server }) => {
                 setSaveChanges(true);
               }}
             />
-            <span>€</span>
           </div>
           <div>
             <p>Forme Juridique</p>
             <textarea
               type="text"
               cols={25}
-              rows={company_legalform.split.length}
+              rows={autoResize(company_legalform, company_legalform.length)}
               placeholder={company_legalform}
               value={company_legalform}
               onChange={(event) => {
@@ -277,7 +352,7 @@ const Edition = ({ token, server }) => {
             <p>Date de création</p>
             <input
               type="text"
-              style={{ width: company_founded.length * 9 }}
+              style={{ width: autoResizeWidth(company_founded.length) }}
               placeholder={company_founded}
               value={company_founded}
               onChange={(event) => {
@@ -290,7 +365,9 @@ const Edition = ({ token, server }) => {
             <p>Numéro de SIREN</p>
             <input
               type="text"
-              style={{ width: "100px" }}
+              style={{
+                width: autoResizeWidth(company_registration_number.length),
+              }}
               placeholder={company_registration_number}
               value={company_registration_number}
               onChange={(event) => {
@@ -305,7 +382,7 @@ const Edition = ({ token, server }) => {
             <textarea
               type="text"
               cols={25}
-              rows={company_activity.split.length}
+              rows={autoResize(company_activity, company_activity.length)}
               placeholder={company_activity}
               value={company_activity}
               onChange={(event) => {
@@ -314,13 +391,26 @@ const Edition = ({ token, server }) => {
               }}
             />
           </div>
-          {saveChanges && <button>Enregistrer</button>}
         </div>
       </div>
       <div>
-        <div>Quick updates</div>
+        <div>
+          <QuickUpdate
+            server={server}
+            token={token}
+            id={id}
+            toUpdate={toUpdate}
+            setToUpdate={setToUpdate}
+          />
+        </div>
+
         <p>Historique & smart actions</p>
       </div>
+      {saveChanges && (
+        <div className="save-update">
+          <button onClick={contactUpdate}>Enregistrer les modifications</button>
+        </div>
+      )}
     </div>
   );
 };
