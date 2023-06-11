@@ -11,7 +11,7 @@ import statusIco from "../assets/images/status_ico.png";
 import folderIco from "../assets/images/folder_ico.png";
 // import responsableIco from "../assets/images/responsable_ico.png";
 
-const QuickUpdate = ({ server, id, token, toUpdate, setToUpdate }) => {
+const QuickUpdate = ({ server, id, token, setToUpdate }) => {
   //  useStates for status, forders, and heat
   const [status, setStatus] = useState("");
   const [folders, setFolders] = useState("");

@@ -63,12 +63,6 @@
   padding: 30px;
 }
 
-/* .contact-container > div:first-child > div:nth-child(4) button {
-  background-color: #b42f5a;
-  color: white;
-  border: none;
-} */
-
 .contact-container > div:first-child > div:nth-child(4) div {
   padding-bottom: 15px;
 }
@@ -198,3 +192,5 @@ textarea:hover {
   padding: 20px;
   text-align: center;
 }
+
+/* Notes */

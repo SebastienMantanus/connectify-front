@@ -5,6 +5,7 @@ import axios from "axios";
 
 //import components
 import QuickUpdate from "../components/QuickUpdate";
+import Notes from "../components/Notes";
 
 //import icons assets
 import saWebsite from "../assets/images/smart_action_website_red.png";
@@ -403,8 +404,10 @@ const Edition = ({ token, server }) => {
             setToUpdate={setToUpdate}
           />
         </div>
-
-        <p>Historique & smart actions</p>
+        <div>
+          <Notes server={server} token={token} id={id} />
+          <p>Historique & smart actions</p>
+        </div>
       </div>
       {saveChanges && (
         <div className="save-update">
