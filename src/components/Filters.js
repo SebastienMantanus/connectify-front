@@ -104,6 +104,7 @@ const Filters = ({
             foldersData.map((folder, index) => {
               return (
                 <p
+                  className={folder._id === contactFolder ? "bold" : null}
                   key={index}
                   onClick={() => {
                     setContactFolder(folder._id);
@@ -138,6 +139,7 @@ const Filters = ({
               responsableData.map((responsable, index) => {
                 return (
                   <p
+                    className={responsable._id === responsable ? "bold" : null}
                     key={index}
                     onClick={() => {
                       setResponsable(responsable._id);
@@ -167,6 +169,7 @@ const Filters = ({
           {heatData.map((heat, index) => {
             return (
               <p
+                className={heat.statut_id === contactHeat ? "bold" : null}
                 key={index}
                 onClick={() => {
                   setContactHeat(heat.statut_id);
