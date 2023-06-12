@@ -1,4 +1,4 @@
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import axios from "axios";
@@ -62,6 +62,7 @@ const Edition = ({ token, server }) => {
             Authorization: `Bearer ${token}`,
           },
         });
+        console.log(response.data);
         // set the global state to the contact's informations
         setCompany_name(response.data.company_name);
         setCompany_website(response.data.company_website);
@@ -96,7 +97,7 @@ const Edition = ({ token, server }) => {
     } catch (error) {
       console.log(error.message);
     }
-  }, [id, token, toUpdate]);
+  }, [id, token, toUpdate, server]);
 
   //function to update the contact's informations
   const contactUpdate = async () => {
@@ -406,7 +407,6 @@ const Edition = ({ token, server }) => {
         </div>
         <div>
           <Notes server={server} token={token} id={id} />
-          <p>Historique & smart actions</p>
         </div>
       </div>
       {saveChanges && (

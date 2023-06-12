@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { render } from "react-dom";
 import { Squares } from "react-activity";
 import "react-activity/dist/library.css";
 
@@ -84,7 +83,7 @@ const Autocomplete = ({
         }
       );
 
-      navigate(`/contact/${response.data._id}`);
+      navigate(`/contact/${response.data._id}/edit`);
     } else
       setError(
         "Merci de renseigner tous les champs afin d'entregistrer le contact"
