@@ -19,7 +19,6 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
-import Contact from "./pages/Contact";
 import Edition from "./pages/Edition";
 import Createcontact from "./pages/Createcontact";
 
@@ -57,11 +56,6 @@ function App() {
           <Route
             path="/contact/:id/edit"
             element={<Edition token={token} server={server} />}
-          />
-
-          <Route
-            path="/contact/:id"
-            element={<Contact token={token} server={server} />}
           />
 
           <Route

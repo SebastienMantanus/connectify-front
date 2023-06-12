@@ -20,7 +20,7 @@ const Autocomplete = ({
   const [companyWebsite, setCompanyWebsite] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [contactPhone, setContactPhone] = useState("");
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
   const [inProgress, setInProgress] = useState(false);
 
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ const Autocomplete = ({
       };
       fetchData();
     }
-  }, [autocomplete]);
+  }, [autocomplete, server]);
 
   // Save contact in database function
   const SaveContact = async (e) => {
@@ -85,7 +85,7 @@ const Autocomplete = ({
 
       navigate(`/contact/${response.data._id}/edit`);
     } else
-      setError(
+      alert(
         "Merci de renseigner tous les champs afin d'entregistrer le contact"
       );
   };
@@ -150,6 +150,7 @@ const Autocomplete = ({
     <div className="create-contact-container font">
       <div className="create-contact-company-resumee">
         <a
+          href="/contact/createv2"
           onClick={() => {
             setNewContact();
           }}

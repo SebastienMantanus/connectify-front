@@ -198,8 +198,31 @@ a {
   width: 20%;
   min-height: calc(100vh - 300px);
 
-  /* height: calc(100vh - 300px); */
   background-color: #efefef;
+}
+
+.home-left p {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.home-left p:hover {
+  color: #b42f5a;
+  cursor: pointer;
+}
+
+#menu-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+#menu-title h3 {
+  cursor: pointer;
+}
+
+.bold {
+  font-weight: bold;
+  color: #b42f5a;
 }
 
 .home-container {
@@ -224,7 +247,6 @@ a {
   justify-content: space-between;
   gap: 40px;
   flex-wrap: wrap;
-  /* margin-bottom: 40px; */
   margin: auto, 40px;
 }
 
@@ -270,6 +292,7 @@ a {
   color: white;
   padding: 8px;
   border-top-left-radius: 5px;
+  border-bottom-right-radius: 50px;
 }
 
 /* Favicon, company name and Contact name */

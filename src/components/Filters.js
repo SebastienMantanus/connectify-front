@@ -1,4 +1,11 @@
 import { useEffect, useState } from "react";
+
+import { IonIcon } from "@ionic/react";
+import { peopleOutline } from "ionicons/icons";
+import { folderOpenOutline } from "ionicons/icons";
+import { flameOutline } from "ionicons/icons";
+import { playForwardOutline } from "ionicons/icons";
+
 import axios from "axios";
 
 const Filters = ({
@@ -74,18 +81,23 @@ const Filters = ({
       setStatusData(response.data);
     };
     fetchStatusData();
+    setIsLoading(false);
   }, [token]);
 
   return (
     <div>
       <section>
-        <h3
-          onClick={() => {
-            setShowFolder(!showFolder);
-          }}
-        >
-          Dossiers
-        </h3>
+        <div id="menu-title">
+          <IonIcon icon={folderOpenOutline} style={{ color: "#b42f5a" }} />
+          <h3
+            className={showFolder ? "bold" : null}
+            onClick={() => {
+              setShowFolder(!showFolder);
+            }}
+          >
+            Dossiers
+          </h3>
+        </div>
         <div className={showFolder ? null : "filters-hide"}>
           <p onClick={() => setContactFolder("")}>Tous les dossiers</p>
           {foldersData ? (
@@ -109,9 +121,16 @@ const Filters = ({
       </section>
 
       <section>
-        <h3 onClick={() => setShowResponsable(!showResponsable)}>
-          Responsable
-        </h3>
+        <div id="menu-title">
+          <IonIcon icon={peopleOutline} style={{ color: "#b42f5a" }} />
+          <h3
+            className={showResponsable ? "bold" : null}
+            onClick={() => setShowResponsable(!showResponsable)}
+          >
+            Responsable
+          </h3>
+        </div>
+
         <div className={showResponsable ? null : "filters-hide"}>
           <div>
             <p onClick={() => setResponsable("")}>Tous les responsables</p>
@@ -135,7 +154,15 @@ const Filters = ({
         </div>
       </section>
       <section>
-        <h3 onClick={() => setShowHeat(!showHeat)}>Chaleur</h3>
+        <div id="menu-title">
+          <IonIcon icon={flameOutline} style={{ color: "#b42f5a" }} />
+          <h3
+            className={showHeat ? "bold" : null}
+            onClick={() => setShowHeat(!showHeat)}
+          >
+            Chaleur
+          </h3>
+        </div>
         <div className={showHeat ? null : "filters-hide"}>
           {heatData.map((heat, index) => {
             return (
@@ -152,13 +179,22 @@ const Filters = ({
         </div>
       </section>
       <section>
-        <h3 onClick={() => setShowStatus(!showStatus)}>Statut du contact</h3>
+        <div id="menu-title">
+          <IonIcon icon={playForwardOutline} style={{ color: "#b42f5a" }} />
+          <h3
+            className={showStatus ? "bold" : null}
+            onClick={() => setShowStatus(!showStatus)}
+          >
+            Statut du contact
+          </h3>
+        </div>
         <div className={showStatus ? null : "filters-hide"}>
           <p onClick={() => setContactStatus("")}>Tous les status</p>
           {statusData ? (
             statusData.map((status, index) => {
               return (
                 <p
+                  className={status._id === contactStatus ? "bold" : null}
                   key={index}
                   onClick={() => {
                     setContactStatus(status._id);
