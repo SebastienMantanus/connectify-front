@@ -19,7 +19,7 @@ const EditFolder = ({ token, server, folderId }) => {
         });
         setNewFolderName(response.data.folder.name);
         setNewFolderDescription(response.data.folder.description);
-        setNbAffiliates(response.data.affiliates.length);
+        setNbAffiliates(response.data.affiliates);
         setResponsable(response.data.folder.responsable.name);
       };
       fetchFolder();
@@ -76,7 +76,16 @@ const EditFolder = ({ token, server, folderId }) => {
       />
 
       <div>
-        <p>Nombre de contacts : {nbAffiliates}</p>
+        <div>
+          {nbAffiliates &&
+            nbAffiliates.map((affiliate, index) => {
+              return (
+                <div key={index} id="favicons">
+                  <p>{affiliate.company_name}</p>
+                </div>
+              );
+            })}
+        </div>
         <p>Créé par : {responsable}</p>
       </div>
     </>

@@ -66,6 +66,14 @@ const Folders = ({ token, server }) => {
   //delete a folder
 
   const deleteFolder = async (folderId) => {
+    //confirmation message
+    const confirm = window.confirm(
+      "Êtes-vous sûr de vouloir supprimer ce dossier ?"
+    );
+    if (!confirm) {
+      return;
+    }
+    //delete the folder
     try {
       await axios.delete(`${server}/folder/${folderId}`, {
         headers: {
