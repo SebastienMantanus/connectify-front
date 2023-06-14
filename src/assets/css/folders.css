@@ -1,0 +1,134 @@
+/* folders page css */
+
+.folders {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: calc(100vh - 200px);
+  height: fit-content;
+}
+
+.folders > div {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 70%;
+  min-height: fit-content;
+  margin-top: 25px;
+  /* border: 1px solid red; */
+}
+/* Title & create button */
+.folders > div > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  width: 100%;
+  border-bottom: 1px solid lightgrey;
+}
+
+.folders > div > div:first-child button {
+  background-color: #b42f5a;
+  color: white;
+  border: none;
+  padding: 10px;
+}
+
+/* New folder form */
+.folders > div > div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+
+  gap: 20px;
+  padding: 20px;
+}
+
+.folders > div > div:nth-child(2) form {
+  display: flex;
+  justify-content: space-between;
+}
+
+.folders > div > div:nth-child(2) button {
+  background-color: #b42f5a;
+  color: white;
+  border: none;
+}
+
+.folders > div > div:nth-child(2) input {
+  border: 1px solid #b42f5a;
+  height: 40px;
+  border-radius: 5px;
+  margin-right: 20px;
+  padding: 0 10px;
+}
+
+.folders > div > div:nth-child(2) input:focus {
+  outline: none;
+  border: 2px solid #b42f5a;
+}
+
+.folders > div > div:nth-child(2) input:first-child {
+  width: 30%;
+}
+
+.folders > div > div:nth-child(2) input:nth-child(2) {
+  width: 50%;
+}
+/* Folders list & edition contaniner */
+#folders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Folders list items */
+#folders-list > div {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  width: 100%;
+  border: 1px solid lightgrey;
+}
+
+#folders-list > div:hover {
+  border: 2px solid #b42f5a;
+}
+
+#folders-list p {
+  color: gray;
+  line-height: 20px;
+}
+#folders-list > div > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  line-height: 15px;
+}
+
+#folders-list > div > div:first-child {
+  width: 40%;
+}
+
+#folders-list > div > div input {
+  border: none;
+  width: 100%;
+  border-radius: 0px;
+  padding: 0px;
+}
+
+#folders-list > div > div input:hover {
+  border-bottom: 1px solid lightgrey;
+}
+
+#folders-list > div > div input:focus {
+  outline: none;
+  border-bottom: 1px solid #b42f5a;
+}
+
+#folders-list > div > div input:first-child {
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: -10px;
+}

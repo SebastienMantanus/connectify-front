@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { IonIcon } from "@ionic/react";
 import { peopleOutline } from "ionicons/icons";
@@ -22,6 +23,9 @@ const Filters = ({
 }) => {
   const [isLoading, setIsLoading] = useState(true);
 
+  // initialize navigate
+  const navigate = useNavigate();
+
   //show/hide filters states
   const [showFolder, setShowFolder] = useState(false);
   const [showHeat, setShowHeat] = useState(false);
@@ -33,19 +37,19 @@ const Filters = ({
   const [heatData, setHeatData] = useState([
     {
       statut_id: 0,
-      statut_name: "aucune",
+      statut_name: "Tous les contacts",
     },
     {
       statut_id: 1,
-      statut_name: "froid",
+      statut_name: "Prospect froid",
     },
     {
       statut_id: 2,
-      statut_name: "tiède",
+      statut_name: "Prospect tiède",
     },
     {
       statut_id: 3,
-      statut_name: "chaud",
+      statut_name: "Prospect chaud",
     },
   ]);
   const [statusData, setStatusData] = useState();
@@ -99,7 +103,12 @@ const Filters = ({
           </h3>
         </div>
         <div className={showFolder ? null : "filters-hide"}>
-          <p onClick={() => setContactFolder("")}>Tous les dossiers</p>
+          <p
+            onClick={() => setContactFolder("")}
+            className={contactFolder === "" ? "bold" : null}
+          >
+            Tous les dossiers
+          </p>
           {foldersData ? (
             foldersData.map((folder, index) => {
               return (
@@ -117,7 +126,7 @@ const Filters = ({
           ) : (
             <p>Chargement en cours...</p>
           )}
-          <p>Gérer les dossiers</p>
+          <p onClick={() => navigate("/folders")}>Gérer les dossiers</p>
         </div>
       </section>
 
@@ -134,18 +143,23 @@ const Filters = ({
 
         <div className={showResponsable ? null : "filters-hide"}>
           <div>
-            <p onClick={() => setResponsable("")}>Tous les responsables</p>
+            <p
+              onClick={() => setResponsable("")}
+              className={responsable === "" ? "bold" : null}
+            >
+              Tous les responsables
+            </p>
             {responsableData ? (
-              responsableData.map((responsable, index) => {
+              responsableData.map((user, index) => {
                 return (
                   <p
-                    className={responsable._id === responsable ? "bold" : null}
+                    className={user._id === responsable ? "bold" : null}
                     key={index}
                     onClick={() => {
-                      setResponsable(responsable._id);
+                      setResponsable(user._id);
                     }}
                   >
-                    {responsable.name}
+                    {user.name}
                   </p>
                 );
               })
@@ -192,7 +206,12 @@ const Filters = ({
           </h3>
         </div>
         <div className={showStatus ? null : "filters-hide"}>
-          <p onClick={() => setContactStatus("")}>Tous les status</p>
+          <p
+            onClick={() => setContactStatus("")}
+            className={contactStatus === "" ? "bold" : null}
+          >
+            Tous les status
+          </p>
           {statusData ? (
             statusData.map((status, index) => {
               return (

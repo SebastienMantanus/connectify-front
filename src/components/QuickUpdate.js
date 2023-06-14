@@ -7,6 +7,7 @@ import heat1 from "../assets/images/heat_1.png";
 import heat2 from "../assets/images/heat_2.png";
 import heat3 from "../assets/images/heat_3.png";
 import statusIco from "../assets/images/status_ico.png";
+import resposableIco from "../assets/images/responsable_ico.png";
 
 import folderIco from "../assets/images/folder_ico.png";
 // import responsableIco from "../assets/images/responsable_ico.png";
@@ -15,11 +16,13 @@ const QuickUpdate = ({ server, id, token, setToUpdate }) => {
   //  useStates for status, forders, and heat
   const [status, setStatus] = useState("");
   const [folders, setFolders] = useState("");
+  const [responsable, setResponsable] = useState("");
 
   // useStates for affiliates status, folders, and heat
   const [affStatus, setAffStatus] = useState("");
   const [affFolders, setAffFolders] = useState("");
   const [affHeat, setAffHeat] = useState(0);
+  const [affResponsable, setAffResponsable] = useState("");
 
   // fetching status, forders and Affiliate data
 
@@ -54,6 +57,17 @@ const QuickUpdate = ({ server, id, token, setToUpdate }) => {
       console.log("Erreur dans la récupération des folders :", error.data);
     }
 
+    // fetching responsables
+    try {
+      const fetchResponsable = async () => {
+        const response = await axios.get(`${server}/users`);
+        setResponsable(response.data);
+      };
+      fetchResponsable();
+    } catch (error) {
+      console.log("Erreur dans la récupération des responsables :", error.data);
+    }
+
     // fetching affiliate status, folders, and heat
     try {
       const fetchAffData = async () => {
@@ -65,6 +79,7 @@ const QuickUpdate = ({ server, id, token, setToUpdate }) => {
         setAffStatus(response.data.contact_status);
         setAffFolders(response.data.contact_folder);
         setAffHeat(response.data.contact_heat);
+        setAffResponsable(response.data.responsable);
       };
       fetchAffData();
     } catch (error) {
@@ -204,6 +219,26 @@ const QuickUpdate = ({ server, id, token, setToUpdate }) => {
     }
   };
 
+  // fuction to change Affiliate responsable
+  const changeResponsable = async (responsable) => {
+    try {
+      const response = await axios.patch(
+        `${server}/affiliate/${id}`,
+        {
+          responsable: responsable,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setToUpdate(true);
+    } catch (error) {
+      console.log("Erreur dans la modification du responsable :", error.data);
+    }
+  };
+
   return (
     <div className="quick-update">
       <div>
@@ -263,6 +298,36 @@ const QuickUpdate = ({ server, id, token, setToUpdate }) => {
                 );
               }
               return <option value={folder._id}>{folder.name}</option>;
+            })}
+        </select>
+      </div>
+      <div>
+        <img src={resposableIco} alt="responsable icon" />
+        <select
+          defaultValue={affResponsable._id}
+          onChange={(event) => {
+            const responsable = event.target.value;
+            setAffResponsable(responsable);
+            changeResponsable(responsable);
+          }}
+        >
+          {responsable &&
+            responsable.map((responsable) => {
+              const currentID = affResponsable._id;
+              if (currentID === responsable._id) {
+                return (
+                  <option
+                    key={responsable._id}
+                    value={responsable.name}
+                    selected
+                  >
+                    {responsable.name}
+                  </option>
+                );
+              }
+              return (
+                <option value={responsable._id}>{responsable.name}</option>
+              );
             })}
         </select>
       </div>

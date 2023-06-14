@@ -21,6 +21,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Edition from "./pages/Edition";
 import Createcontact from "./pages/Createcontact";
+import Folders from "./pages/Folders";
 
 //switch between local and distant server
 
@@ -61,6 +62,11 @@ function App() {
           <Route
             path="/contact/createv2"
             element={<Createcontact token={token} server={server} />}
+          />
+
+          <Route
+            path="/folders"
+            element={<Folders token={token} server={server} />}
           />
         </Routes>
         <Footer />
