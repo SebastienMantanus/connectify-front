@@ -140,6 +140,18 @@ const QuickUpdate = ({ server, id, token, setToUpdate }) => {
             ;
           </>
         );
+
+      default:
+        return (
+          <>
+            <option value="0" selected>
+              Aucun
+            </option>
+            <option value="1">Froid</option>
+            <option value="2">Tiède</option>
+            <option value="3">Chaud</option>;
+          </>
+        );
     }
   };
 
@@ -162,7 +174,7 @@ const QuickUpdate = ({ server, id, token, setToUpdate }) => {
   // fuction to change Affiliate heat
   const changeHeat = async (heat) => {
     try {
-      const response = await axios.patch(
+      await axios.patch(
         `${server}/affiliate/${id}`,
         {
           contact_heat: heat,
@@ -182,7 +194,7 @@ const QuickUpdate = ({ server, id, token, setToUpdate }) => {
   // fuction to change Affiliate status
   const changeStatus = async (status) => {
     try {
-      const response = await axios.patch(
+      await axios.patch(
         `${server}/affiliate/${id}`,
         {
           contact_status: status,
@@ -202,7 +214,7 @@ const QuickUpdate = ({ server, id, token, setToUpdate }) => {
   // fuction to change Affiliate folder
   const changeFolder = async (folder) => {
     try {
-      const response = await axios.patch(
+      await axios.patch(
         `${server}/affiliate/${id}`,
         {
           contact_folder: folder,
@@ -222,7 +234,7 @@ const QuickUpdate = ({ server, id, token, setToUpdate }) => {
   // fuction to change Affiliate responsable
   const changeResponsable = async (responsable) => {
     try {
-      const response = await axios.patch(
+      await axios.patch(
         `${server}/affiliate/${id}`,
         {
           responsable: responsable,

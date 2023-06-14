@@ -1,6 +1,4 @@
-import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // import icons
 import { IonIcon } from "@ionic/react";
@@ -69,7 +67,7 @@ const Folders = ({ token, server }) => {
 
   const deleteFolder = async (folderId) => {
     try {
-      const response = await axios.delete(`${server}/folder/${folderId}`, {
+      await axios.delete(`${server}/folder/${folderId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

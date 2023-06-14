@@ -34,7 +34,7 @@ const Filters = ({
 
   // Data of Folders, heat, status, responsable states
   const [foldersData, setFoldersData] = useState();
-  const [heatData, setHeatData] = useState([
+  const heatData = [
     {
       statut_id: 0,
       statut_name: "Tous les contacts",
@@ -51,7 +51,8 @@ const Filters = ({
       statut_id: 3,
       statut_name: "Prospect chaud",
     },
-  ]);
+  ];
+
   const [statusData, setStatusData] = useState();
   const [responsableData, setResponsableData] = useState();
 
@@ -65,7 +66,7 @@ const Filters = ({
       setFoldersData(response.data);
     };
     fetchFoldersData();
-  }, [token]);
+  }, [token, server]);
 
   useEffect(() => {
     const fetchResponsableData = async () => {
@@ -73,7 +74,7 @@ const Filters = ({
       setResponsableData(response.data);
     };
     fetchResponsableData();
-  }, [token]);
+  }, [token, server]);
 
   useEffect(() => {
     const fetchStatusData = async () => {
@@ -86,9 +87,9 @@ const Filters = ({
     };
     fetchStatusData();
     setIsLoading(false);
-  }, [token]);
+  }, [token, server]);
 
-  return (
+  return isLoading ? null : (
     <div>
       <section>
         <div id="menu-title">

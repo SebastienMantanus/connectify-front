@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const EditFolder = ({ token, server, folderId }) => {
-  const [folder, setFolder] = useState("");
   const [newFolderName, setNewFolderName] = useState("");
   const [newFolderDescription, setNewFolderDescription] = useState("");
   const [nbAffiliates, setNbAffiliates] = useState(0);
@@ -18,7 +17,6 @@ const EditFolder = ({ token, server, folderId }) => {
             Authorization: `Bearer ${token}`,
           },
         });
-        setFolder(response.data);
         setNewFolderName(response.data.folder.name);
         setNewFolderDescription(response.data.folder.description);
         setNbAffiliates(response.data.affiliates.length);
@@ -35,7 +33,7 @@ const EditFolder = ({ token, server, folderId }) => {
 
   const updateFolder = async () => {
     try {
-      const response = await axios.patch(
+      await axios.patch(
         `${server}/folder/${folderId}`,
         {
           name: newFolderName,

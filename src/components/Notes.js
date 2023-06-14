@@ -72,14 +72,14 @@ const Notes = ({ server, token, id }) => {
         {notes &&
           notes.map((note) => {
             // format date
-            const formattedDate = new Date(note.created_at).toLocaleDateString(
-              "fr-FR",
-              {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              }
-            );
+            // const formattedDate = new Date(note.created_at).toLocaleDateString(
+            //   "fr-FR",
+            //   {
+            //     day: "numeric",
+            //     month: "long",
+            //     year: "numeric",
+            //   }
+            // );
 
             //setup number of days since note creation
             const today = new Date();

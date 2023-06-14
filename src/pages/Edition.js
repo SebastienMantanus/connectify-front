@@ -62,7 +62,6 @@ const Edition = ({ token, server }) => {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(response.data);
         // set the global state to the contact's informations
         setCompany_name(response.data.company_name);
         setCompany_website(response.data.company_website);
@@ -102,7 +101,7 @@ const Edition = ({ token, server }) => {
   //function to update the contact's informations
   const contactUpdate = async () => {
     try {
-      const response = await axios.patch(
+      await axios.patch(
         `${server}/affiliate/${id}`,
         {
           company_name: company_name,
@@ -158,6 +157,25 @@ const Edition = ({ token, server }) => {
       }
     }
   };
+  // fuction to delete the contact
+
+  const contactDelete = async () => {
+    // display a confirm message
+    const confirm = window.confirm(
+      "Etes-vous sûr de vouloir supprimer ce contact ?"
+    );
+    if (!confirm) {
+      return;
+    }
+    // delete the contact
+    await axios.delete(`${server}/affiliate/delete/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    navigate("/");
+  };
+
   // auto resize inputs width function
   const autoResizeWidth = (characters) => {
     return "80%";
@@ -406,6 +424,9 @@ const Edition = ({ token, server }) => {
                 setSaveChanges(true);
               }}
             />
+          </div>
+          <div>
+            <button onClick={contactDelete}>Supprimer le contact</button>
           </div>
         </div>
       </div>
