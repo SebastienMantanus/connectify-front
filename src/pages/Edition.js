@@ -262,6 +262,20 @@ const Edition = ({ token, server }) => {
             />
           </div>
           <div>
+            <p>Email</p>
+
+            <input
+              type="text"
+              style={{ width: autoResizeWidth(contact_email.length) }}
+              placeholder={contact_email}
+              value={contact_email}
+              onChange={(event) => {
+                setContact_email(event.target.value);
+                setSaveChanges(true);
+              }}
+            />
+          </div>
+          <div>
             <p>Adresse</p>
             <div style={{ display: "flex", flexDirection: "column" }}>
               <input
