@@ -89,8 +89,23 @@ const Filters = ({
     setIsLoading(false);
   }, [token, server]);
 
+  // reset filters function
+  const resetFilters = () => {
+    setContactFolder("");
+    setContactHeat("");
+    setContactStatus("");
+    setResponsable("");
+  };
+
   return isLoading ? null : (
     <div>
+      {/* Show reset filters button only when filters are applied */}
+      {contactFolder || contactHeat || contactStatus || responsable ? (
+        <section>
+          <button onClick={resetFilters}>Supprimer tous les filtres</button>
+        </section>
+      ) : null}
+
       <section>
         <div id="menu-title">
           <IonIcon icon={folderOpenOutline} style={{ color: "#b42f5a" }} />
