@@ -74,6 +74,7 @@
 .folders > div > div:nth-child(2) input:nth-child(2) {
   width: 50%;
 }
+
 /* Folders list & edition contaniner */
 #folders-list {
   display: flex;
@@ -99,6 +100,7 @@
   color: gray;
   line-height: 20px;
 }
+
 #folders-list > div > div {
   display: flex;
   flex-direction: column;
@@ -108,7 +110,8 @@
 }
 
 #folders-list > div > div:first-child {
-  width: 40%;
+  min-width: 40%;
+  width: fit-content;
 }
 
 /* Icon list on folder list */
