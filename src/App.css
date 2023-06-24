@@ -235,6 +235,7 @@ a {
 .top-bar {
   display: flex;
   width: 100%;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 40px;
@@ -242,10 +243,25 @@ a {
   border-bottom: 1px solid lightgray;
 }
 
+.top-bar-nav-array {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid lightgray;
+}
+.top-bar-nav-array div {
+  cursor: pointer;
+  &:hover {
+    color: #b42f5a;
+    text-decoration: underline;
+  }
+}
+
 .contact-grid {
   display: flex;
   width: 100%;
-
   justify-content: space-between;
   gap: 40px;
   flex-wrap: wrap;

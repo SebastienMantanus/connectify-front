@@ -354,16 +354,20 @@ const Edition = ({ token, server }) => {
             />
           </div>
           <div>
-            <p>Capital Social (€)</p>
-            <input
-              style={{ width: autoResizeWidth(company_capital.length) }}
-              type="text"
-              value={company_capital}
-              onChange={(event) => {
-                setCompany_capital(event.target.value);
-                setSaveChanges(true);
-              }}
-            />
+            {company_capital && (
+              <>
+                <p>Capital Social (€)</p>
+                <input
+                  style={{ width: autoResizeWidth(company_capital.length) }}
+                  type="text"
+                  value={company_capital}
+                  onChange={(event) => {
+                    setCompany_capital(event.target.value);
+                    setSaveChanges(true);
+                  }}
+                />
+              </>
+            )}
           </div>
           <div>
             <p>Forme Juridique</p>

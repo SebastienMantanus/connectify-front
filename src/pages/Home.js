@@ -35,6 +35,11 @@ const Home = ({ token, server, SetToken }) => {
   const [contactStatus, setContactStatus] = useState("");
   const [responsable, setResponsable] = useState("");
 
+  // useStates for skip and limit
+  const [skip, setSkip] = useState(0);
+  const [limit, setLimit] = useState(5);
+  const [numberOfContacts, setNumberOfContacts] = useState(0);
+
   // Hovered Index useState
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
@@ -60,20 +65,91 @@ const Home = ({ token, server, SetToken }) => {
     query = query + `&responsable=${responsable}`;
   }
 
+  // fetch data from API
+
   useEffect(() => {
-    console.log("query>>", query);
+    const fetchData = async () => {
+      const response = await axios.get(
+        `${server}/affiliates?${query}&skip=${skip}&limit=${limit}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      SetData(response.data);
+      SetIsLoading(false);
+    };
+    fetchData();
+  }, [searchQuery, query, server, skip, limit, token]);
+
+  // Skpip & limit management
+
+  // fetch number of contacts with filters querry
+  useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(`${server}/affiliates?${query}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
-      SetData(response.data);
-      SetIsLoading(false);
+      setNumberOfContacts(response.data.length);
     };
     fetchData();
   }, [searchQuery, query, server, token]);
+
+  const pagesArray = [];
+  for (let i = 0; i < numberOfContacts / limit; i++) {
+    pagesArray.push(i + 1);
+  }
+
+  //fuction to return the skip & limit bar
+
+  function skipLimitBar() {
+    return (
+      <div className="top-bar-nav-array">
+        {skip > 0 && (
+          <button
+            onClick={() => {
+              setSkip(skip - limit);
+            }}
+          >
+            Précédent
+          </button>
+        )}
+
+        {pagesArray.map((page) => {
+          if (page > 10) {
+            return <p>...</p>;
+          } else {
+            return (
+              <div
+                key={page}
+                className={page === skip / limit + 1 ? "bold" : ""}
+                onClick={() => {
+                  setSkip(0);
+                  setSkip((page - 1) * limit);
+                }}
+              >
+                {page}
+              </div>
+            );
+          }
+        })}
+
+        {skip < numberOfContacts - limit && (
+          <button
+            onClick={() => {
+              setSkip(skip + limit);
+            }}
+          >
+            Suivant
+          </button>
+        )}
+      </div>
+    );
+  }
 
   //function to display heat icon
   const displayHeat = (heat) => {
@@ -135,7 +211,9 @@ const Home = ({ token, server, SetToken }) => {
   "
         >
           <div className="top-bar">
-            <h2>{data.length} contacts</h2>
+            <h2>{numberOfContacts} contacts</h2>
+            {pagesArray.length > 1 && skipLimitBar()}
+
             <div>
               <input
                 type="text"
@@ -281,6 +359,9 @@ const Home = ({ token, server, SetToken }) => {
               );
             })}
           </div>
+          {pagesArray.length > 1 && (
+            <div style={{ marginBottom: "10px" }}>{skipLimitBar()}</div>
+          )}
         </div>
       </div>
     )
