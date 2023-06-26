@@ -1,3 +1,5 @@
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
 import { useNavigate, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -52,6 +54,7 @@ const Home = ({ token, server, SetToken }) => {
   }
 
   // add filters to query if they are not empty
+  //#region
   if (contactFolder) {
     query = query + `&contact_folder=${contactFolder}`;
   }
@@ -64,6 +67,7 @@ const Home = ({ token, server, SetToken }) => {
   if (responsable) {
     query = query + `&responsable=${responsable}`;
   }
+  //#endregion
 
   // fetch data from API
 
@@ -186,185 +190,241 @@ const Home = ({ token, server, SetToken }) => {
     }
   };
 
+  // function to handle drag and drop
+  const handleOnDragEnd = (result) => {
+    if (!result.destination) return;
+    console.log("RESULT>>>", result);
+  };
+
   return token ? (
     isLoading ? (
       <div>Loading in progress</div>
     ) : (
       <div className="flex-center font">
-        <div className="home-left">
-          <h2>Filtres</h2>
-          <Filters
-            token={token}
-            server={server}
-            contactFolder={contactFolder}
-            setContactFolder={setContactFolder}
-            responsable={responsable}
-            setResponsable={setResponsable}
-            contactHeat={contactHeat}
-            setContactHeat={setContactHeat}
-            contactStatus={contactStatus}
-            setContactStatus={setContactStatus}
-          />
-        </div>
-        <div
-          className="home-container 
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <div className="home-left">
+            <h2>Filtres</h2>
+
+            <Filters
+              token={token}
+              server={server}
+              contactFolder={contactFolder}
+              setContactFolder={setContactFolder}
+              responsable={responsable}
+              setResponsable={setResponsable}
+              contactHeat={contactHeat}
+              setContactHeat={setContactHeat}
+              contactStatus={contactStatus}
+              setContactStatus={setContactStatus}
+            />
+          </div>
+          <div
+            className="home-container 
   "
-        >
-          <div className="top-bar">
-            <h2>{numberOfContacts} contacts</h2>
-            {pagesArray.length > 1 && skipLimitBar()}
+          >
+            <div className="top-bar">
+              <h2>{numberOfContacts} contacts</h2>
+              {pagesArray.length > 1 && skipLimitBar()}
 
-            <div>
-              <input
-                type="text"
-                placeholder="Rechercher..."
-                value={searchQuery}
-                onChange={(event) => {
-                  SetSearchQuery(event.target.value);
-                }}
-              />
+              <div>
+                <input
+                  type="text"
+                  placeholder="Rechercher..."
+                  value={searchQuery}
+                  onChange={(event) => {
+                    SetSearchQuery(event.target.value);
+                  }}
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="contact-grid ">
-            <div
-              className="new-contact-card"
-              onClick={() => {
-                navigate("/contact/createv2");
-              }}
-            >
-              <img src={addIcon} alt="créer une fiche" />
-              <h1>Créer un nouveau contact</h1>
-            </div>
-            {data.map((item) => {
-              const linkUrl = `/contact/${item._id}/edit`;
-
-              return (
+            <Droppable droppableId="contactList">
+              {(provided, snapshot) => (
                 <div
-                  key={item._id}
-                  // on mouse over, display quick actions
-                  onMouseOver={() => {
-                    setHoveredIndex(item._id);
-                  }}
-                  // on mouse out, hide quick actions
-                  onMouseOut={() => {
-                    setHoveredIndex(null);
-                  }}
+                  className="contact-grid "
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  // style={{
+                  //   backgroundColor: snapshot.isDraggingOver
+                  //     ? "lightblue"
+                  //     : "lightgrey",
+                  // }}
                 >
-                  <div className="contact-cards">
-                    <div>
-                      <div
-                        style={{
-                          backgroundColor: item.contact_status.status_color,
-                        }}
-                      >
-                        <p>{item.contact_status.status_name}</p>
-                      </div>
-                      <div>{displayHeat(item.contact_heat)}</div>
-                    </div>
-                    <div>
-                      <div>
-                        {item.company_favicon && (
-                          <img
-                            alt="company logo"
-                            src={item.company_favicon.url}
-                          />
-                        )}
-                      </div>
-                      <div>
-                        <h2>{item.contact_name}</h2>
-                        {/* <p>{item.contact_role}</p> */}
-                      </div>
-                    </div>
-                    <div>
-                      <h3>
-                        {shortenCompanyName(item.company_name)}{" "}
-                        {displayLegalform(item.company_legalform)}
-                      </h3>
-                      <p>{item.company_city}</p>
-
-                      {item.company_size_max - item.company_size_min > 1000 ? (
-                        <>
-                          <p>
-                            Au moins {item.company_size_min} {"salarié(s)"}
-                          </p>
-                        </>
-                      ) : item.company_size_max === 0 ? (
-                        <p>Aucun salarié</p>
-                      ) : (
-                        <>
-                          <p>
-                            Entre {item.company_size_min} et{" "}
-                            {item.company_size_max} salariés
-                          </p>{" "}
-                        </>
-                      )}
-                    </div>
-                    <div>
-                      <div>
-                        <img alt="Owner icon" src={responsableIco} />{" "}
-                        <span>{item.responsable.name}</span>
-                      </div>
-                      <div>
-                        {" "}
-                        <img alt="Folder icon" src={folderIco} />
-                        <span> {item.contact_folder.name}</span>
-                      </div>
-                    </div>
-
-                    <div>
-                      <img alt="phone icon" src={phoneIco} />
-                      <span>{item.contact_phone}</span>
-                    </div>
-                    {hoveredIndex === item._id && (
-                      <div className="contact-cards-actions">
-                        <div>
-                          <img
-                            alt="email icon"
-                            src={smartActionEmail}
-                            onClick={() => {
-                              window.open(`mailto:${item.contact_email}`);
-                            }}
-                            title="Envoyer un email"
-                          />
-                          <img
-                            alt="website icon"
-                            src={smartActionWebsite}
-                            onClick={() => {
-                              window.open(`https://${item.company_website}`);
-                            }}
-                            title="Voir le site web"
-                          />
-                          <img
-                            alt="Pappers icon"
-                            src={smartActionPappers}
-                            onClick={() => {
-                              window.open(
-                                `https://www.pappers.fr/entreprise/${item.company_registration_number}`
-                              );
-                            }}
-                            title="Voir la fiche sur Pappers"
-                          />
-                          <img
-                            alt="Edit icon"
-                            src={smartActionEdit}
-                            onClick={() => {
-                              navigate(linkUrl);
-                            }}
-                            title="Modifier la fiche"
-                          />
-                        </div>
-                      </div>
-                    )}
+                  <div
+                    className="new-contact-card"
+                    onClick={() => {
+                      navigate("/contact/createv2");
+                    }}
+                  >
+                    <img src={addIcon} alt="créer une fiche" />
+                    <h1>Créer un nouveau contact</h1>
                   </div>
+
+                  {data.map((item, index) => {
+                    const linkUrl = `/contact/${item._id}/edit`;
+
+                    return (
+                      <Draggable
+                        key={item._id}
+                        draggableId={item._id}
+                        index={index}
+                      >
+                        {(provided, snapshot) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            style={{
+                              userSelect: "none",
+
+                              // backgroundColor: snapshot.isDragging
+                              //   ? "#263B4A"
+                              //   : "#456C86",
+
+                              ...provided.draggableProps.style,
+                            }}
+                            // on mouse over, display quick actions
+                            onMouseOver={() => {
+                              setHoveredIndex(item._id);
+                            }}
+                            // on mouse out, hide quick actions
+                            onMouseOut={() => {
+                              setHoveredIndex(null);
+                            }}
+                          >
+                            <div
+                              className={
+                                snapshot.isDragging
+                                  ? "contact-cards dragging"
+                                  : "contact-cards"
+                              }
+                            >
+                              <div>
+                                <div
+                                  style={{
+                                    backgroundColor:
+                                      item.contact_status.status_color,
+                                  }}
+                                >
+                                  <p>{item.contact_status.status_name}</p>
+                                </div>
+                                <div>{displayHeat(item.contact_heat)}</div>
+                              </div>
+                              <div>
+                                <div>
+                                  {item.company_favicon && (
+                                    <img
+                                      alt="company logo"
+                                      src={item.company_favicon.url}
+                                    />
+                                  )}
+                                </div>
+                                <div>
+                                  <h2>{item.contact_name}</h2>
+                                  {/* <p>{item.contact_role}</p> */}
+                                </div>
+                              </div>
+                              <div>
+                                <h3>
+                                  {shortenCompanyName(item.company_name)}{" "}
+                                  {displayLegalform(item.company_legalform)}
+                                </h3>
+                                <p>{item.company_city}</p>
+
+                                {item.company_size_max - item.company_size_min >
+                                1000 ? (
+                                  <>
+                                    <p>
+                                      Au moins {item.company_size_min}{" "}
+                                      {"salarié(s)"}
+                                    </p>
+                                  </>
+                                ) : item.company_size_max === 0 ? (
+                                  <p>Aucun salarié</p>
+                                ) : (
+                                  <>
+                                    <p>
+                                      Entre {item.company_size_min} et{" "}
+                                      {item.company_size_max} salariés
+                                    </p>{" "}
+                                  </>
+                                )}
+                              </div>
+                              <div>
+                                <div>
+                                  <img alt="Owner icon" src={responsableIco} />{" "}
+                                  <span>{item.responsable.name}</span>
+                                </div>
+                                <div>
+                                  {" "}
+                                  <img alt="Folder icon" src={folderIco} />
+                                  <span> {item.contact_folder.name}</span>
+                                </div>
+                              </div>
+
+                              <div>
+                                <img alt="phone icon" src={phoneIco} />
+                                <span>{item.contact_phone}</span>
+                              </div>
+                              {hoveredIndex === item._id && (
+                                <div className="contact-cards-actions">
+                                  <div>
+                                    <img
+                                      alt="email icon"
+                                      src={smartActionEmail}
+                                      onClick={() => {
+                                        window.open(
+                                          `mailto:${item.contact_email}`
+                                        );
+                                      }}
+                                      title="Envoyer un email"
+                                    />
+                                    <img
+                                      alt="website icon"
+                                      src={smartActionWebsite}
+                                      onClick={() => {
+                                        window.open(
+                                          `https://${item.company_website}`
+                                        );
+                                      }}
+                                      title="Voir le site web"
+                                    />
+                                    <img
+                                      alt="Pappers icon"
+                                      src={smartActionPappers}
+                                      onClick={() => {
+                                        window.open(
+                                          `https://www.pappers.fr/entreprise/${item.company_registration_number}`
+                                        );
+                                      }}
+                                      title="Voir la fiche sur Pappers"
+                                    />
+                                    <img
+                                      alt="Edit icon"
+                                      src={smartActionEdit}
+                                      onClick={() => {
+                                        navigate(linkUrl);
+                                      }}
+                                      title="Modifier la fiche"
+                                    />
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                      </Draggable>
+                    );
+                  })}
+                  {provided.placeholder}
                 </div>
-              );
-            })}
+              )}
+            </Droppable>
+            {pagesArray.length > 1 && (
+              <div style={{ marginBottom: "10px" }}>{skipLimitBar()}</div>
+            )}
           </div>
-          {pagesArray.length > 1 && (
-            <div style={{ marginBottom: "10px" }}>{skipLimitBar()}</div>
-          )}
-        </div>
+        </DragDropContext>
       </div>
     )
   ) : (

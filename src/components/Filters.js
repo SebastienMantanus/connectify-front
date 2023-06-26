@@ -8,6 +8,7 @@ import { flameOutline } from "ionicons/icons";
 import { playForwardOutline } from "ionicons/icons";
 
 import axios from "axios";
+import { Droppable } from "react-beautiful-dnd";
 
 const Filters = ({
   token,
@@ -32,6 +33,7 @@ const Filters = ({
   const [showStatus, setShowStatus] = useState(false);
   const [showResponsable, setShowResponsable] = useState(false);
 
+  //#region Filters states
   // Data of Folders, heat, status, responsable states
   const [foldersData, setFoldersData] = useState();
   const heatData = [
@@ -55,6 +57,7 @@ const Filters = ({
 
   const [statusData, setStatusData] = useState();
   const [responsableData, setResponsableData] = useState();
+  //#endregion
 
   useEffect(() => {
     const fetchFoldersData = async () => {
@@ -128,15 +131,31 @@ const Filters = ({
           {foldersData ? (
             foldersData.map((folder, index) => {
               return (
-                <p
-                  className={folder._id === contactFolder ? "bold" : null}
-                  key={index}
-                  onClick={() => {
-                    setContactFolder(folder._id);
+                <Droppable droppableId={folder._id} key={folder._id}>
+                  {(provided, snapshot) => {
+                    return (
+                      <p
+                        className={folder._id === contactFolder ? "bold" : null}
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                        style={{
+                          backgroundColor: snapshot.isDraggingOver
+                            ? "blue"
+                            : "",
+
+                          color: snapshot.isDraggingOver ? "white" : "",
+                        }}
+                        onClick={() => {
+                          setContactFolder(folder._id);
+                        }}
+                      >
+                        {folder.name}
+
+                        {provided.placeholder}
+                      </p>
+                    );
                   }}
-                >
-                  {folder.name}
-                </p>
+                </Droppable>
               );
             })
           ) : (

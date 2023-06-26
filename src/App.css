@@ -286,6 +286,12 @@ a {
   margin-bottom: 30px;
 }
 
+.dragging {
+  background-color: red;
+  height: 50px;
+  overflow: hidden;
+}
+
 /* Status & Heat */
 .contact-cards > div:first-child {
   display: flex;
