@@ -400,10 +400,10 @@ a {
   align-items: center;
   position: absolute;
   border-radius: 5px;
-  top: 0px;
+  bottom: 0px;
   left: 0px;
   width: 255px;
-  height: 300px;
+  height: 190px;
   background-color: rgba(180, 47, 90, 0.9);
   color: white;
 }
