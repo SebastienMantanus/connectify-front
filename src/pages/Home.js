@@ -264,10 +264,12 @@ const Home = ({ token, server, SetToken }) => {
                     </div>
                     <div>
                       <div>
-                        <img
-                          alt="company logo"
-                          src={item.company_favicon.url}
-                        />
+                        {item.company_favicon && (
+                          <img
+                            alt="company logo"
+                            src={item.company_favicon.url}
+                          />
+                        )}
                       </div>
                       <div>
                         <h2>{item.contact_name}</h2>

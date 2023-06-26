@@ -13,6 +13,7 @@ const Autocomplete = ({
   setNewContact,
   server,
   token,
+  setCreateWithForm,
 }) => {
   const [results, setResults] = useState("");
   const [contactName, setcontactName] = useState("");
@@ -90,10 +91,10 @@ const Autocomplete = ({
       );
   };
 
-  return !newContact ? (
+  return !newContact.company_name ? (
     <div className="create-contact-container font">
       <div>
-        <h1>Nouveau contact</h1>
+        <h1>Rechercher une entreprise</h1>
         <input
           type="text"
           placeholder="Nom de l'entreprise..."
@@ -102,6 +103,13 @@ const Autocomplete = ({
             setAutocomplete(e.target.value);
           }}
         />
+        <p
+          onClick={() => {
+            setCreateWithForm(true);
+          }}
+        >
+          Saisie manuelle
+        </p>
       </div>
       <div>
         {results &&

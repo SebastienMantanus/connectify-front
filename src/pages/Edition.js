@@ -25,30 +25,30 @@ const Edition = ({ token, server }) => {
   const [toUpdate, setToUpdate] = useState(false);
 
   //statew which will be used to display and update contact informations
-  const [company_name, setCompany_name] = useState();
-  const [company_website, setCompany_website] = useState();
-  const [company_favicon, setCompany_favicon] = useState();
-  const [company_activity, setCompany_activity] = useState();
-  const [company_address, setCompany_address] = useState();
-  const [company_city, setCompany_city] = useState();
-  const [company_zip, setCompany_zip] = useState();
-  const [company_legalform, setCompany_legalform] = useState();
-  const [company_size_min, setCompany_size_min] = useState();
-  const [company_size_max, setCompany_size_max] = useState();
-  const [company_capital, setCompany_capital] = useState();
-  const [company_founded, setCompany_founded] = useState();
+  const [company_name, setCompany_name] = useState("");
+  const [company_website, setCompany_website] = useState("");
+  const [company_favicon, setCompany_favicon] = useState("");
+  const [company_activity, setCompany_activity] = useState("");
+  const [company_address, setCompany_address] = useState("");
+  const [company_city, setCompany_city] = useState("");
+  const [company_zip, setCompany_zip] = useState("");
+  const [company_legalform, setCompany_legalform] = useState("");
+  const [company_size_min, setCompany_size_min] = useState("");
+  const [company_size_max, setCompany_size_max] = useState("");
+  const [company_capital, setCompany_capital] = useState("");
+  const [company_founded, setCompany_founded] = useState("");
   const [company_registration_number, setCompany_registration_number] =
-    useState();
+    useState("");
 
-  const [contact_name, setContact_name] = useState();
-  const [contact_role, setContact_role] = useState();
-  const [contact_email, setContact_email] = useState();
-  const [contact_phone, setContact_phone] = useState();
+  const [contact_name, setContact_name] = useState("");
+  const [contact_role, setContact_role] = useState("");
+  const [contact_email, setContact_email] = useState("");
+  const [contact_phone, setContact_phone] = useState("");
 
-  const [contact_folder, setContact_folder] = useState();
-  const [contact_status, setContact_status] = useState();
-  const [contact_heat, setContact_heat] = useState();
-  const [responsable, setResponsable] = useState();
+  const [contact_folder, setContact_folder] = useState("");
+  const [contact_status, setContact_status] = useState("");
+  const [contact_heat, setContact_heat] = useState("");
+  const [responsable, setResponsable] = useState("");
 
   // save changes state
   const [saveChanges, setSaveChanges] = useState(false);
@@ -142,6 +142,9 @@ const Edition = ({ token, server }) => {
 
   // auto resize the textareas height function
   const autoResize = (input, characters) => {
+    if (!characters) {
+      return 1;
+    }
     if (input === company_name) {
       if (characters > 18) {
         return 2;
@@ -194,7 +197,7 @@ const Edition = ({ token, server }) => {
           <textarea
             type="text"
             cols={25}
-            rows={autoResize(company_name, company_name.length)}
+            rows={autoResize(company_name, company_name?.length)}
             style={{ fontSize: "18px", width: "60%", lineHeight: "1.2" }}
             placeholder={company_name}
             value={company_name}
@@ -243,7 +246,7 @@ const Edition = ({ token, server }) => {
             <p>Contact</p>
             <input
               type="text"
-              style={{ width: autoResizeWidth(contact_name.length) }}
+              style={{ width: autoResizeWidth(contact_name?.length) }}
               placeholder={contact_name}
               value={contact_name}
               onChange={(event) => {
@@ -255,7 +258,7 @@ const Edition = ({ token, server }) => {
           <div>
             <p>Fonction</p>
             <input
-              style={{ width: autoResizeWidth(contact_role.length) }}
+              style={{ width: autoResizeWidth(contact_role?.length) }}
               type="text"
               placeholder={contact_role}
               value={contact_role}
@@ -270,7 +273,7 @@ const Edition = ({ token, server }) => {
 
             <input
               type="text"
-              style={{ width: autoResizeWidth(contact_phone.length) }}
+              style={{ width: autoResizeWidth(contact_phone?.length) }}
               placeholder={contact_phone}
               value={contact_phone}
               onChange={(event) => {
@@ -284,7 +287,7 @@ const Edition = ({ token, server }) => {
 
             <input
               type="text"
-              style={{ width: autoResizeWidth(contact_email.length) }}
+              style={{ width: autoResizeWidth(contact_email?.length) }}
               placeholder={contact_email}
               value={contact_email}
               onChange={(event) => {
@@ -298,7 +301,7 @@ const Edition = ({ token, server }) => {
             <div style={{ display: "flex", flexDirection: "column" }}>
               <input
                 type="text"
-                style={{ width: autoResizeWidth(company_address.length) }}
+                style={{ width: autoResizeWidth(company_address?.length) }}
                 placeholder={company_address}
                 value={company_address}
                 onChange={(event) => {
@@ -313,7 +316,7 @@ const Edition = ({ token, server }) => {
                 }}
               >
                 <input
-                  style={{ width: autoResizeWidth(company_zip.length) }}
+                  style={{ width: autoResizeWidth(company_zip?.length) }}
                   type="text"
                   placeholder={company_zip}
                   value={company_zip}
@@ -324,7 +327,7 @@ const Edition = ({ token, server }) => {
                 />
                 <input
                   type="text"
-                  style={{ width: autoResizeWidth(company_city.length) }}
+                  style={{ width: autoResizeWidth(company_city?.length) }}
                   placeholder={company_city}
                   value={company_city}
                   onChange={(event) => {
@@ -344,7 +347,7 @@ const Edition = ({ token, server }) => {
             </p>
             <input
               type="text"
-              style={{ width: autoResizeWidth(company_website.length) }}
+              style={{ width: autoResizeWidth(company_website?.length) }}
               placeholder={company_website}
               value={company_website}
               onChange={(event) => {
@@ -358,7 +361,7 @@ const Edition = ({ token, server }) => {
               <>
                 <p>Capital Social (€)</p>
                 <input
-                  style={{ width: autoResizeWidth(company_capital.length) }}
+                  style={{ width: autoResizeWidth(company_capital?.length) }}
                   type="text"
                   value={company_capital}
                   onChange={(event) => {
@@ -374,7 +377,7 @@ const Edition = ({ token, server }) => {
             <textarea
               type="text"
               cols={25}
-              rows={autoResize(company_legalform, company_legalform.length)}
+              rows={autoResize(company_legalform, company_legalform?.length)}
               placeholder={company_legalform}
               value={company_legalform}
               onChange={(event) => {
@@ -390,7 +393,7 @@ const Edition = ({ token, server }) => {
             <p>Date de création</p>
             <input
               type="text"
-              style={{ width: autoResizeWidth(company_founded.length) }}
+              style={{ width: autoResizeWidth(company_founded?.length) }}
               placeholder={company_founded}
               value={company_founded}
               onChange={(event) => {
@@ -404,7 +407,7 @@ const Edition = ({ token, server }) => {
             <input
               type="text"
               style={{
-                width: autoResizeWidth(company_registration_number.length),
+                width: autoResizeWidth(company_registration_number?.length),
               }}
               placeholder={company_registration_number}
               value={company_registration_number}
@@ -420,7 +423,7 @@ const Edition = ({ token, server }) => {
             <textarea
               type="text"
               cols={25}
-              rows={autoResize(company_activity, company_activity.length)}
+              rows={autoResize(company_activity, company_activity?.length)}
               placeholder={company_activity}
               value={company_activity}
               onChange={(event) => {
