@@ -131,31 +131,14 @@ const Filters = ({
           {foldersData ? (
             foldersData.map((folder, index) => {
               return (
-                <Droppable droppableId={folder._id} key={folder._id}>
-                  {(provided, snapshot) => {
-                    return (
-                      <p
-                        className={folder._id === contactFolder ? "bold" : null}
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                        style={{
-                          backgroundColor: snapshot.isDraggingOver
-                            ? "blue"
-                            : "",
-
-                          color: snapshot.isDraggingOver ? "white" : "",
-                        }}
-                        onClick={() => {
-                          setContactFolder(folder._id);
-                        }}
-                      >
-                        {folder.name}
-
-                        {provided.placeholder}
-                      </p>
-                    );
+                <p
+                  className={folder._id === contactFolder ? "bold" : null}
+                  onClick={() => {
+                    setContactFolder(folder._id);
                   }}
-                </Droppable>
+                >
+                  {folder.name}
+                </p>
               );
             })
           ) : (

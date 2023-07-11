@@ -12,7 +12,11 @@
 }
 
 .border-red {
-  border: 1px solid red;
+  border: 1px solid red !important;
+}
+
+.red {
+  color: red !important;
 }
 
 .page-align {
@@ -260,10 +264,11 @@ a {
 }
 
 .contact-grid {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 255px);
   width: 100%;
   justify-content: space-between;
-  gap: 40px;
+  gap: 50px 30px;
   flex-wrap: wrap;
   margin: auto, 40px;
 }
@@ -284,12 +289,6 @@ a {
   border: 1px solid lightgray;
   border-radius: 5px;
   margin-bottom: 30px;
-}
-
-.dragging {
-  background-color: red;
-  height: 50px;
-  overflow: hidden;
 }
 
 /* Status & Heat */
@@ -499,7 +498,7 @@ a {
   flex-direction: column;
   align-items: center;
   width: 70%;
-  min-height: calc(100vh - 300px);
+  min-height: calc(100vh - 200px);
   margin-left: auto;
   margin-right: auto;
 }
@@ -510,6 +509,11 @@ a {
 
 .create-contact-container div h1 {
   margin-left: 0px;
+}
+
+.create-contact-container div h3 {
+  margin-left: 0px;
+  font-weight: bold;
 }
 
 .create-contact-container div p {
