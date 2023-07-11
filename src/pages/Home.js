@@ -54,6 +54,7 @@ const Home = ({ token, server, SetToken }) => {
   }
 
   // add filters to query if they are not empty
+  // test
   //#region
   if (contactFolder) {
     query = query + `&contact_folder=${contactFolder}`;
