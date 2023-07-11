@@ -1,7 +1,5 @@
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
 import { useNavigate, Navigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import addIcon from "../assets/images/add.png";
 //import Filter component
@@ -44,6 +42,10 @@ const Home = ({ token, server, SetToken }) => {
 
   // Hovered Index useState
   const [hoveredIndex, setHoveredIndex] = useState(null);
+
+  //Draf & Drop refs
+  const sourceItem = useRef();
+  const destinationItem = useRef();
 
   const navigate = useNavigate(); // rappel
 
@@ -195,7 +197,6 @@ const Home = ({ token, server, SetToken }) => {
       <div>Loading in progress</div>
     ) : (
       <div className="flex-center font">
-        {/* <DragDropContext onDragEnd={handleOnDragEnd}> */}
         <div className="home-left">
           <h2>Filtres</h2>
 
@@ -210,6 +211,7 @@ const Home = ({ token, server, SetToken }) => {
             setContactHeat={setContactHeat}
             contactStatus={contactStatus}
             setContactStatus={setContactStatus}
+            destinationItem={destinationItem}
           />
         </div>
         <div
@@ -232,18 +234,7 @@ const Home = ({ token, server, SetToken }) => {
             </div>
           </div>
 
-          {/* <Droppable droppableId="contactList">
-              {(provided, snapshot) => ( */}
-          <div
-            className="contact-grid "
-            //   {...provided.droppableProps}
-            //   ref={provided.innerRef}
-            // style={{
-            //   backgroundColor: snapshot.isDraggingOver
-            //     ? "lightblue"
-            //     : "lightgrey",
-            // }}
-          >
+          <div className="contact-grid ">
             <div
               className="new-contact-card"
               onClick={() => {
@@ -258,25 +249,9 @@ const Home = ({ token, server, SetToken }) => {
               const linkUrl = `/contact/${item._id}/edit`;
 
               return (
-                //   <Draggable
-                //     key={item._id}
-                //     draggableId={item._id}
-                //     index={index}
-                //   >
-                // {(provided, snapshot) => (
                 <div
-                  // ref={provided.innerRef}
-                  // {...provided.draggableProps}
-                  // {...provided.dragHandleProps}
-                  // style={{
-                  //   userSelect: "none",
-
-                  //   // backgroundColor: snapshot.isDragging
-                  //   //   ? "#263B4A"
-                  //   //   : "#456C86",
-
-                  //   ...provided.draggableProps.style,
-                  // }}
+                  className="contact-cards"
+                  key={item._id}
                   // on mouse over, display quick actions
                   onMouseOver={() => {
                     setHoveredIndex(item._id);
@@ -285,127 +260,125 @@ const Home = ({ token, server, SetToken }) => {
                   onMouseOut={() => {
                     setHoveredIndex(null);
                   }}
+                  draggable
+                  // on drag start, set the source item
+                  onDragStart={(e) => {
+                    sourceItem.current = item._id;
+                  }}
                 >
-                  <div className="contact-cards">
-                    <div>
-                      <div
-                        style={{
-                          backgroundColor: item.contact_status.status_color,
-                        }}
-                      >
-                        <p>{item.contact_status.status_name}</p>
-                      </div>
-                      <div>{displayHeat(item.contact_heat)}</div>
+                  <div>
+                    <div
+                      style={{
+                        backgroundColor: item.contact_status.status_color,
+                      }}
+                    >
+                      <p>{item.contact_status.status_name}</p>
                     </div>
+                    <div>{displayHeat(item.contact_heat)}</div>
+                  </div>
+                  <div>
                     <div>
-                      <div>
-                        {item.company_favicon && (
-                          <img
-                            alt="company logo"
-                            src={item.company_favicon.url}
-                          />
-                        )}
-                      </div>
-                      <div>
-                        <h2>{item.contact_name}</h2>
-                        {/* <p>{item.contact_role}</p> */}
-                      </div>
-                    </div>
-                    <div>
-                      <h3>
-                        {shortenCompanyName(item.company_name)}{" "}
-                        {displayLegalform(item.company_legalform)}
-                      </h3>
-                      <p>{item.company_city}</p>
-
-                      {item.company_size_max - item.company_size_min > 1000 ? (
-                        <>
-                          <p>
-                            Au moins {item.company_size_min} {"salarié(s)"}
-                          </p>
-                        </>
-                      ) : item.company_size_max === 0 ? (
-                        <p>Aucun salarié</p>
-                      ) : (
-                        <>
-                          <p>
-                            Entre {item.company_size_min} et{" "}
-                            {item.company_size_max} salariés
-                          </p>{" "}
-                        </>
+                      {item.company_favicon && (
+                        <img
+                          alt="company logo"
+                          src={item.company_favicon.url}
+                        />
                       )}
                     </div>
                     <div>
-                      <div>
-                        <img alt="Owner icon" src={responsableIco} />{" "}
-                        <span>{item.responsable.name}</span>
-                      </div>
-                      <div>
-                        {" "}
-                        <img alt="Folder icon" src={folderIco} />
-                        <span> {item.contact_folder.name}</span>
-                      </div>
+                      <h2>{item.contact_name}</h2>
+                      {/* <p>{item.contact_role}</p> */}
                     </div>
+                  </div>
+                  <div>
+                    <h3>
+                      {shortenCompanyName(item.company_name)}{" "}
+                      {displayLegalform(item.company_legalform)}
+                    </h3>
+                    <p>{item.company_city}</p>
 
-                    <div>
-                      <img alt="phone icon" src={phoneIco} />
-                      <span>{item.contact_phone}</span>
-                    </div>
-                    {hoveredIndex === item._id && (
-                      <div className="contact-cards-actions">
-                        <div>
-                          <img
-                            alt="email icon"
-                            src={smartActionEmail}
-                            onClick={() => {
-                              window.open(`mailto:${item.contact_email}`);
-                            }}
-                            title="Envoyer un email"
-                          />
-                          <img
-                            alt="website icon"
-                            src={smartActionWebsite}
-                            onClick={() => {
-                              window.open(`https://${item.company_website}`);
-                            }}
-                            title="Voir le site web"
-                          />
-                          <img
-                            alt="Pappers icon"
-                            src={smartActionPappers}
-                            onClick={() => {
-                              window.open(
-                                `https://www.pappers.fr/entreprise/${item.company_registration_number}`
-                              );
-                            }}
-                            title="Voir la fiche sur Pappers"
-                          />
-                          <img
-                            alt="Edit icon"
-                            src={smartActionEdit}
-                            onClick={() => {
-                              navigate(linkUrl);
-                            }}
-                            title="Modifier la fiche"
-                          />
-                        </div>
-                      </div>
+                    {item.company_size_max - item.company_size_min > 1000 ? (
+                      <>
+                        <p>
+                          Au moins {item.company_size_min} {"salarié(s)"}
+                        </p>
+                      </>
+                    ) : item.company_size_max === 0 ? (
+                      <p>Aucun salarié</p>
+                    ) : (
+                      <>
+                        <p>
+                          Entre {item.company_size_min} et{" "}
+                          {item.company_size_max} salariés
+                        </p>{" "}
+                      </>
                     )}
                   </div>
+                  <div>
+                    <div>
+                      <img alt="Owner icon" src={responsableIco} />{" "}
+                      <span>{item.responsable.name}</span>
+                    </div>
+                    <div>
+                      {" "}
+                      <img alt="Folder icon" src={folderIco} />
+                      <span> {item.contact_folder.name}</span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <img alt="phone icon" src={phoneIco} />
+                    <span>{item.contact_phone}</span>
+                  </div>
+                  {hoveredIndex === item._id && (
+                    <div className="contact-cards-actions">
+                      <div>
+                        <img
+                          alt="email icon"
+                          src={smartActionEmail}
+                          onClick={() => {
+                            window.open(`mailto:${item.contact_email}`);
+                          }}
+                          title="Envoyer un email"
+                        />
+                        <img
+                          alt="website icon"
+                          src={smartActionWebsite}
+                          onClick={() => {
+                            window.open(`https://${item.company_website}`);
+                          }}
+                          title="Voir le site web"
+                        />
+                        <img
+                          alt="Pappers icon"
+                          src={smartActionPappers}
+                          onClick={() => {
+                            window.open(
+                              `https://www.pappers.fr/entreprise/${item.company_registration_number}`
+                            );
+                          }}
+                          title="Voir la fiche sur Pappers"
+                        />
+                        <img
+                          alt="Edit icon"
+                          src={smartActionEdit}
+                          onClick={() => {
+                            navigate(linkUrl);
+                          }}
+                          title="Modifier la fiche"
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
-                // )}
-                //   </Draggable>
               );
             })}
-            {/* {provided.placeholder} */}
           </div>
-          {/* )} */}
-          {/* </Droppable> */}
+
           {pagesArray.length > 1 && (
             <div style={{ marginBottom: "10px" }}>{skipLimitBar()}</div>
           )}
         </div>
-        {/* </DragDropContext> */}
       </div>
     )
   ) : (

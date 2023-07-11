@@ -8,7 +8,6 @@ import { flameOutline } from "ionicons/icons";
 import { playForwardOutline } from "ionicons/icons";
 
 import axios from "axios";
-import { Droppable } from "react-beautiful-dnd";
 
 const Filters = ({
   token,
@@ -21,6 +20,7 @@ const Filters = ({
   setContactHeat,
   contactStatus,
   setContactStatus,
+  destinationItem,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -100,6 +100,11 @@ const Filters = ({
     setResponsable("");
   };
 
+  // handle drop function
+  const handleDrop = (e) => {
+    console.log("TOP DROP");
+  };
+
   return isLoading ? null : (
     <div>
       {/* Show reset filters button only when filters are applied */}
@@ -132,9 +137,18 @@ const Filters = ({
             foldersData.map((folder, index) => {
               return (
                 <p
+                  key={folder._id}
                   className={folder._id === contactFolder ? "bold" : null}
                   onClick={() => {
                     setContactFolder(folder._id);
+                  }}
+                  onDragEnter={(e) => {
+                    destinationItem.current = folder._id;
+                    console.log("destination Ref >>", destinationItem.current);
+                  }}
+                  onDrop={handleDrop}
+                  onDragOver={(e) => {
+                    e.preventDefault();
                   }}
                 >
                   {folder.name}
