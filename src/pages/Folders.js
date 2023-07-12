@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 // import icons
 import { IonIcon } from "@ionic/react";
@@ -21,6 +21,10 @@ const Folders = ({ token, server }) => {
 
   //reload the page when a folder is deleted
   const [reload, setReload] = useState(false);
+
+  //useRef to move affilates to another folder
+  const folderRef = useRef();
+  const affiliateRef = useRef();
 
   // fetching forders useEffect
   useEffect(() => {
@@ -86,6 +90,31 @@ const Folders = ({ token, server }) => {
     }
   };
 
+  //move affiliates to another folder
+
+  const moveAffiliates = () => {
+    console.log("Destination folder >>", folderRef.current);
+    console.log("Affiliate to move >>", affiliateRef.current);
+    const updateAffiliateFolder = async () => {
+      try {
+        await axios.patch(
+          `${server}/affiliate/${affiliateRef.current}`,
+          {
+            contact_folder: folderRef.current,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      } catch (error) {
+        console.log("Erreur lors du déplacement de l'affilié :", error.data);
+      }
+    };
+    updateAffiliateFolder();
+  };
+
   // function to display the number of affiliates in a folder
 
   return isLoading ? (
@@ -139,6 +168,14 @@ const Folders = ({ token, server }) => {
                   // set folderId to delete on mouse over
                   onMouseOver={() => {
                     setFolderId(folder._id);
+                    folderRef.current = folder._id;
+                  }}
+                  onDrop={moveAffiliates}
+                  onDragOver={(event) => {
+                    event.preventDefault();
+                  }}
+                  onDragEnter={(e) => {
+                    folderRef.current = folder._id;
                   }}
                   // set folderId to "" on mouse out
                   onMouseOut={() => {
@@ -150,6 +187,8 @@ const Folders = ({ token, server }) => {
                       token={token}
                       server={server}
                       folderId={folder._id}
+                      affiliateRef={affiliateRef}
+                      folderRef={folderRef}
                     />
                   </div>
                   <div>

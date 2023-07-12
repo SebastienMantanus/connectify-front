@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+// import icons
 import { IonIcon } from "@ionic/react";
 import { peopleOutline } from "ionicons/icons";
 import { folderOpenOutline } from "ionicons/icons";
@@ -20,7 +21,11 @@ const Filters = ({
   setContactHeat,
   contactStatus,
   setContactStatus,
-  destinationItem,
+  destinationFolder,
+  destinationUser,
+  destinationStatus,
+  destinationHeat,
+  userToUpdate,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -100,9 +105,80 @@ const Filters = ({
     setResponsable("");
   };
 
-  // handle drop function
-  const handleDrop = (e) => {
-    console.log("TOP DROP");
+  // handle drop folders function
+  const handleFolderDrop = (e) => {
+    // update user folder
+    const updateUserFolder = async () => {
+      const response = await axios.patch(
+        `${server}/affiliate/${userToUpdate.current}`,
+        {
+          contact_folder: destinationFolder.current,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    };
+    updateUserFolder();
+  };
+
+  // handle drop user function
+  const handleUserDrop = (e) => {
+    // update user responsable
+    const updateUserResponsable = async () => {
+      const response = await axios.patch(
+        `${server}/affiliate/${userToUpdate.current}`,
+        {
+          responsable: destinationUser.current,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    };
+    updateUserResponsable();
+  };
+
+  // handle drop status function
+  const handleStatusDrop = (e) => {
+    // update user status
+    const updateUserStatus = async () => {
+      const response = await axios.patch(
+        `${server}/affiliate/${userToUpdate.current}`,
+        {
+          contact_status: destinationStatus.current,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    };
+    updateUserStatus();
+  };
+
+  // handle drop heat function
+  const handleHeatDrop = (e) => {
+    // update user heat
+    const updateUserHeat = async () => {
+      const response = await axios.patch(
+        `${server}/affiliate/${userToUpdate.current}`,
+        {
+          contact_heat: destinationHeat.current,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    };
+    updateUserHeat();
   };
 
   return isLoading ? null : (
@@ -121,6 +197,9 @@ const Filters = ({
             className={showFolder ? "bold" : null}
             onClick={() => {
               setShowFolder(!showFolder);
+            }}
+            onDragOver={() => {
+              setShowFolder(true);
             }}
           >
             Dossiers
@@ -143,10 +222,9 @@ const Filters = ({
                     setContactFolder(folder._id);
                   }}
                   onDragEnter={(e) => {
-                    destinationItem.current = folder._id;
-                    console.log("destination Ref >>", destinationItem.current);
+                    destinationFolder.current = folder._id;
                   }}
-                  onDrop={handleDrop}
+                  onDrop={handleFolderDrop}
                   onDragOver={(e) => {
                     e.preventDefault();
                   }}
@@ -168,6 +246,9 @@ const Filters = ({
           <h3
             className={showResponsable ? "bold" : null}
             onClick={() => setShowResponsable(!showResponsable)}
+            onDragOver={() => {
+              setShowResponsable(true);
+            }}
           >
             Responsable
           </h3>
@@ -190,6 +271,13 @@ const Filters = ({
                     onClick={() => {
                       setResponsable(user._id);
                     }}
+                    onDragEnter={(e) => {
+                      destinationUser.current = user._id;
+                    }}
+                    onDrop={handleUserDrop}
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                    }}
                   >
                     {user.name}
                   </p>
@@ -207,6 +295,9 @@ const Filters = ({
           <h3
             className={showHeat ? "bold" : null}
             onClick={() => setShowHeat(!showHeat)}
+            onDragOver={() => {
+              setShowHeat(true);
+            }}
           >
             Chaleur
           </h3>
@@ -219,6 +310,13 @@ const Filters = ({
                 key={index}
                 onClick={() => {
                   setContactHeat(heat.statut_id);
+                }}
+                onDragEnter={(e) => {
+                  destinationHeat.current = heat.statut_id;
+                }}
+                onDrop={handleHeatDrop}
+                onDragOver={(e) => {
+                  e.preventDefault();
                 }}
               >
                 {heat.statut_name}
@@ -233,6 +331,9 @@ const Filters = ({
           <h3
             className={showStatus ? "bold" : null}
             onClick={() => setShowStatus(!showStatus)}
+            onDragOver={() => {
+              setShowStatus(true);
+            }}
           >
             Statut du contact
           </h3>
@@ -253,6 +354,13 @@ const Filters = ({
                   onClick={() => {
                     setContactStatus(status._id);
                   }}
+                  onDragEnter={(e) => {
+                    destinationStatus.current = status._id;
+                  }}
+                  onDragOver={(e) => {
+                    e.preventDefault();
+                  }}
+                  onDrop={handleStatusDrop}
                 >
                   {status.status_name}
                 </p>

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const EditFolder = ({ token, server, folderId }) => {
+const EditFolder = ({ token, server, folderId, affiliateRef, folderRef }) => {
   const [newFolderName, setNewFolderName] = useState("");
   const [newFolderDescription, setNewFolderDescription] = useState("");
   const [nbAffiliates, setNbAffiliates] = useState("");
@@ -33,7 +33,7 @@ const EditFolder = ({ token, server, folderId }) => {
     } catch (error) {
       console.log("Erreur dans la récupération du dossier :", error.data);
     }
-  }, [token, server, folderId]);
+  }, [token, server, folderId, affiliateRef.current, folderRef.current]);
 
   //update a folder
 
@@ -100,6 +100,7 @@ const EditFolder = ({ token, server, folderId }) => {
             nbAffiliates.map((affiliate) => {
               return (
                 <div
+                  key={affiliate._id}
                   // set the hoveredIndex on mouse over
                   onMouseOver={() => {
                     setHoveredIndex(affiliate._id);
@@ -109,6 +110,10 @@ const EditFolder = ({ token, server, folderId }) => {
                   }}
                   onClick={() => {
                     navigate(`/contact/${affiliate._id}/edit`);
+                  }}
+                  draggable
+                  onDragStart={(event) => {
+                    affiliateRef.current = affiliate._id;
                   }}
                 >
                   <img

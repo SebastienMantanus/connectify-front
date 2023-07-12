@@ -44,8 +44,11 @@ const Home = ({ token, server, SetToken }) => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   //Draf & Drop refs
-  const sourceItem = useRef();
-  const destinationItem = useRef();
+  const userToUpdate = useRef();
+  const destinationFolder = useRef();
+  const destinationUser = useRef();
+  const destinationStatus = useRef();
+  const destinationHeat = useRef();
 
   const navigate = useNavigate(); // rappel
 
@@ -88,7 +91,19 @@ const Home = ({ token, server, SetToken }) => {
       SetIsLoading(false);
     };
     fetchData();
-  }, [searchQuery, query, server, skip, limit, token]);
+  }, [
+    searchQuery,
+    query,
+    server,
+    skip,
+    limit,
+    token,
+    userToUpdate.current,
+    destinationFolder.current,
+    destinationUser.current,
+    destinationStatus.current,
+    destinationHeat.current,
+  ]);
 
   // Skpip & limit management
 
@@ -211,7 +226,11 @@ const Home = ({ token, server, SetToken }) => {
             setContactHeat={setContactHeat}
             contactStatus={contactStatus}
             setContactStatus={setContactStatus}
-            destinationItem={destinationItem}
+            destinationFolder={destinationFolder}
+            destinationUser={destinationUser}
+            destinationStatus={destinationStatus}
+            destinationHeat={destinationHeat}
+            userToUpdate={userToUpdate}
           />
         </div>
         <div
@@ -263,7 +282,7 @@ const Home = ({ token, server, SetToken }) => {
                   draggable
                   // on drag start, set the source item
                   onDragStart={(e) => {
-                    sourceItem.current = item._id;
+                    userToUpdate.current = item._id;
                   }}
                 >
                   <div>
