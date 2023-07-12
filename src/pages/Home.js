@@ -48,7 +48,7 @@ const Home = ({ token, server, SetToken }) => {
   const destinationStatus = useRef();
   const destinationHeat = useRef();
 
-  const navigate = useNavigate(); // rappel
+  const navigate = useNavigate(); // useNavigate hook to navigate between pages
 
   // useState to reload the component when a contact is updated
   const [reload, setReload] = useState(false);
