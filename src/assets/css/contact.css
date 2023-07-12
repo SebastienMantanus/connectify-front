@@ -91,7 +91,6 @@
 .contact-container > div:nth-child(3) {
   width: 100vw;
   display: flex;
-  flex-direction: column;
   gap: 10px;
   padding: 30px;
   background-color: #b42f5a;
@@ -102,12 +101,23 @@
 }
 
 .contact-container > div:nth-child(3) button {
-  background-color: #c8597c;
   width: 250px;
   height: 40px;
-  color: white;
   border: 1px solid #f786aa;
   cursor: pointer;
+}
+
+.contact-container > div:nth-child(3) button:first-child {
+  background-color: #c8597c;
+  color: white;
+  opacity: 1;
+}
+.contact-container > div:nth-child(3) button:last-child {
+  border: none;
+  background-color: transparent;
+  color: white;
+  opacity: 0.5;
+  width: 100px;
 }
 
 /* DETAIL CONTACT INPUTS */
@@ -125,6 +135,12 @@ textarea:focus {
   outline: none;
   border-bottom: 1px solid lightgrey;
   resize: none;
+}
+
+.contact-container input::placeholder,
+textarea::placeholder {
+  color: lightgrey;
+  font-size: 11px;
 }
 
 .contact-container input:hover,

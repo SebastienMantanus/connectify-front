@@ -247,7 +247,7 @@ const Edition = ({ token, server }) => {
             <input
               type="text"
               style={{ width: autoResizeWidth(contact_name?.length) }}
-              placeholder={contact_name}
+              placeholder="Nom du contact"
               value={contact_name}
               onChange={(event) => {
                 setContact_name(event.target.value);
@@ -260,7 +260,7 @@ const Edition = ({ token, server }) => {
             <input
               style={{ width: autoResizeWidth(contact_role?.length) }}
               type="text"
-              placeholder={contact_role}
+              placeholder="Non renseigné"
               value={contact_role}
               onChange={(event) => {
                 setContact_role(event.target.value);
@@ -274,7 +274,7 @@ const Edition = ({ token, server }) => {
             <input
               type="text"
               style={{ width: autoResizeWidth(contact_phone?.length) }}
-              placeholder={contact_phone}
+              placeholder="Non renseigné"
               value={contact_phone}
               onChange={(event) => {
                 setContact_phone(event.target.value);
@@ -288,7 +288,7 @@ const Edition = ({ token, server }) => {
             <input
               type="text"
               style={{ width: autoResizeWidth(contact_email?.length) }}
-              placeholder={contact_email}
+              placeholder="Non renseigné"
               value={contact_email}
               onChange={(event) => {
                 setContact_email(event.target.value);
@@ -302,7 +302,7 @@ const Edition = ({ token, server }) => {
               <input
                 type="text"
                 style={{ width: autoResizeWidth(company_address?.length) }}
-                placeholder={company_address}
+                placeholder="Adresse"
                 value={company_address}
                 onChange={(event) => {
                   setCompany_address(event.target.value);
@@ -318,7 +318,7 @@ const Edition = ({ token, server }) => {
                 <input
                   style={{ width: autoResizeWidth(company_zip?.length) }}
                   type="text"
-                  placeholder={company_zip}
+                  placeholder="Code postal"
                   value={company_zip}
                   onChange={(event) => {
                     setCompany_zip(event.target.value);
@@ -328,7 +328,7 @@ const Edition = ({ token, server }) => {
                 <input
                   type="text"
                   style={{ width: autoResizeWidth(company_city?.length) }}
-                  placeholder={company_city}
+                  placeholder="Ville"
                   value={company_city}
                   onChange={(event) => {
                     setCompany_city(event.target.value);
@@ -348,7 +348,7 @@ const Edition = ({ token, server }) => {
             <input
               type="text"
               style={{ width: autoResizeWidth(company_website?.length) }}
-              placeholder={company_website}
+              placeholder="URL non renseignée"
               value={company_website}
               onChange={(event) => {
                 setCompany_website(event.target.value);
@@ -363,6 +363,7 @@ const Edition = ({ token, server }) => {
                 <input
                   style={{ width: autoResizeWidth(company_capital?.length) }}
                   type="text"
+                  placeholder="Non renseigné"
                   value={company_capital}
                   onChange={(event) => {
                     setCompany_capital(event.target.value);
@@ -378,7 +379,7 @@ const Edition = ({ token, server }) => {
               type="text"
               cols={25}
               rows={autoResize(company_legalform, company_legalform?.length)}
-              placeholder={company_legalform}
+              placeholder="Non renseigné"
               value={company_legalform}
               onChange={(event) => {
                 setCompany_legalform(event.target.value);
@@ -388,13 +389,48 @@ const Edition = ({ token, server }) => {
           </div>
           <div>
             <p>Taille de l'entreprise</p>
+            <p
+              style={{ marginTop: "15px", color: "#575757", fontSize: "11px" }}
+            >
+              Entre
+            </p>
+            <input
+              type="text"
+              style={{ width: autoResizeWidth(company_size_min?.length) }}
+              placeholder="entre..."
+              value={company_size_min}
+              onChange={(event) => {
+                setCompany_size_min(event.target.value);
+                setSaveChanges(true);
+              }}
+            />
+            <p
+              style={{ marginTop: "15px", color: "#575757", fontSize: "11px" }}
+            >
+              Et
+            </p>
+            <input
+              type="text"
+              style={{ width: autoResizeWidth(company_size_max?.length) }}
+              placeholder="...et... salariés"
+              value={company_size_max}
+              onChange={(event) => {
+                setCompany_size_max(event.target.value);
+                setSaveChanges(true);
+              }}
+            />
+            <p
+              style={{ marginTop: "10px", color: "#575757", fontSize: "11px" }}
+            >
+              salarié(s)
+            </p>
           </div>
           <div>
             <p>Date de création</p>
             <input
               type="text"
               style={{ width: autoResizeWidth(company_founded?.length) }}
-              placeholder={company_founded}
+              placeholder="Non renseigné"
               value={company_founded}
               onChange={(event) => {
                 setCompany_founded(event.target.value);
@@ -409,7 +445,7 @@ const Edition = ({ token, server }) => {
               style={{
                 width: autoResizeWidth(company_registration_number?.length),
               }}
-              placeholder={company_registration_number}
+              placeholder="Non renseigné"
               value={company_registration_number}
               onChange={(event) => {
                 setCompany_registration_number(event.target.value);
@@ -424,7 +460,7 @@ const Edition = ({ token, server }) => {
               type="text"
               cols={25}
               rows={autoResize(company_activity, company_activity?.length)}
-              placeholder={company_activity}
+              placeholder="Non renseigné"
               value={company_activity}
               onChange={(event) => {
                 setCompany_activity(event.target.value);
@@ -454,6 +490,14 @@ const Edition = ({ token, server }) => {
       {saveChanges && (
         <div className="save-update">
           <button onClick={contactUpdate}>Enregistrer les modifications</button>
+          <button
+            onClick={() => {
+              setSaveChanges(false);
+              setToUpdate(true);
+            }}
+          >
+            Annuler
+          </button>
         </div>
       )}
     </div>

@@ -26,6 +26,7 @@ const Filters = ({
   destinationStatus,
   destinationHeat,
   userToUpdate,
+  setReload,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -109,7 +110,7 @@ const Filters = ({
   const handleFolderDrop = (e) => {
     // update user folder
     const updateUserFolder = async () => {
-      const response = await axios.patch(
+      await axios.patch(
         `${server}/affiliate/${userToUpdate.current}`,
         {
           contact_folder: destinationFolder.current,
@@ -122,13 +123,14 @@ const Filters = ({
       );
     };
     updateUserFolder();
+    setReload(true);
   };
 
   // handle drop user function
   const handleUserDrop = (e) => {
     // update user responsable
     const updateUserResponsable = async () => {
-      const response = await axios.patch(
+      await axios.patch(
         `${server}/affiliate/${userToUpdate.current}`,
         {
           responsable: destinationUser.current,
@@ -141,13 +143,14 @@ const Filters = ({
       );
     };
     updateUserResponsable();
+    setReload(true);
   };
 
   // handle drop status function
   const handleStatusDrop = (e) => {
     // update user status
     const updateUserStatus = async () => {
-      const response = await axios.patch(
+      await axios.patch(
         `${server}/affiliate/${userToUpdate.current}`,
         {
           contact_status: destinationStatus.current,
@@ -160,13 +163,14 @@ const Filters = ({
       );
     };
     updateUserStatus();
+    setReload(true);
   };
 
   // handle drop heat function
   const handleHeatDrop = (e) => {
     // update user heat
     const updateUserHeat = async () => {
-      const response = await axios.patch(
+      await axios.patch(
         `${server}/affiliate/${userToUpdate.current}`,
         {
           contact_heat: destinationHeat.current,
@@ -179,6 +183,7 @@ const Filters = ({
       );
     };
     updateUserHeat();
+    setReload(true);
   };
 
   return isLoading ? null : (

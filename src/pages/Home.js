@@ -27,8 +27,6 @@ const Home = ({ token, server, SetToken }) => {
   const [data, SetData] = useState();
   const [searchQuery, SetSearchQuery] = useState("");
 
-  console.log("token>>", token);
-
   // useStates for filters (contact_folder, contact_heat, contact_status, responsable)
   const [contactFolder, setContactFolder] = useState("");
   const [contactHeat, setContactHeat] = useState("");
@@ -37,7 +35,7 @@ const Home = ({ token, server, SetToken }) => {
 
   // useStates for skip and limit
   const [skip, setSkip] = useState(0);
-  const [limit, setLimit] = useState(5);
+  const limit = 7;
   const [numberOfContacts, setNumberOfContacts] = useState(0);
 
   // Hovered Index useState
@@ -51,6 +49,9 @@ const Home = ({ token, server, SetToken }) => {
   const destinationHeat = useRef();
 
   const navigate = useNavigate(); // rappel
+
+  // useState to reload the component when a contact is updated
+  const [reload, setReload] = useState(false);
 
   // function to handle search input
   let query = "";
@@ -88,22 +89,11 @@ const Home = ({ token, server, SetToken }) => {
       );
 
       SetData(response.data);
+      setReload(false);
       SetIsLoading(false);
     };
     fetchData();
-  }, [
-    searchQuery,
-    query,
-    server,
-    skip,
-    limit,
-    token,
-    userToUpdate.current,
-    destinationFolder.current,
-    destinationUser.current,
-    destinationStatus.current,
-    destinationHeat.current,
-  ]);
+  }, [searchQuery, query, server, skip, limit, token, reload]);
 
   // Skpip & limit management
 
@@ -231,6 +221,7 @@ const Home = ({ token, server, SetToken }) => {
             destinationStatus={destinationStatus}
             destinationHeat={destinationHeat}
             userToUpdate={userToUpdate}
+            setReload={setReload}
           />
         </div>
         <div
@@ -306,7 +297,6 @@ const Home = ({ token, server, SetToken }) => {
                     </div>
                     <div>
                       <h2>{item.contact_name}</h2>
-                      {/* <p>{item.contact_role}</p> */}
                     </div>
                   </div>
                   <div>
@@ -315,23 +305,27 @@ const Home = ({ token, server, SetToken }) => {
                       {displayLegalform(item.company_legalform)}
                     </h3>
                     <p>{item.company_city}</p>
-
-                    {item.company_size_max - item.company_size_min > 1000 ? (
-                      <>
-                        <p>
-                          Au moins {item.company_size_min} {"salarié(s)"}
-                        </p>
-                      </>
-                    ) : item.company_size_max === 0 ? (
-                      <p>Aucun salarié</p>
-                    ) : (
-                      <>
-                        <p>
-                          Entre {item.company_size_min} et{" "}
-                          {item.company_size_max} salariés
-                        </p>{" "}
-                      </>
-                    )}
+                    {item.company_size_min && item.company_size_max ? (
+                      item.company_size_max - item.company_size_min > 1000 ? (
+                        <>
+                          <p>
+                            Au moins {item.company_size_min} {"salarié(s)"}
+                          </p>
+                        </>
+                      ) : item.company_size_max === 0 ||
+                        item.company_size_min === 0 ? (
+                        <p>Aucun salarié</p>
+                      ) : (
+                        <>
+                          <p>
+                            Entre {item.company_size_min} et{" "}
+                            {item.company_size_max} salariés
+                          </p>{" "}
+                        </>
+                      )
+                    ) : item.company_size_min ? (
+                      <p>{item.company_size_min} personne(s)</p>
+                    ) : null}
                   </div>
                   <div>
                     <div>
@@ -346,38 +340,53 @@ const Home = ({ token, server, SetToken }) => {
                   </div>
 
                   <div>
-                    <img alt="phone icon" src={phoneIco} />
-                    <span>{item.contact_phone}</span>
+                    {item.contact_phone ? (
+                      <>
+                        <img alt="phone icon" src={phoneIco} />
+                        <span>{item.contact_phone}</span>
+                      </>
+                    ) : (
+                      <p>Téléphone non renseigné</p>
+                    )}
                   </div>
+
                   {hoveredIndex === item._id && (
                     <div className="contact-cards-actions">
                       <div>
-                        <img
-                          alt="email icon"
-                          src={smartActionEmail}
-                          onClick={() => {
-                            window.open(`mailto:${item.contact_email}`);
-                          }}
-                          title="Envoyer un email"
-                        />
-                        <img
-                          alt="website icon"
-                          src={smartActionWebsite}
-                          onClick={() => {
-                            window.open(`https://${item.company_website}`);
-                          }}
-                          title="Voir le site web"
-                        />
-                        <img
-                          alt="Pappers icon"
-                          src={smartActionPappers}
-                          onClick={() => {
-                            window.open(
-                              `https://www.pappers.fr/entreprise/${item.company_registration_number}`
-                            );
-                          }}
-                          title="Voir la fiche sur Pappers"
-                        />
+                        {item.contact_email && (
+                          <img
+                            alt="email icon"
+                            src={smartActionEmail}
+                            onClick={() => {
+                              window.open(`mailto:${item.contact_email}`);
+                            }}
+                            title="Envoyer un email"
+                          />
+                        )}
+                        {item.company_website && (
+                          <img
+                            alt="website icon"
+                            src={smartActionWebsite}
+                            onClick={() => {
+                              window.open(`https://${item.company_website}`);
+                            }}
+                            title="Voir le site web"
+                          />
+                        )}
+
+                        {item.company_registration_number && (
+                          <img
+                            alt="Pappers icon"
+                            src={smartActionPappers}
+                            onClick={() => {
+                              window.open(
+                                `https://www.pappers.fr/entreprise/${item.company_registration_number}`
+                              );
+                            }}
+                            title="Voir la fiche sur Pappers"
+                          />
+                        )}
+
                         <img
                           alt="Edit icon"
                           src={smartActionEdit}
