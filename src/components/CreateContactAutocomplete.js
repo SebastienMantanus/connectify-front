@@ -104,6 +104,7 @@ const Autocomplete = ({
           }}
         />
         <p
+          className="link"
           onClick={() => {
             setCreateWithForm(true);
           }}

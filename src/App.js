@@ -25,7 +25,9 @@ import Folders from "./pages/Folders";
 
 //switch between local and distant server
 
-const server = "http://localhost:3000";
+// const server = "http://localhost:3000";
+
+const server = "https://site--connectify-back--6cc8ffpxkbwr.code.run";
 
 function App() {
   const [token, SetToken] = useState(Cookies.get("token") || "");

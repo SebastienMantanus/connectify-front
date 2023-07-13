@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 
@@ -376,44 +376,47 @@ export const CreateContactForm = ({
                 });
               }}
             />
+            {inProgress ? (
+              <p>Enregistrement en cours...</p>
+            ) : (
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
 
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-
-                if (
-                  newContact.contact_name === "" ||
-                  newContact.contact_email === ""
-                ) {
-                  const newError = { ...error };
-                  if (newContact.contact_name === "") {
-                    newError.contact_name_error =
-                      "Veuillez saisir le nom du contact";
-                  } else {
-                    newError.contact_name_error = "";
+                  if (
+                    newContact.contact_name === "" ||
+                    newContact.contact_email === ""
+                  ) {
+                    const newError = { ...error };
+                    if (newContact.contact_name === "") {
+                      newError.contact_name_error =
+                        "Veuillez saisir le nom du contact";
+                    } else {
+                      newError.contact_name_error = "";
+                    }
+                    if (newContact.contact_email === "") {
+                      newError.contact_email_error =
+                        "Veuillez saisir l'email du contact";
+                    } else {
+                      newError.contact_email_error = "";
+                    }
+                    setError(newError);
                   }
-                  if (newContact.contact_email === "") {
-                    newError.contact_email_error =
-                      "Veuillez saisir l'email du contact";
-                  } else {
-                    newError.contact_email_error = "";
-                  }
-                  setError(newError);
-                }
 
-                if (
-                  newContact.contact_name !== "" &&
-                  newContact.contact_email !== "" &&
-                  newContact.company_name !== "" &&
-                  newContact.company_website !== ""
-                ) {
+                  if (
+                    newContact.contact_name !== "" &&
+                    newContact.contact_email !== "" &&
+                    newContact.company_name !== "" &&
+                    newContact.company_website !== ""
+                  ) {
+                    SaveContact();
+                  }
                   SaveContact();
-                }
-                SaveContact();
-              }}
-            >
-              Créer
-            </button>
+                }}
+              >
+                Créer
+              </button>
+            )}
           </form>
         )}
       </div>

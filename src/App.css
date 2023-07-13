@@ -523,6 +523,15 @@ a {
   line-height: 30px;
 }
 
+.link {
+  color: #a50a3b;
+  text-decoration: underline;
+  cursor: pointer;
+  &:hover {
+    color: #b42f5a;
+  }
+}
+
 .create-contact-container div a {
   margin-left: 0px;
   font-size: 12px;
