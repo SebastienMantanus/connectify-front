@@ -1,0 +1,355 @@
+/* DETAIL CONTACT */
+
+.contact-container {
+  display: flex;
+  width: 100%;
+  min-height: calc(100vh);
+}
+
+.contact-container > div:first-child {
+  width: 30%;
+  min-width: 300px;
+  border-right: 1px solid lightgrey;
+}
+
+.contact-container > div:first-child > div:first-child {
+  height: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 12px;
+  background-color: lightcoral;
+}
+
+.contact-container > div:first-child > div:nth-child(2) {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 30px;
+  height: 100px;
+}
+
+.contact-container > div:first-child > div:nth-child(2) img {
+  height: 50px;
+  width: 50px;
+}
+.contact-container > div:first-child > div:nth-child(3) {
+  display: flex;
+  justify-content: space-around;
+  height: 40px;
+  align-items: center;
+  gap: 20px;
+  padding: 30px;
+}
+
+.contact-container > div:first-child > div:nth-child(3) img {
+  height: 35px;
+  width: 35px;
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.contact-container > div:first-child > div:nth-child(3) img:hover {
+  opacity: 1;
+  transition: 0.3s;
+}
+.contact-container > div:first-child > div:nth-child(4) {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: fit-content;
+  padding: 30px;
+}
+
+.contact-container > div:first-child > div:nth-child(4) div {
+  padding-bottom: 15px;
+}
+.contact-container > div:first-child > div:nth-child(4) p {
+  font-size: 12px;
+  color: grey;
+  padding-bottom: 7px;
+  padding-left: 2px;
+}
+
+.contact-container > div:nth-child(2) {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-container > div:nth-child(2) > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: fit-content;
+  border-bottom: 1px solid lightgrey;
+  background-color: white;
+}
+
+.contact-container > div:nth-child(3) {
+  width: 100vw;
+  display: flex;
+  gap: 10px;
+  padding: 30px;
+  background-color: #b42f5a;
+}
+
+.contact-container-hide {
+  display: hidden;
+}
+
+.contact-container > div:nth-child(3) button {
+  width: 250px;
+  height: 40px;
+  border: 1px solid #f786aa;
+  cursor: pointer;
+}
+
+.contact-container > div:nth-child(3) button:first-child {
+  background-color: #c8597c;
+  color: white;
+  opacity: 1;
+}
+.contact-container > div:nth-child(3) button:last-child {
+  border: none;
+  background-color: transparent;
+  color: white;
+  opacity: 0.5;
+  width: 100px;
+}
+
+/* DETAIL CONTACT INPUTS */
+
+.contact-container input,
+textarea {
+  border: none;
+  background-color: transparent;
+  line-height: 15px;
+  resize: none;
+}
+
+.contact-container input:focus,
+textarea:focus {
+  outline: none;
+  border-bottom: 1px solid lightgrey;
+  resize: none;
+}
+
+.contact-container input::placeholder,
+textarea::placeholder {
+  color: lightgrey;
+  font-size: 11px;
+}
+
+.contact-container input:hover,
+textarea:hover {
+  border-bottom: 1px solid lightgrey;
+  resize: none;
+}
+
+/* Quick update */
+
+.quick-update {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  gap: 10px;
+  padding: 30px;
+}
+
+.quick-update > div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.quick-update div:first-child img {
+  height: 19px;
+  width: 53px;
+}
+
+.quick-update div:nth-child(2) img {
+  height: 19px;
+  width: 19px;
+}
+
+.quick-update div:nth-child(3) img {
+  height: 19px;
+  width: 19px;
+}
+
+.quick-update div:nth-child(4) img {
+  height: 19px;
+  width: 22px;
+}
+
+.quick-update > div > select {
+  border: none;
+  width: 200px;
+  background-color: transparent;
+  line-height: 15px;
+  padding: 0;
+}
+
+.quick-update > div > select:focus {
+  outline: none;
+  border-bottom: 1px solid lightgrey;
+}
+
+.quick-update > div > select:hover {
+  border-bottom: 1px solid lightgrey;
+}
+
+/* save update div */
+
+.save-update {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Notes */
+
+.notes {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 30px;
+  position: relative;
+}
+
+.notes > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.notes > div:first-child button {
+  width: 200px;
+  height: 40px;
+  background-color: #c8597c;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#notes-add {
+  width: 100%;
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: fit-content;
+  background-color: white;
+  padding: 20px;
+  border-top: #b42f5a 4px solid;
+  box-shadow: 0px 0px 20px 0px rgba(98, 98, 98, 0.75);
+}
+
+#notes-add-buttons {
+  width: 100px;
+  height: 30px;
+  background-color: #c8597c;
+  color: white;
+  border: none;
+  cursor: pointer;
+  align-self: flex-end;
+}
+
+.notes > div:nth-child(n + 2) > div {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 10px;
+  gap: 10px;
+  border: 1px solid lightgrey;
+}
+
+.delete-note-button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: rgb(80, 80, 80);
+  margin-top: 5px;
+  font-size: 10px;
+  padding-left: 0;
+}
+
+.delete-note-button:hover {
+  color: rgb(174, 0, 0);
+  text-decoration: underline;
+}
+
+#notes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notes h1 {
+  font-size: 15px;
+  margin: 0px;
+  padding: 10px 0px;
+  color: #b42f5a;
+}
+
+.notes h2 {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0px;
+  padding: 10px 0px;
+  color: #323232;
+}
+
+.notes p {
+  font-size: 12px;
+  margin: 0px;
+  padding: 5px 0px;
+  color: #323232;
+}
+.notes ul {
+  font-size: 12px;
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.notes ol {
+  font-size: 12px;
+  list-style-type: decimal;
+  padding-left: 20px;
+}
+
+.notes li {
+  font-size: 12px;
+  margin: 0px;
+  padding: 5px 0px;
+  color: #323232;
+}
+
+.notes a {
+  font-size: 12px;
+  margin: 0px;
+  padding: 5px 0px;
+  color: blue;
+  text-decoration: underline;
+}
+
+.notes strong {
+  font-size: 12px;
+  margin: 0px;
+  padding: 5px 0px;
+  color: #323232;
+  font-weight: bold;
+}
+
+.notes em {
+  font-size: 12px;
+  margin: 0px;
+  padding: 5px 0px;
+  color: #323232;
+  font-style: italic;
+}

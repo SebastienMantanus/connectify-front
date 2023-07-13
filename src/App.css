@@ -1,3 +1,7 @@
+/* import contact.css */
+@import url("/src/assets/css/contact.css");
+@import url("/src/assets/css/folders.css");
+
 /* GENERAL */
 .grey-bkg {
   background-color: #efefef;
@@ -8,7 +12,11 @@
 }
 
 .border-red {
-  border: 1px solid red;
+  border: 1px solid red !important;
+}
+
+.red {
+  color: red !important;
 }
 
 .page-align {
@@ -17,8 +25,7 @@
   align-items: center;
 }
 .font {
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-family: "Lucida Sans", sans-serif;
 }
 
 .margin-left {
@@ -140,7 +147,7 @@ a {
   justify-content: center;
   align-items: center;
   background-color: #191919;
-  height: 200px;
+  height: 100px;
 }
 
 .footer-text {
@@ -182,16 +189,57 @@ a {
 .flex-center {
   display: flex;
   justify-content: center;
-  height: calc(100% - 300px);
+  min-height: calc(100vh - 200px);
+  height: fit-content;
+  gap: 25px;
+  margin-right: 25px;
 }
+.home-left {
+  display: flex;
+  padding: 25px;
+  flex-direction: column;
+  justify-content: top;
+  align-items: left;
+  width: 20%;
+  min-height: calc(100vh - 300px);
+
+  background-color: #efefef;
+}
+
+.home-left p {
+  margin-top: 0px;
+  margin-bottom: 15px;
+  padding-left: 30px;
+}
+
+.home-left p:hover {
+  color: #b42f5a;
+  cursor: pointer;
+}
+
+#menu-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+#menu-title h3 {
+  cursor: pointer;
+}
+
+.bold {
+  font-weight: bold;
+  color: #b42f5a;
+}
+
 .home-container {
   margin-top: 40px;
-  width: 70%;
+  width: 100%;
 }
 
 .top-bar {
   display: flex;
   width: 100%;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 40px;
@@ -199,14 +247,29 @@ a {
   border-bottom: 1px solid lightgray;
 }
 
-.contact-grid {
+.top-bar-nav-array {
   display: flex;
-  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid lightgray;
+}
+.top-bar-nav-array div {
+  cursor: pointer;
+  &:hover {
+    color: #b42f5a;
+    text-decoration: underline;
+  }
+}
 
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 255px);
+  width: 100%;
   justify-content: space-between;
-  gap: 40px;
+  gap: 50px 30px;
   flex-wrap: wrap;
-  /* margin-bottom: 40px; */
   margin: auto, 40px;
 }
 
@@ -214,24 +277,156 @@ a {
   content: "";
   width: 255px;
 }
+
+/* Contact cards CSS */
 .contact-cards {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 255px;
+  position: relative;
+  height: 300px;
   width: 255px;
+  background-color: white;
   border: 1px solid lightgray;
-  padding-bottom: 15px;
-  padding-right: 15px;
-  padding-left: 15px;
   border-radius: 5px;
   margin-bottom: 30px;
 }
+
+/* Status & Heat */
+.contact-cards > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.contact-cards > div:first-child > div:last-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 8px;
+}
+.contact-cards > div:first-child > div:last-child img {
+  height: 17px;
+}
+
+.contact-cards > div:first-child > div:first-child {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 70%;
+  color: white;
+  padding: 8px;
+  border-top-left-radius: 5px;
+  border-bottom-right-radius: 50px;
+}
+
+/* Favicon, company name and Contact name */
+.contact-cards > div:nth-child(2) {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  padding: 10px;
+}
+
+.contact-cards > div:nth-child(2) h2 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 18px;
+}
+
+.contact-cards > div:nth-child(2) p {
+  margin-top: 8px;
+}
+
+.contact-cards > div:nth-child(2) img {
+  margin-top: 10px;
+  width: 3Opx;
+  height: 30px;
+}
+
+/* City and company size */
+.contact-cards > div:nth-child(3) {
+  padding-left: 10px;
+  line-height: 25px;
+  color: gray;
+}
+.contact-cards > div:nth-child(3) h3 {
+  font-size: 14px;
+  font-weight: bold;
+  color: #b42f5a;
+  margin-top: 8px;
+  line-height: 20px;
+  margin-bottom: 0px;
+}
+
+/* Owner & Folder */
+.contact-cards > div:nth-child(4) {
+  padding: 10px;
+  line-height: 20px;
+  color: gray;
+}
+
+.contact-cards > div:nth-child(4) img {
+  width: 10px;
+  height: 10px;
+}
+
+.contact-cards > div:nth-child(4) span {
+  font-size: 10px;
+  padding-left: 7px;
+}
+
+/* Phone number */
+.contact-cards > div:nth-child(5) {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  padding: 10px;
+  background-color: #efefef;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.contact-cards > div:nth-child(5) img {
+  width: 15px;
+  height: 15px;
+}
+
+/* Quick Actions */
+.contact-cards-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  border-radius: 0px 0px 5px 5px;
+  bottom: 0px;
+  left: 0px;
+  width: 254px;
+  height: 190px;
+  background-color: rgba(180, 47, 90, 0.9);
+  color: white;
+}
+
+.contact-cards-actions div {
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.contact-cards-actions img {
+  width: 35px;
+  height: 35px;
+}
+
+/* New Contact first grid card */
 .new-contact-card {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 255px;
+  height: 300px;
   width: 255px;
   background-color: #b42f5a;
   border: 1px solid #b42f5a;
@@ -256,12 +451,6 @@ a {
   margin-left: 15px;
 }
 
-.contact-cards:hover {
-  box-shadow: 0px 0px 5px #b42f5a;
-  background-color: #fbfbfb;
-  border: #b42f5a solid 3px;
-}
-
 .top-bar input {
   border: lightgrey 1px solid;
   height: 30px;
@@ -283,6 +472,12 @@ a {
   color: white;
 }
 
+/* FILTERS */
+
+.filters-hide {
+  display: none;
+}
+
 /* CREATE CONTACT */
 
 .display-buttons {
@@ -296,16 +491,119 @@ a {
   cursor: pointer;
 }
 
-/* DETAIL CONTACT */
+/* CREATE V2 */
 
-.contact-container {
+.create-contact-container {
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  margin-top: 25px;
+  flex-direction: column;
   align-items: center;
-  border: 1px gray solid;
+  width: 70%;
+  min-height: calc(100vh - 200px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.create-contact-container div {
   width: 100%;
-  padding: 30px;
+}
+
+.create-contact-container div h1 {
+  margin-left: 0px;
+}
+
+.create-contact-container div h3 {
+  margin-left: 0px;
+  font-weight: bold;
+}
+
+.create-contact-container div p {
+  margin-left: 0px;
+  color: grey;
+  line-height: 30px;
+}
+
+.link {
+  color: #a50a3b;
+  text-decoration: underline;
+  cursor: pointer;
+  &:hover {
+    color: #b42f5a;
+  }
+}
+
+.create-contact-container div a {
+  margin-left: 0px;
+  font-size: 12px;
+  color: #a50a3b;
+  line-height: 30px;
+}
+
+.create-contact-container div a:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.create-contact-company-resumee {
+  border-bottom: 1px lightgray solid;
+  margin-bottom: 15px;
+  padding-bottom: 20px;
+}
+
+.create-contact-container input {
+  width: 100%;
+  height: 45px;
+  border-radius: 8px;
+  border: 1px lightgray solid;
+  font-size: 15px;
+  padding-left: 10px;
+  margin-bottom: 15px;
+}
+
+.create-contact-container button {
+  background-color: #a50a3b;
+  color: white;
+  width: 100%;
+  height: 45px;
+  border: none;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  cursor: pointer;
+}
+
+.create-contact-container button:hover {
+  background-color: #b42f5a;
+}
+
+.create-contact-container input:focus {
+  outline: none;
+  border: #a50a3b solid 2px;
+}
+
+.create-contact-results {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 20px;
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 25px;
+  padding-left: 25px;
+  margin: 25px 0;
+  border: 1px lightgrey solid;
+}
+
+.create-contact-results div:last-child {
+  padding-top: 20px;
+  padding-right: 35px;
+  width: 20px;
+}
+.create-contact-results:hover {
+  border: #a50a3b solid 2px;
+  cursor: pointer;
+}
+
+.create-contact-activity {
+  text-align: center;
 }
 
 .created-by {

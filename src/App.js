@@ -1,10 +1,13 @@
 import "./App.css";
 import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// //import cookies
+import Cookies from "js-cookie";
 
 // Fontawsome import
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
+  faAngleRight,
   faRightFromBracket,
   faPenToSquare,
   faCheckSquare,
@@ -16,16 +19,26 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
-import Contact from "./pages/Contact";
 import Edition from "./pages/Edition";
-import Newcontact from "./pages/Newcontact";
+import Createcontact from "./pages/Createcontact";
+import Folders from "./pages/Folders";
 
-// //import cookies
-// import Cookies from "js-cookie";
+//switch between local and distant server
+
+// const server = "http://localhost:3000";
+
+const server = "https://site--connectify-back--6cc8ffpxkbwr.code.run";
 
 function App() {
-  const [token, SetToken] = useState("");
-  library.add(faCircleCheck, faRightFromBracket, faPenToSquare, faCheckSquare);
+  const [token, SetToken] = useState(Cookies.get("token") || "");
+
+  library.add(
+    faAngleRight,
+    faCircleCheck,
+    faRightFromBracket,
+    faPenToSquare,
+    faCheckSquare
+  );
 
   return (
     <div className="App">
@@ -34,19 +47,28 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={<Login token={token} SetToken={SetToken} />}
+            element={
+              <Login token={token} SetToken={SetToken} server={server} />
+            }
           />
           <Route
             path="/home"
-            element={<Home token={token} SetToken={SetToken} />}
+            element={<Home token={token} SetToken={SetToken} server={server} />}
           />
-          <Route path="/contact/:id" element={<Contact token={token} />} />
-
-          <Route path="/contact/edition" element={<Edition />} />
 
           <Route
-            path="/contact/create"
-            element={<Newcontact token={token} />}
+            path="/contact/:id/edit"
+            element={<Edition token={token} server={server} />}
+          />
+
+          <Route
+            path="/contact/createv2"
+            element={<Createcontact token={token} server={server} />}
+          />
+
+          <Route
+            path="/folders"
+            element={<Folders token={token} server={server} />}
           />
         </Routes>
         <Footer />

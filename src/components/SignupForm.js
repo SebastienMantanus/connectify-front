@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import Cookies from "js-cookie";
 
-const SignupForm = ({ SetToken }) => {
+const SignupForm = ({ SetToken, server }) => {
   const [name, SetName] = useState("");
   const [email, SetEmail] = useState("");
   const [password, SetPassword] = useState("");
@@ -14,7 +14,7 @@ const SignupForm = ({ SetToken }) => {
   const confirmationEmail = async () => {
     try {
       const response = await axios.post(
-        "https://mails--sendinblue--pcsmmwq8bwzd.code.run/connectify",
+        `https://mails--sendinblue--pcsmmwq8bwzd.code.run/connectify`,
         {
           responder_name: name,
           responder_email: email,
@@ -32,14 +32,11 @@ const SignupForm = ({ SetToken }) => {
 
     if (name && email && password && passwordConfirmation) {
       if (password === passwordConfirmation) {
-        const response = await axios.post(
-          "https://back--connectify--pcsmmwq8bwzd.code.run/users/create",
-          {
-            name: name,
-            email: email,
-            password: password,
-          }
-        );
+        const response = await axios.post(`${server}/users/create`, {
+          name: name,
+          email: email,
+          password: password,
+        });
         if (response.data.token) {
           confirmationEmail();
           let name = JSON.stringify(response.data.name);
