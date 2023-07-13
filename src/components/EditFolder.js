@@ -33,7 +33,7 @@ const EditFolder = ({ token, server, folderId, affiliateRef, folderRef }) => {
     } catch (error) {
       console.log("Erreur dans la récupération du dossier :", error.data);
     }
-  }, [token, server, folderId, affiliateRef.current, folderRef.current]);
+  }, [token, server, folderId]);
 
   //update a folder
 
