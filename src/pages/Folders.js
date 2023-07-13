@@ -48,7 +48,7 @@ const Folders = ({ token, server }) => {
   //create a new folder function
   const createFolder = async () => {
     try {
-      const response = await axios.post(
+      await axios.post(
         `${server}/folder/create`,
         {
           name: newFolderName,
@@ -60,7 +60,6 @@ const Folders = ({ token, server }) => {
           },
         }
       );
-      console.log(response.data);
       setNewFolder(false);
     } catch (error) {
       console.log("Erreur lors de la création du dossier :", error.data);
@@ -93,8 +92,6 @@ const Folders = ({ token, server }) => {
   //move affiliates to another folder
 
   const moveAffiliates = () => {
-    console.log("Destination folder >>", folderRef.current);
-    console.log("Affiliate to move >>", affiliateRef.current);
     const updateAffiliateFolder = async () => {
       try {
         await axios.patch(
@@ -113,6 +110,7 @@ const Folders = ({ token, server }) => {
       }
     };
     updateAffiliateFolder();
+    setReload(true);
   };
 
   // function to display the number of affiliates in a folder
@@ -189,6 +187,8 @@ const Folders = ({ token, server }) => {
                       folderId={folder._id}
                       affiliateRef={affiliateRef}
                       folderRef={folderRef}
+                      setReload={setReload}
+                      reload={reload}
                     />
                   </div>
                   <div>

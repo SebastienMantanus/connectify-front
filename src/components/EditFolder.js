@@ -2,7 +2,14 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const EditFolder = ({ token, server, folderId, affiliateRef, folderRef }) => {
+const EditFolder = ({
+  token,
+  server,
+  folderId,
+  affiliateRef,
+  setReload,
+  reload,
+}) => {
   const [newFolderName, setNewFolderName] = useState("");
   const [newFolderDescription, setNewFolderDescription] = useState("");
   const [nbAffiliates, setNbAffiliates] = useState("");
@@ -30,10 +37,11 @@ const EditFolder = ({ token, server, folderId, affiliateRef, folderRef }) => {
       };
       fetchFolder();
       setIsLoading(false);
+      setReload(false);
     } catch (error) {
       console.log("Erreur dans la récupération du dossier :", error.data);
     }
-  }, [token, server, folderId]);
+  }, [token, server, folderId, reload, setReload]);
 
   //update a folder
 
