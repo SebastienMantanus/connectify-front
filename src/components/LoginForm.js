@@ -19,7 +19,11 @@ const LoginForm = ({ SetToken, server }) => {
       if (response.data.token) {
         let name = JSON.stringify(response.data.name);
         Cookies.set("name", name);
-        Cookies.set("token", response.data.token);
+        Cookies.set("token", response.data.token, {
+          expires: 10,
+          sameSite: "Lax",
+          secure: true,
+        });
         SetToken(response.data.token);
       } else {
         SetError("Email ou mot de passe incorrect");
