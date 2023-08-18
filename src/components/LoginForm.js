@@ -17,18 +17,38 @@ const LoginForm = ({ SetToken, server }) => {
       });
 
       if (response.data.token) {
-        let name = JSON.stringify(response.data.name);
-        Cookies.set("name", name);
-        Cookies.set("token", response.data.token, {
-          expires: 10,
-          sameSite: "Lax",
-          secure: true,
-        });
-        SetToken(response.data.token);
+        console.log(response.data);
+        //check if user is granted
+        const authResponse = await axios.post(
+          `${server}/authorisation/user/64cb508418c4da2bb4f818d3`,
+          { user_id: response.data._id },
+          {
+            headers: {
+              Authorization: `Bearer ${response.data.token}`,
+            },
+          }
+        );
+        console.log(authResponse.granted);
+        //connect if user is granted
+        if (authResponse.data.granted === true) {
+          let name = JSON.stringify(response.data.name);
+          Cookies.set("name", name);
+          Cookies.set("token", response.data.token, {
+            expires: 10,
+            sameSite: "Lax",
+            secure: true,
+          });
+          SetToken(response.data.token);
+        } else {
+          // if user is not granted
+          SetError("Vous n'avez pas les droits d'accès");
+        }
       } else {
+        // if user is not found
         SetError("Email ou mot de passe incorrect");
       }
     } else {
+      // if form is not complete
       SetError("Eléments de connexion manquants");
     }
   };
