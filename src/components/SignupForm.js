@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 
-import { navigate } from "ionicons/icons";
+// import { navigate } from "ionicons/icons";
 import { useNavigate } from "react-router-dom";
 
 const SignupForm = ({ SetToken, server }) => {
@@ -20,7 +20,7 @@ const SignupForm = ({ SetToken, server }) => {
   // user confirmation email
   const confirmationEmail = async () => {
     try {
-      const response = await axios.post(
+      await axios.post(
         `https://mails--sendinblue--pcsmmwq8bwzd.code.run/connectify`,
         {
           responder_name: name,
@@ -36,7 +36,7 @@ const SignupForm = ({ SetToken, server }) => {
   // admin alert email
   const alertEmail = async (admin_name, admin_email) => {
     try {
-      const response = await axios.post(
+      await axios.post(
         `https://mails--sendinblue--pcsmmwq8bwzd.code.run/connectify/newuser/adminalert`,
         {
           responder_name: admin_name,
