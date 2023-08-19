@@ -193,7 +193,10 @@ const Edition = ({ token, server }) => {
           {contact_status.status_name}
         </div>
         <div>
-          <img src={company_favicon.url} alt="company logo" />
+          {company_favicon?.url && (
+            <img src={company_favicon?.url} alt="company logo" />
+          )}
+
           <textarea
             type="text"
             cols={25}

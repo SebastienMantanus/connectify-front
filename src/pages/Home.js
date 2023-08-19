@@ -1,7 +1,10 @@
 import { useNavigate, Navigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
+
+//import add icon
 import addIcon from "../assets/images/add.png";
+
 //import Filter component
 import Filters from "../components/Filters";
 
@@ -26,6 +29,7 @@ const Home = ({ token, server, SetToken }) => {
   const [isLoading, SetIsLoading] = useState(true);
   const [data, SetData] = useState();
   const [searchQuery, SetSearchQuery] = useState("");
+  const [isDraggin, setIsDraggin] = useState("");
 
   // useStates for filters (contact_folder, contact_heat, contact_status, responsable)
   const [contactFolder, setContactFolder] = useState("");
@@ -130,10 +134,9 @@ const Home = ({ token, server, SetToken }) => {
           </button>
         )}
 
-        {pagesArray.map((page) => {
-          if (page > 10) {
-            return <p>...</p>;
-          } else {
+        {pagesArray.map((page, index) => {
+          if (index < 2 || index >= pagesArray.length - 2) {
+            // Afficher les trois premiers et trois derniers chiffres
             return (
               <div
                 key={page}
@@ -146,7 +149,15 @@ const Home = ({ token, server, SetToken }) => {
                 {page}
               </div>
             );
+          } else if (index === 3) {
+            // Afficher les points de suspension après les trois premiers chiffres
+            return (
+              <div key="ellipsis" onClick={null}>
+                ...
+              </div>
+            );
           }
+          return null; // Ignorer les éléments au milieu
         })}
 
         {skip < numberOfContacts - limit && (
@@ -260,7 +271,11 @@ const Home = ({ token, server, SetToken }) => {
 
               return (
                 <div
-                  className="contact-cards"
+                  className={
+                    isDraggin === item._id
+                      ? "contact-card-dragging contact-card-transparent"
+                      : "contact-cards"
+                  }
                   key={item._id}
                   // on mouse over, display quick actions
                   onMouseOver={() => {
@@ -273,130 +288,152 @@ const Home = ({ token, server, SetToken }) => {
                   draggable
                   // on drag start, set the source item
                   onDragStart={(e) => {
+                    setIsDraggin(item._id);
                     userToUpdate.current = item._id;
                   }}
+                  onDragEnd={() => {
+                    setIsDraggin("");
+                  }}
                 >
-                  <div>
-                    <div
-                      style={{
-                        backgroundColor: item.contact_status.status_color,
-                      }}
-                    >
-                      <p>{item.contact_status.status_name}</p>
+                  {isDraggin === item._id ? (
+                    <div className="contact-card-dragging">
+                      <p>
+                        Glissez {item.contact_name} sur un filtre pour le mettre
+                        à jour...
+                      </p>
                     </div>
-                    <div>{displayHeat(item.contact_heat)}</div>
-                  </div>
-                  <div>
-                    <div>
-                      {item.company_favicon && (
-                        <img
-                          alt="company logo"
-                          src={item.company_favicon.url}
-                        />
-                      )}
-                    </div>
-                    <div>
-                      <h2>{item.contact_name}</h2>
-                    </div>
-                  </div>
-                  <div>
-                    <h3>
-                      {shortenCompanyName(item.company_name)}{" "}
-                      {displayLegalform(item.company_legalform)}
-                    </h3>
-                    <p>{item.company_city}</p>
-                    {item.company_size_min && item.company_size_max ? (
-                      item.company_size_max - item.company_size_min > 1000 ? (
-                        <>
-                          <p>
-                            Au moins {item.company_size_min} {"salarié(s)"}
-                          </p>
-                        </>
-                      ) : item.company_size_max === 0 ||
-                        item.company_size_min === 0 ? (
-                        <p>Aucun salarié</p>
-                      ) : (
-                        <>
-                          <p>
-                            Entre {item.company_size_min} et{" "}
-                            {item.company_size_max} salariés
-                          </p>{" "}
-                        </>
-                      )
-                    ) : item.company_size_min ? (
-                      <p>{item.company_size_min} personne(s)</p>
-                    ) : null}
-                  </div>
-                  <div>
-                    <div>
-                      <img alt="Owner icon" src={responsableIco} />{" "}
-                      <span>{item.responsable.name}</span>
-                    </div>
-                    <div>
-                      {" "}
-                      <img alt="Folder icon" src={folderIco} />
-                      <span> {item.contact_folder.name}</span>
-                    </div>
-                  </div>
-
-                  <div>
-                    {item.contact_phone ? (
-                      <>
-                        <img alt="phone icon" src={phoneIco} />
-                        <span>{item.contact_phone}</span>
-                      </>
-                    ) : (
-                      <p>Téléphone non renseigné</p>
-                    )}
-                  </div>
-
-                  {hoveredIndex === item._id && (
-                    <div className="contact-cards-actions">
+                  ) : (
+                    <>
                       <div>
-                        {item.contact_email && (
-                          <img
-                            alt="email icon"
-                            src={smartActionEmail}
-                            onClick={() => {
-                              window.open(`mailto:${item.contact_email}`);
-                            }}
-                            title="Envoyer un email"
-                          />
-                        )}
-                        {item.company_website && (
-                          <img
-                            alt="website icon"
-                            src={smartActionWebsite}
-                            onClick={() => {
-                              window.open(`https://${item.company_website}`);
-                            }}
-                            title="Voir le site web"
-                          />
-                        )}
-
-                        {item.company_registration_number && (
-                          <img
-                            alt="Pappers icon"
-                            src={smartActionPappers}
-                            onClick={() => {
-                              window.open(
-                                `https://www.pappers.fr/entreprise/${item.company_registration_number}`
-                              );
-                            }}
-                            title="Voir la fiche sur Pappers"
-                          />
-                        )}
-
-                        <img
-                          alt="Edit icon"
-                          src={smartActionEdit}
+                        <div
+                          style={{
+                            backgroundColor: item.contact_status.status_color,
+                          }}
+                        >
+                          <p>{item.contact_status.status_name}</p>
+                        </div>
+                        <div>{displayHeat(item.contact_heat)}</div>
+                      </div>
+                      <div>
+                        <div>
+                          {item.company_favicon && (
+                            <img
+                              alt="company logo"
+                              src={item.company_favicon.url}
+                            />
+                          )}
+                        </div>
+                        <div
                           onClick={() => {
                             navigate(linkUrl);
                           }}
-                          title="Modifier la fiche"
-                        />
+                        >
+                          <h2>{item.contact_name}</h2>
+                        </div>
                       </div>
-                    </div>
+                      <div>
+                        <h3>
+                          {shortenCompanyName(item.company_name)}{" "}
+                          {displayLegalform(item.company_legalform)}
+                        </h3>
+                        <p>{item.company_city}</p>
+                        {item.company_size_min && item.company_size_max ? (
+                          item.company_size_max - item.company_size_min >
+                          1000 ? (
+                            <>
+                              <p>
+                                Au moins {item.company_size_min} {"salarié(s)"}
+                              </p>
+                            </>
+                          ) : item.company_size_max === 0 ||
+                            item.company_size_min === 0 ? (
+                            <p>Aucun salarié</p>
+                          ) : (
+                            <>
+                              <p>
+                                Entre {item.company_size_min} et{" "}
+                                {item.company_size_max} salariés
+                              </p>{" "}
+                            </>
+                          )
+                        ) : item.company_size_min ? (
+                          <p>{item.company_size_min} personne(s)</p>
+                        ) : null}
+                      </div>
+                      <div>
+                        <div>
+                          <img alt="Owner icon" src={responsableIco} />{" "}
+                          <span>{item.responsable.name}</span>
+                        </div>
+                        <div>
+                          {" "}
+                          <img alt="Folder icon" src={folderIco} />
+                          <span> {item.contact_folder.name}</span>
+                        </div>
+                      </div>
+
+                      <div>
+                        {item.contact_phone ? (
+                          <>
+                            <img alt="phone icon" src={phoneIco} />
+                            <span>{item.contact_phone}</span>
+                          </>
+                        ) : (
+                          <p>Téléphone non renseigné</p>
+                        )}
+                      </div>
+
+                      {hoveredIndex === item._id && (
+                        <div className="contact-cards-actions">
+                          <div>
+                            {item.contact_email && (
+                              <img
+                                alt="email icon"
+                                src={smartActionEmail}
+                                onClick={() => {
+                                  window.open(`mailto:${item.contact_email}`);
+                                }}
+                                title="Envoyer un email"
+                              />
+                            )}
+                            {item.company_website && (
+                              <img
+                                alt="website icon"
+                                src={smartActionWebsite}
+                                onClick={() => {
+                                  window.open(
+                                    `https://${item.company_website}`
+                                  );
+                                }}
+                                title="Voir le site web"
+                              />
+                            )}
+
+                            {item.company_registration_number && (
+                              <img
+                                alt="Pappers icon"
+                                src={smartActionPappers}
+                                onClick={() => {
+                                  window.open(
+                                    `https://www.pappers.fr/entreprise/${item.company_registration_number}`
+                                  );
+                                }}
+                                title="Voir la fiche sur Pappers"
+                              />
+                            )}
+
+                            <img
+                              alt="Edit icon"
+                              src={smartActionEdit}
+                              onClick={() => {
+                                navigate(linkUrl);
+                              }}
+                              title="Modifier la fiche"
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
               );

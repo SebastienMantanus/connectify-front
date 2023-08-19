@@ -21,7 +21,7 @@ const Autocomplete = ({
   const [companyWebsite, setCompanyWebsite] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [contactPhone, setContactPhone] = useState("");
-  // const [error, setError] = useState("");
+  const [error, setError] = useState("");
   const [inProgress, setInProgress] = useState(false);
 
   const navigate = useNavigate();
@@ -39,16 +39,11 @@ const Autocomplete = ({
   }, [autocomplete, server]);
 
   // Save contact in database function
+
   const SaveContact = async (e) => {
     e.preventDefault();
 
-    if (
-      contactName &&
-      contactRole &&
-      companyWebsite &&
-      contactEmail &&
-      contactPhone
-    ) {
+    if (isValidUrl(companyWebsite) && isValidPhone(contactPhone)) {
       setInProgress(true);
 
       newContact.contact_name = contactName;
@@ -85,10 +80,27 @@ const Autocomplete = ({
       );
 
       navigate(`/contact/${response.data._id}/edit`);
-    } else
-      alert(
-        "Merci de renseigner tous les champs afin d'entregistrer le contact"
-      );
+    } else return;
+  };
+
+  //form validation functions
+
+  const isValidUrl = (url) => {
+    const urlPattern = /^[\w-]+(\.[\w-]+)+[/#?]?.*$/;
+    if (!urlPattern.test(url)) {
+      setError({ url: true });
+      return false;
+    }
+    return urlPattern.test(url);
+  };
+
+  const isValidPhone = (phone) => {
+    const phonePattern = /^\+?\d{10,}$/;
+    if (!phonePattern.test(phone)) {
+      setError({ phone: true });
+      return false;
+    }
+    return phonePattern.test(phone);
   };
 
   return !newContact.company_name ? (
@@ -211,12 +223,18 @@ const Autocomplete = ({
               onChange={(e) => setContactRole(e.target.value)}
             />
             <input
+              style={
+                error.url
+                  ? { border: "2px solid #b42f5a", background: "#ffe3f6" }
+                  : null
+              }
               type="text"
               required
               value={companyWebsite}
               placeholder="Site Internet"
               onChange={(e) => setCompanyWebsite(e.target.value)}
             />
+
             <input
               type="email"
               required
@@ -226,13 +244,17 @@ const Autocomplete = ({
             />
 
             <input
+              style={
+                error.phone
+                  ? { border: "2px solid #b42f5a", background: "#ffe3f6" }
+                  : null
+              }
               type="text"
               required
               value={contactPhone}
               placeholder="Numéro de téléphone"
               onChange={(e) => setContactPhone(e.target.value)}
             />
-
             <button>Créer le contact</button>
           </form>
         </>
