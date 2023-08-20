@@ -342,6 +342,7 @@ export const CreateContactForm = ({
             <p className="red">{error.contact_name_error}</p>
             <input
               type="text"
+              style={{ borderLeft: "3px solid #b42f5a" }}
               required
               name="contact_name"
               placeholder="Nom du contact"
@@ -357,6 +358,7 @@ export const CreateContactForm = ({
             <p className="red">{error.contact_email_error}</p>
             <input
               type="email"
+              style={{ borderLeft: "3px solid #b42f5a" }}
               required
               name="contact_email"
               placeholder="Email"
@@ -393,8 +395,9 @@ export const CreateContactForm = ({
               }}
             />
             {inProgress ? (
-              <p>Enregistrement en cours...</p>
+              <p>Enregistrement du contact en cours...</p>
             ) : (
+              // <ActivityIndicator />
               <button
                 onClick={(e) => {
                   e.preventDefault();

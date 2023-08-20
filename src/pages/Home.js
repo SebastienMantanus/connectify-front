@@ -1,6 +1,7 @@
 import { useNavigate, Navigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import ActivityIndicator from "../components/ActivityIndicator";
 
 //import add icon
 import addIcon from "../assets/images/add.png";
@@ -210,7 +211,7 @@ const Home = ({ token, server, SetToken }) => {
 
   return token ? (
     isLoading ? (
-      <div>Loading in progress</div>
+      <ActivityIndicator />
     ) : (
       <div className="flex-center font">
         <div className="home-left">

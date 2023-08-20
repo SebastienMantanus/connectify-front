@@ -42,8 +42,7 @@ const Autocomplete = ({
 
   const SaveContact = async (e) => {
     e.preventDefault();
-
-    if (isValidUrl(companyWebsite) && isValidPhone(contactPhone)) {
+    if (isValidForm(contactPhone, companyWebsite)) {
       setInProgress(true);
 
       newContact.contact_name = contactName;
@@ -52,55 +51,76 @@ const Autocomplete = ({
       newContact.contact_email = contactEmail;
       newContact.contact_phone = contactPhone;
 
-      const response = await axios.post(
-        `${server}/affiliate/create/savetodb`,
-        {
-          company_name: newContact.company_name,
-          company_legalform: newContact.company_legalform,
-          company_address: newContact.company_address,
-          company_zip: newContact.company_zip,
-          company_city: newContact.company_city,
-          company_size_min: newContact.company_size_min,
-          company_size_max: newContact.company_size_max,
-          company_capital: newContact.company_capital,
-          company_activity: newContact.company_activity,
-          company_founded: newContact.company_founded,
-          company_registration_number: newContact.company_registration_number,
-          contact_name: newContact.contact_name,
-          contact_role: newContact.contact_role,
-          company_website: newContact.company_website,
-          contact_email: newContact.contact_email,
-          contact_phone: newContact.contact_phone,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+      try {
+        const response = await axios.post(
+          `${server}/affiliate/create/savetodb`,
+          {
+            company_name: newContact.company_name,
+            company_legalform: newContact.company_legalform,
+            company_address: newContact.company_address,
+            company_zip: newContact.company_zip,
+            company_city: newContact.company_city,
+            company_size_min: newContact.company_size_min,
+            company_size_max: newContact.company_size_max,
+            company_capital: newContact.company_capital,
+            company_activity: newContact.company_activity,
+            company_founded: newContact.company_founded,
+            company_registration_number: newContact.company_registration_number,
+            contact_name: newContact.contact_name,
+            contact_role: newContact.contact_role,
+            company_website: newContact.company_website,
+            contact_email: newContact.contact_email,
+            contact_phone: newContact.contact_phone,
           },
-        }
-      );
-
-      navigate(`/contact/${response.data._id}/edit`);
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setInProgress(false);
+        navigate(`/contact/${response.data._id}/edit`);
+      } catch (error) {
+        console.log("Erreur lors de la création du contact :", error.data);
+        alert(
+          "Erreur lors de la création du contact, merci de ré-essayer ou contacter votre administrateur si le problème persiste"
+        );
+        navigate("/");
+      }
     } else return;
   };
 
-  //form validation functions
-
-  const isValidUrl = (url) => {
-    const urlPattern = /^[\w-]+(\.[\w-]+)+[/#?]?.*$/;
-    if (!urlPattern.test(url)) {
-      setError({ url: true });
-      return false;
-    }
-    return urlPattern.test(url);
-  };
-
-  const isValidPhone = (phone) => {
+  //form validation function (phone and url)
+  const isValidForm = (phone, url) => {
     const phonePattern = /^\+?\d{10,}$/;
-    if (!phonePattern.test(phone)) {
-      setError({ phone: true });
-      return false;
+    const urlPattern = /^[\w-]+(\.[\w-]+)+[/#?]?.*$/;
+    let phoneCheck = true;
+    let urlCheck = true;
+
+    // check phone number
+    if (phone.length > 0) {
+      if (!phonePattern.test(phone)) {
+        setContactPhone("");
+        setError({ phone: true });
+        phoneCheck = false;
+      } else {
+        phoneCheck = true;
+      }
+    } else {
+      phoneCheck = true;
     }
-    return phonePattern.test(phone);
+
+    // check url
+    if (!urlPattern.test(url)) {
+      setCompanyWebsite("");
+      setError({ url: true });
+      urlCheck = false;
+    } else {
+      urlCheck = true;
+    }
+    // return true if both phone and url are valid
+    if (phoneCheck && urlCheck) return true;
+    else return false;
   };
 
   return !newContact.company_name ? (
@@ -210,6 +230,7 @@ const Autocomplete = ({
             <h2>Informations du contact</h2>
             <input
               type="text"
+              style={{ borderLeft: "3px solid #b42f5a" }}
               required
               value={contactName}
               placeholder={"Nom et prénom du contact"}
@@ -217,7 +238,6 @@ const Autocomplete = ({
             />
             <input
               type="text"
-              required
               value={contactRole}
               placeholder="Fonction"
               onChange={(e) => setContactRole(e.target.value)}
@@ -226,18 +246,19 @@ const Autocomplete = ({
               style={
                 error.url
                   ? { border: "2px solid #b42f5a", background: "#ffe3f6" }
-                  : null
+                  : { borderLeft: "3px solid #b42f5a" }
               }
               type="text"
               required
               value={companyWebsite}
-              placeholder="Site Internet"
+              placeholder={error.url ? "URL invalide" : "Site web"}
               onChange={(e) => setCompanyWebsite(e.target.value)}
             />
 
             <input
               type="email"
               required
+              style={{ borderLeft: "3px solid #b42f5a" }}
               value={contactEmail}
               placeholder="Email"
               onChange={(e) => setContactEmail(e.target.value)}
@@ -250,9 +271,12 @@ const Autocomplete = ({
                   : null
               }
               type="text"
-              required
               value={contactPhone}
-              placeholder="Numéro de téléphone"
+              placeholder={
+                error.phone
+                  ? "Format du numéro invalide"
+                  : "Numéro de téléphone"
+              }
               onChange={(e) => setContactPhone(e.target.value)}
             />
             <button>Créer le contact</button>

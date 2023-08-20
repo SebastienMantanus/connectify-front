@@ -449,10 +449,11 @@ a {
   border-radius: 5px;
   font-weight: bold;
   cursor: move;
+  opacity: 0.2;
 }
 
 .contact-card-transparent {
-  opacity: 0.5;
+  opacity: 0.2;
 }
 
 /* New Contact first grid card */

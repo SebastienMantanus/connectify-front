@@ -12,6 +12,7 @@ import saWebsite from "../assets/images/smart_action_website_red.png";
 import saEmail from "../assets/images/smart_action_email_red.png";
 import saBack from "../assets/images/smart_action_back_red.png";
 import saPapper from "../assets/images/smart_action_pappers_red.png";
+import ActivityIndicator from "../components/ActivityIndicator";
 
 const Edition = ({ token, server }) => {
   // useNavigate hook
@@ -185,7 +186,7 @@ const Edition = ({ token, server }) => {
   };
 
   return isLoading ? (
-    <div>Chargement en cours...</div>
+    <ActivityIndicator />
   ) : (
     <div className="contact-container font">
       <div>
@@ -233,16 +234,18 @@ const Edition = ({ token, server }) => {
             }}
             title="Envoyer un email"
           />
-          <img
-            src={saPapper}
-            alt="smart action papper"
-            onClick={() => {
-              window.open(
-                `https://www.pappers.fr/entreprise/${company_registration_number}`
-              );
-            }}
-            title="Voir les informations sur Pappers"
-          />
+          {company_registration_number && (
+            <img
+              src={saPapper}
+              alt="smart action papper"
+              onClick={() => {
+                window.open(
+                  `https://www.pappers.fr/entreprise/${company_registration_number}`
+                );
+              }}
+              title="Voir les informations sur Pappers"
+            />
+          )}
         </div>
         <div>
           <div>

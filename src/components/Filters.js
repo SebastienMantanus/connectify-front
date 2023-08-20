@@ -217,6 +217,7 @@ const Filters = ({
           <p
             onClick={() => setContactFolder("")}
             className={contactFolder === "" ? "bold" : null}
+            style={{ width: "100%" }}
           >
             Tous les dossiers
           </p>
@@ -282,6 +283,7 @@ const Filters = ({
                 return (
                   <p
                     className={isDragOver === user._id ? "drag-over" : null}
+                    style={{ width: "100%" }}
                     key={index}
                     onClick={() => {
                       setResponsable(user._id);
@@ -329,6 +331,7 @@ const Filters = ({
             return (
               <p
                 className={isDragOver === heat.statut_id ? "drag-over" : null}
+                style={{ width: "100%" }}
                 key={index}
                 onClick={() => {
                   setContactHeat(heat.statut_id);
@@ -379,6 +382,7 @@ const Filters = ({
               return (
                 <p
                   className={isDragOver === status._id ? "drag-over" : null}
+                  style={{ width: "100%" }}
                   key={index}
                   onClick={() => {
                     setContactStatus(status._id);
