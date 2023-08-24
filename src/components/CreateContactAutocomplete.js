@@ -6,7 +6,7 @@ import "react-activity/dist/library.css";
 
 import axios from "axios";
 
-const Autocomplete = ({
+const CreateContactAutocomplete = ({
   autocomplete,
   setAutocomplete,
   newContact,
@@ -28,13 +28,17 @@ const Autocomplete = ({
 
   useEffect(() => {
     if (autocomplete.length > 3) {
-      const fetchData = async () => {
-        const response = await axios.get(
-          `${server}/affiliate/create/autocomplete?q=${autocomplete}`
-        );
-        setResults(response.data);
-      };
-      fetchData();
+      try {
+        const fetchData = async () => {
+          const response = await axios.get(
+            `${server}/affiliate/create/autocomplete?q=${autocomplete}`
+          );
+          setResults(response.data);
+        };
+        fetchData();
+      } catch (error) {
+        console.log("autocomplete error", error);
+      }
     }
   }, [autocomplete, server]);
 
@@ -42,6 +46,7 @@ const Autocomplete = ({
 
   const SaveContact = async (e) => {
     e.preventDefault();
+
     if (isValidForm(contactPhone, companyWebsite)) {
       setInProgress(true);
 
@@ -127,14 +132,16 @@ const Autocomplete = ({
     <div className="create-contact-container font">
       <div>
         <h1>Rechercher une entreprise</h1>
-        <input
-          type="text"
-          placeholder="Nom de l'entreprise..."
-          value={autocomplete}
-          onChange={(e) => {
-            setAutocomplete(e.target.value);
-          }}
-        />
+        <form>
+          <input
+            type="text"
+            placeholder="Nom de l'entreprise..."
+            value={autocomplete}
+            onChange={(e) => {
+              setAutocomplete(e.target.value);
+            }}
+          />
+        </form>
         <p
           className="link"
           onClick={() => {
@@ -291,4 +298,4 @@ const Autocomplete = ({
   );
 };
 
-export default Autocomplete;
+export default CreateContactAutocomplete;

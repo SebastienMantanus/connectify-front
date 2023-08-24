@@ -28,7 +28,7 @@ import smartActionEdit from "../assets/images/smart_action_edit.png";
 
 const Home = ({ token, server, SetToken }) => {
   const [isLoading, SetIsLoading] = useState(true);
-  const [data, SetData] = useState();
+  const [data, SetData] = useState([]);
   const [searchQuery, SetSearchQuery] = useState("");
   const [isDraggin, setIsDraggin] = useState("");
 
@@ -84,18 +84,22 @@ const Home = ({ token, server, SetToken }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(
-        `${server}/affiliates?${query}&skip=${skip}&limit=${limit}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      try {
+        const response = await axios.get(
+          `${server}/affiliates?${query}&skip=${skip}&limit=${limit}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-      SetData(response.data);
-      setReload(false);
-      SetIsLoading(false);
+        SetData(response.data);
+        setReload(false);
+        SetIsLoading(false);
+      } catch (error) {
+        console.log("Erreur dans la récupération des contacts :", error.data);
+      }
     };
     fetchData();
   }, [searchQuery, query, server, skip, limit, token, reload]);
@@ -105,12 +109,19 @@ const Home = ({ token, server, SetToken }) => {
   // fetch number of contacts with filters querry
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(`${server}/affiliates?${query}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setNumberOfContacts(response.data.length);
+      try {
+        const response = await axios.get(`${server}/affiliates?${query}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setNumberOfContacts(response.data.length);
+      } catch (error) {
+        console.log(
+          "Erreur dans la récupération du nombre de contacts :",
+          error.data
+        );
+      }
     };
     fetchData();
   }, [searchQuery, query, server, token]);
@@ -267,7 +278,7 @@ const Home = ({ token, server, SetToken }) => {
               <h1>Créer un nouveau contact</h1>
             </div>
 
-            {data.map((item, index) => {
+            {data.map((item) => {
               const linkUrl = `/contact/${item._id}/edit`;
 
               return (

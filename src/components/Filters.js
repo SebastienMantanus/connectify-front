@@ -44,7 +44,7 @@ const Filters = ({
 
   //#region Filters states
   // Data of Folders, heat, status, responsable states
-  const [foldersData, setFoldersData] = useState();
+  const [foldersData, setFoldersData] = useState([]);
   const heatData = [
     {
       statut_id: 0,
@@ -64,41 +64,53 @@ const Filters = ({
     },
   ];
 
-  const [statusData, setStatusData] = useState();
-  const [responsableData, setResponsableData] = useState();
+  const [statusData, setStatusData] = useState([]);
+  const [responsableData, setResponsableData] = useState([]);
   //#endregion
 
   useEffect(() => {
-    const fetchFoldersData = async () => {
-      const response = await axios.get(`${server}/folders`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setFoldersData(response.data);
-    };
-    fetchFoldersData();
+    try {
+      const fetchFoldersData = async () => {
+        const response = await axios.get(`${server}/folders`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setFoldersData(response.data);
+      };
+      fetchFoldersData();
+    } catch (error) {
+      console.log("Erreur dans la récupération des dossiers :", error.data);
+    }
   }, [token, server]);
 
   useEffect(() => {
-    const fetchResponsableData = async () => {
-      const response = await axios.get(`${server}/users`);
-      setResponsableData(response.data);
-    };
-    fetchResponsableData();
+    try {
+      const fetchResponsableData = async () => {
+        const response = await axios.get(`${server}/users`);
+        setResponsableData(response.data);
+      };
+      fetchResponsableData();
+    } catch (error) {
+      console.log("Erreur dans la récupération des responsables :", error.data);
+    }
   }, [token, server]);
 
   useEffect(() => {
-    const fetchStatusData = async () => {
-      const response = await axios.get(`${server}/status`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setStatusData(response.data);
-    };
-    fetchStatusData();
-    setIsLoading(false);
+    try {
+      const fetchStatusData = async () => {
+        const response = await axios.get(`${server}/status`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setStatusData(response.data);
+      };
+      fetchStatusData();
+      setIsLoading(false);
+    } catch (error) {
+      console.log("Erreur dans la récupération des status :", error.data);
+    }
   }, [token, server]);
 
   // reset filters function
@@ -111,92 +123,111 @@ const Filters = ({
 
   // handle drop folders function
   const handleFolderDrop = (e) => {
-    // update user folder
-    const updateUserFolder = async () => {
-      await axios.patch(
-        `${server}/affiliate/${userToUpdate.current}`,
-        {
-          contact_folder: destinationFolder.current,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+    try {
+      // update user folder
+      const updateUserFolder = async () => {
+        await axios.patch(
+          `${server}/affiliate/${userToUpdate.current}`,
+          {
+            contact_folder: destinationFolder.current,
           },
-        }
-      );
-    };
-    updateUserFolder();
-    setReload(true);
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      };
+      updateUserFolder();
+      setReload(true);
+    } catch (error) {
+      console.log("Erreur dans la mise à jour du dossier :", error.data);
+    }
   };
 
   // handle drop user function
   const handleUserDrop = (e) => {
-    // update user responsable
-    const updateUserResponsable = async () => {
-      await axios.patch(
-        `${server}/affiliate/${userToUpdate.current}`,
-        {
-          responsable: destinationUser.current,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+    try {
+      // update user responsable
+      const updateUserResponsable = async () => {
+        await axios.patch(
+          `${server}/affiliate/${userToUpdate.current}`,
+          {
+            responsable: destinationUser.current,
           },
-        }
-      );
-    };
-    updateUserResponsable();
-    setReload(true);
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      };
+      updateUserResponsable();
+      setReload(true);
+    } catch (error) {
+      console.log("Erreur dans la mise à jour du responsable :", error.data);
+    }
   };
 
   // handle drop status function
   const handleStatusDrop = (e) => {
-    // update user status
-    const updateUserStatus = async () => {
-      await axios.patch(
-        `${server}/affiliate/${userToUpdate.current}`,
-        {
-          contact_status: destinationStatus.current,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+    try {
+      // update user status
+      const updateUserStatus = async () => {
+        await axios.patch(
+          `${server}/affiliate/${userToUpdate.current}`,
+          {
+            contact_status: destinationStatus.current,
           },
-        }
-      );
-    };
-    updateUserStatus();
-    setReload(true);
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      };
+      updateUserStatus();
+      setReload(true);
+    } catch (error) {
+      console.log("Erreur dans la mise à jour du statut :", error.data);
+    }
   };
 
   // handle drop heat function
   const handleHeatDrop = (e) => {
-    // update user heat
-    const updateUserHeat = async () => {
-      await axios.patch(
-        `${server}/affiliate/${userToUpdate.current}`,
-        {
-          contact_heat: destinationHeat.current,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+    try {
+      // update user heat
+      const updateUserHeat = async () => {
+        await axios.patch(
+          `${server}/affiliate/${userToUpdate.current}`,
+          {
+            contact_heat: destinationHeat.current,
           },
-        }
-      );
-    };
-    updateUserHeat();
-    setReload(true);
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      };
+      updateUserHeat();
+      setReload(true);
+    } catch (error) {
+      console.log("Erreur dans la mise à jour de la chaleur :", error.data);
+    }
   };
 
   return isLoading ? null : (
     <div>
       {/* Show reset filters button only when filters are applied */}
-      {contactFolder || contactHeat || contactStatus || responsable ? (
-        <section>
-          <button onClick={resetFilters}>Supprimer tous les filtres</button>
-        </section>
-      ) : null}
+      {contactFolder ||
+        contactHeat ||
+        contactStatus ||
+        (responsable && (
+          <section>
+            <button onClick={resetFilters}>Supprimer tous les filtres</button>
+          </section>
+        ))}
 
       <section>
         <div id="menu-title">

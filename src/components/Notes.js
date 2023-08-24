@@ -58,9 +58,13 @@ const Notes = ({ server, token, id }) => {
       <div className="notes">
         <div>
           {notes.length > 0 ? (
-            <h2 style={{ fontSize: "20px" }}>{notes.length} notes</h2>
+            notes.length === 1 ? (
+              <h2>1 note</h2>
+            ) : (
+              <h2>{notes.length} notes</h2>
+            )
           ) : (
-            <h2 style={{ fontSize: "20px" }}>Aucune note</h2>
+            <h2>Aucune note</h2>
           )}
           {!newNote && (
             <button onClick={() => setNewNote(!newNote)}>
@@ -71,16 +75,6 @@ const Notes = ({ server, token, id }) => {
 
         {notes &&
           notes.map((note) => {
-            // format date
-            // const formattedDate = new Date(note.created_at).toLocaleDateString(
-            //   "fr-FR",
-            //   {
-            //     day: "numeric",
-            //     month: "long",
-            //     year: "numeric",
-            //   }
-            // );
-
             //setup number of days since note creation
             const today = new Date();
             const noteDate = new Date(note.created_at);

@@ -2,6 +2,7 @@ import logo from "../assets/images/Logo-connectify.png";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const Header = ({ token, SetToken }) => {
   let name = "";
@@ -10,6 +11,7 @@ const Header = ({ token, SetToken }) => {
     name = JSON.parse(nameCookie);
   }
 
+  const navigate = useNavigate();
   return (
     <div>
       <div className="header-container">
@@ -25,6 +27,7 @@ const Header = ({ token, SetToken }) => {
                   Cookies.remove("token");
                   Cookies.remove("name");
                   SetToken("");
+                  navigate("/");
                 }}
               >
                 <FontAwesomeIcon

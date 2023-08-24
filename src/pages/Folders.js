@@ -64,6 +64,8 @@ const Folders = ({ token, server }) => {
       );
 
       setNewFolder(false);
+      setNewFolderName("");
+      setNewFolderDescription("");
     } catch (error) {
       console.log("Erreur lors de la création du dossier :", error.data);
     }
@@ -86,8 +88,7 @@ const Folders = ({ token, server }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(data);
-      setReload(true);
+      setFolders(data);
     } catch (error) {
       console.log("Erreur lors de la suppression du dossier :", error.data);
     }

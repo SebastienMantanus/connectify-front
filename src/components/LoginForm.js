@@ -11,41 +11,45 @@ const LoginForm = ({ SetToken, server }) => {
     event.preventDefault();
 
     if (email && password) {
-      const response = await axios.post(`${server}/users/login`, {
-        email: email,
-        password: password,
-      });
+      try {
+        const response = await axios.post(`${server}/users/login`, {
+          email: email,
+          password: password,
+        });
 
-      if (response.data.token) {
-        console.log(response.data);
-        //check if user is granted
-        const authResponse = await axios.post(
-          `${server}/authorisation/user/64cb508418c4da2bb4f818d3`,
-          { user_id: response.data._id },
-          {
-            headers: {
-              Authorization: `Bearer ${response.data.token}`,
-            },
+        if (response.data.token) {
+          //check if user is granted
+          const authResponse = await axios.post(
+            `${server}/authorisation/user/64cb508418c4da2bb4f818d3`,
+            { user_id: response.data._id },
+            {
+              headers: {
+                Authorization: `Bearer ${response.data.token}`,
+              },
+            }
+          );
+          console.log(authResponse.granted);
+
+          //connect if user is granted
+          if (authResponse.data.granted === true) {
+            let name = JSON.stringify(response.data.name);
+            Cookies.set("name", name);
+            Cookies.set("token", response.data.token, {
+              expires: 10,
+              sameSite: "Lax",
+              secure: true,
+            });
+            SetToken(response.data.token);
+          } else {
+            // if user is not granted
+            SetError("Vous n'avez pas les droits d'accès");
           }
-        );
-        console.log(authResponse.granted);
-        //connect if user is granted
-        if (authResponse.data.granted === true) {
-          let name = JSON.stringify(response.data.name);
-          Cookies.set("name", name);
-          Cookies.set("token", response.data.token, {
-            expires: 10,
-            sameSite: "Lax",
-            secure: true,
-          });
-          SetToken(response.data.token);
         } else {
-          // if user is not granted
-          SetError("Vous n'avez pas les droits d'accès");
+          // if user is not found
+          SetError("Email ou mot de passe incorrect");
         }
-      } else {
-        // if user is not found
-        SetError("Email ou mot de passe incorrect");
+      } catch (error) {
+        console.log("Erreur lors de la connexion :", error.data);
       }
     } else {
       // if form is not complete

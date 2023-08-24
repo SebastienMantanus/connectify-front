@@ -68,7 +68,14 @@
 }
 .contact-container > div:first-child > div:nth-child(4) p {
   font-size: 12px;
-  color: grey;
+  color: gray;
+  padding-bottom: 7px;
+  padding-left: 2px;
+}
+
+.contact-container > div:first-child > div:nth-child(4) a {
+  font-size: 12px;
+  color: gray;
   padding-bottom: 7px;
   padding-left: 2px;
 }
@@ -221,6 +228,9 @@ textarea:hover {
   gap: 20px;
   padding: 30px;
   position: relative;
+}
+.notes h2 {
+  font-size: 20px !important;
 }
 
 .notes > div:first-child {

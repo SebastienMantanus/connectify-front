@@ -161,6 +161,7 @@ const Edition = ({ token, server }) => {
       }
     }
   };
+
   // fuction to delete the contact
 
   const contactDelete = async () => {
@@ -172,15 +173,19 @@ const Edition = ({ token, server }) => {
       return;
     }
     // delete the contact
-    await axios.delete(`${server}/affiliate/delete/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    navigate("/");
+    try {
+      await axios.delete(`${server}/affiliate/delete/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      navigate("/");
+    } catch (error) {
+      console.log("erreur dans l'effacement du contact", error.message);
+    }
   };
 
-  // auto resize inputs width function
+  // auto resize inputs width function (not used for now but could be useful in the future)
   const autoResizeWidth = (characters) => {
     return "80%";
   };
@@ -344,13 +349,14 @@ const Edition = ({ token, server }) => {
               </div>
             </div>
           </div>
-          <div>
-            <p
-              onClick={() => window.open(`https://${company_website}`)}
-              style={{ cursor: "pointer" }}
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <a
+              href={`https://${company_website}`}
+              target="_blank"
+              rel="noreferrer"
             >
               Site Internet
-            </p>
+            </a>
             <input
               type="text"
               style={{ width: autoResizeWidth(company_website?.length) }}

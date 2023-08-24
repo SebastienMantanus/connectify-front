@@ -17,7 +17,7 @@ import {
 //import dependencies
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Login from "./pages/Login";
+import Connexion from "./pages/Connexion";
 import Home from "./pages/Home";
 import Edition from "./pages/Edition";
 import Createcontact from "./pages/Createcontact";
@@ -49,7 +49,7 @@ function App() {
           <Route
             path="/"
             element={
-              <Login token={token} SetToken={SetToken} server={server} />
+              <Connexion token={token} SetToken={SetToken} server={server} />
             }
           />
           <Route
