@@ -1,6 +1,7 @@
 /* import contact.css */
 @import url("/src/assets/css/contact.css");
 @import url("/src/assets/css/folders.css");
+@import url("/src/assets/css/newUser.css");
 
 /* GENERAL */
 .grey-bkg {
@@ -23,6 +24,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  height: calc(100vh - 200px);
 }
 .font {
   font-family: "Lucida Sans", sans-serif;
@@ -231,6 +234,16 @@ a {
   color: #b42f5a;
 }
 
+.drag-over {
+  display: flex;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+  height: 40px !important;
+  background-color: #a50a3b !important;
+  border-radius: 5px;
+}
+
 .home-container {
   margin-top: 40px;
   width: 100%;
@@ -317,6 +330,7 @@ a {
   padding: 8px;
   border-top-left-radius: 5px;
   border-bottom-right-radius: 50px;
+  cursor: move;
 }
 
 /* Favicon, company name and Contact name */
@@ -325,6 +339,7 @@ a {
   gap: 15px;
   align-items: center;
   padding: 10px;
+  cursor: pointer;
 }
 
 .contact-cards > div:nth-child(2) h2 {
@@ -419,6 +434,26 @@ a {
 .contact-cards-actions img {
   width: 35px;
   height: 35px;
+}
+
+/* Contact cards Dragging */
+.contact-card-dragging {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  justify-content: center;
+  height: 50px;
+  width: 255px;
+  background-color: rgb(44, 44, 44);
+  color: white;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: move;
+  opacity: 0.2;
+}
+
+.contact-card-transparent {
+  opacity: 0.2;
 }
 
 /* New Contact first grid card */

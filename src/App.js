@@ -22,6 +22,7 @@ import Home from "./pages/Home";
 import Edition from "./pages/Edition";
 import Createcontact from "./pages/Createcontact";
 import Folders from "./pages/Folders";
+import NewUser from "./pages/NewUser";
 
 //switch between local and distant server
 
@@ -70,6 +71,7 @@ function App() {
             path="/folders"
             element={<Folders token={token} server={server} />}
           />
+          <Route path="/newuser/:id" element={<NewUser server={server} />} />
         </Routes>
         <Footer />
       </Router>

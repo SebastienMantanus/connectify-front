@@ -39,6 +39,9 @@ const Filters = ({
   const [showStatus, setShowStatus] = useState(false);
   const [showResponsable, setShowResponsable] = useState(false);
 
+  // dragOver states
+  const [isDragOver, setIsDragOver] = useState("");
+
   //#region Filters states
   // Data of Folders, heat, status, responsable states
   const [foldersData, setFoldersData] = useState();
@@ -214,24 +217,32 @@ const Filters = ({
           <p
             onClick={() => setContactFolder("")}
             className={contactFolder === "" ? "bold" : null}
+            style={{ width: "100%" }}
           >
             Tous les dossiers
           </p>
           {foldersData ? (
-            foldersData.map((folder, index) => {
+            foldersData.map((folder) => {
               return (
                 <p
                   key={folder._id}
-                  className={folder._id === contactFolder ? "bold" : null}
+                  className={isDragOver === folder._id ? "drag-over" : null}
                   onClick={() => {
                     setContactFolder(folder._id);
                   }}
                   onDragEnter={(e) => {
+                    setIsDragOver(folder._id);
                     destinationFolder.current = folder._id;
                   }}
-                  onDrop={handleFolderDrop}
+                  onDrop={() => {
+                    setIsDragOver("");
+                    handleFolderDrop();
+                  }}
                   onDragOver={(e) => {
                     e.preventDefault();
+                  }}
+                  onDragLeave={() => {
+                    setIsDragOver("");
                   }}
                 >
                   {folder.name}
@@ -271,17 +282,25 @@ const Filters = ({
               responsableData.map((user, index) => {
                 return (
                   <p
-                    className={user._id === responsable ? "bold" : null}
+                    className={isDragOver === user._id ? "drag-over" : null}
+                    style={{ width: "100%" }}
                     key={index}
                     onClick={() => {
                       setResponsable(user._id);
                     }}
                     onDragEnter={(e) => {
+                      setIsDragOver(user._id);
                       destinationUser.current = user._id;
                     }}
-                    onDrop={handleUserDrop}
+                    onDrop={() => {
+                      setIsDragOver("");
+                      handleUserDrop();
+                    }}
                     onDragOver={(e) => {
                       e.preventDefault();
+                    }}
+                    onDragLeave={() => {
+                      setIsDragOver("");
                     }}
                   >
                     {user.name}
@@ -311,17 +330,25 @@ const Filters = ({
           {heatData.map((heat, index) => {
             return (
               <p
-                className={heat.statut_id === contactHeat ? "bold" : null}
+                className={isDragOver === heat.statut_id ? "drag-over" : null}
+                style={{ width: "100%" }}
                 key={index}
                 onClick={() => {
                   setContactHeat(heat.statut_id);
                 }}
                 onDragEnter={(e) => {
+                  setIsDragOver(heat.statut_id);
                   destinationHeat.current = heat.statut_id;
                 }}
-                onDrop={handleHeatDrop}
+                onDrop={() => {
+                  setIsDragOver("");
+                  handleHeatDrop();
+                }}
                 onDragOver={(e) => {
                   e.preventDefault();
+                }}
+                onDragLeave={() => {
+                  setIsDragOver("");
                 }}
               >
                 {heat.statut_name}
@@ -354,18 +381,26 @@ const Filters = ({
             statusData.map((status, index) => {
               return (
                 <p
-                  className={status._id === contactStatus ? "bold" : null}
+                  className={isDragOver === status._id ? "drag-over" : null}
+                  style={{ width: "100%" }}
                   key={index}
                   onClick={() => {
                     setContactStatus(status._id);
                   }}
                   onDragEnter={(e) => {
+                    setIsDragOver(status._id);
                     destinationStatus.current = status._id;
                   }}
                   onDragOver={(e) => {
                     e.preventDefault();
                   }}
-                  onDrop={handleStatusDrop}
+                  onDrop={() => {
+                    setIsDragOver("");
+                    handleStatusDrop();
+                  }}
+                  onDragLeave={() => {
+                    setIsDragOver("");
+                  }}
                 >
                   {status.status_name}
                 </p>

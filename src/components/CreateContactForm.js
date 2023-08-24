@@ -1,7 +1,7 @@
+import { Icon } from "@iconify/react";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Icon } from "@iconify/react";
 
 export const CreateContactForm = ({
   newContact,
@@ -18,6 +18,20 @@ export const CreateContactForm = ({
   // show and hide form sections
   const [showAddress, setShowAddress] = useState(false);
   const [showSize, setShowSize] = useState(false);
+
+  // validate url + phone number
+  //form validation functions
+
+  const isValidUrl = (url) => {
+    const urlPattern = /^[\w-]+(\.[\w-]+)+[/#?]?.*$/;
+    if (!urlPattern.test(url)) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  // Save contact in database function
 
   const SaveContact = async () => {
     if (
@@ -73,7 +87,6 @@ export const CreateContactForm = ({
             <input
               type="text"
               style={{ borderLeft: "3px solid #b42f5a" }}
-              required
               name="company_name"
               placeholder="Nom de l'entreprise (obligatoire)"
               value={newContact.company_name}
@@ -89,7 +102,6 @@ export const CreateContactForm = ({
               type="text"
               style={{ borderLeft: "3px solid #b42f5a" }}
               name="company_website"
-              required
               placeholder="Site web (obligatoire)"
               value={newContact.company_website}
               onChange={(e) => {
@@ -274,6 +286,9 @@ export const CreateContactForm = ({
             </div>
             <button
               onClick={(e) => {
+                e.preventDefault();
+                setError({});
+
                 if (
                   newContact.company_website === "" ||
                   newContact.company_name === ""
@@ -285,20 +300,20 @@ export const CreateContactForm = ({
                   } else {
                     newError.company_name_error = "";
                   }
-                  if (newContact.company_website === "") {
+                  if (isValidUrl(newContact.company_website) === false) {
                     newError.company_website_error =
-                      "Veuillez saisir le site web de l'entreprise";
+                      "Veuillez vérifier le site web de l'entreprise";
                   } else {
                     newError.company_website_error = "";
                   }
+
                   setError(newError);
                 }
 
                 if (
-                  newContact.company_website !== "" &&
+                  isValidUrl(newContact.company_website) &&
                   newContact.company_name !== ""
                 ) {
-                  e.preventDefault();
                   setStep(2);
                 }
               }}
@@ -327,6 +342,7 @@ export const CreateContactForm = ({
             <p className="red">{error.contact_name_error}</p>
             <input
               type="text"
+              style={{ borderLeft: "3px solid #b42f5a" }}
               required
               name="contact_name"
               placeholder="Nom du contact"
@@ -342,6 +358,8 @@ export const CreateContactForm = ({
             <p className="red">{error.contact_email_error}</p>
             <input
               type="email"
+              style={{ borderLeft: "3px solid #b42f5a" }}
+              required
               name="contact_email"
               placeholder="Email"
               value={newContact.contact_email}
@@ -377,8 +395,9 @@ export const CreateContactForm = ({
               }}
             />
             {inProgress ? (
-              <p>Enregistrement en cours...</p>
+              <p>Enregistrement du contact en cours...</p>
             ) : (
+              // <ActivityIndicator />
               <button
                 onClick={(e) => {
                   e.preventDefault();

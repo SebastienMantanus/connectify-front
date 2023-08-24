@@ -10,14 +10,14 @@ const Login = ({ token, server, SetToken }) => {
   }
 
   return (
-    <div className="page-align grey-bkg font">
+    <div className="page-align font">
       {token ? (
         <Navigate to="/home" />
       ) : (
         <div className="main-container">
-          <div>
+          {/* <div>
             <h1 className="text-center"> Bienvenue sur Connectify !</h1>
-          </div>
+          </div> */}
           <div className="forms-container">
             <div>
               <LoginForm SetToken={SetToken} server={server} />

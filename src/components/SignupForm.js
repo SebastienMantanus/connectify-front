@@ -1,6 +1,9 @@
 import axios from "axios";
 import { useState } from "react";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
+
+// import { navigate } from "ionicons/icons";
+import { useNavigate } from "react-router-dom";
 
 const SignupForm = ({ SetToken, server }) => {
   const [name, SetName] = useState("");
@@ -9,11 +12,15 @@ const SignupForm = ({ SetToken, server }) => {
   const [passwordConfirmation, SetPasswordConfirmation] = useState("");
   const [error, SetError] = useState("");
 
-  const message = "Ceci est un test";
+  const message = "";
 
+  //navigation
+  const navigate = useNavigate();
+
+  // user confirmation email
   const confirmationEmail = async () => {
     try {
-      const response = await axios.post(
+      await axios.post(
         `https://mails--sendinblue--pcsmmwq8bwzd.code.run/connectify`,
         {
           responder_name: name,
@@ -21,7 +28,22 @@ const SignupForm = ({ SetToken, server }) => {
           custom_message: message,
         }
       );
-      return console.log(response.data);
+    } catch (error) {
+      console.log(error.data);
+    }
+  };
+
+  // admin alert email
+  const alertEmail = async (admin_name, admin_email) => {
+    try {
+      await axios.post(
+        `https://mails--sendinblue--pcsmmwq8bwzd.code.run/connectify/newuser/adminalert`,
+        {
+          responder_name: admin_name,
+          responder_email: admin_email,
+          custom_message: `Email du nouvel utilisateur : ${email}`,
+        }
+      );
     } catch (error) {
       console.log(error.data);
     }
@@ -39,10 +61,8 @@ const SignupForm = ({ SetToken, server }) => {
         });
         if (response.data.token) {
           confirmationEmail();
-          let name = JSON.stringify(response.data.name);
-          Cookies.set("name", name);
-          Cookies.set("token", response.data.token);
-          SetToken(response.data.token);
+          alertEmail("Sébastien", "sebastien@zonesdegenie.fr");
+          navigate(`/newuser/${response.data._id}}`);
         } else {
           SetError("Quelque chose ne va pas...");
         }

@@ -30,10 +30,21 @@ const EditFolder = ({
             Authorization: `Bearer ${token}`,
           },
         });
-        setNewFolderName(response.data.folder.name);
-        setNewFolderDescription(response.data.folder.description);
-        setNbAffiliates(response.data.affiliates);
-        setResponsable(response.data.folder.responsable.name);
+        // destructuring the response
+        const { name, description, responsable } = response.data.folder;
+        const { affiliates } = response.data;
+
+        console.log("response.data", response.data.folder);
+
+        setNewFolderName(name);
+        setNewFolderDescription(description);
+
+        setNbAffiliates(affiliates);
+        if (responsable?.name) {
+          setResponsable(responsable.name);
+        } else {
+          setResponsable("utilisateur supprimé");
+        }
       };
       fetchFolder();
       setIsLoading(false);
@@ -126,12 +137,12 @@ const EditFolder = ({
                 >
                   <img
                     key={affiliate._id}
-                    src={affiliate.company_favicon.url}
+                    src={affiliate.company_favicon?.url}
                     alt="favicon"
                     title={affiliate.company_name}
                   />
                   {hoveredIndex === affiliate._id && (
-                    <p>{affiliate.company_name}</p>
+                    <p>{affiliate?.company_name}</p>
                   )}
                 </div>
               );
