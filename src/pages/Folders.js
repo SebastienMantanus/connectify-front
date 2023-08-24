@@ -10,7 +10,7 @@ import axios from "axios";
 import EditFolder from "../components/EditFolder";
 
 const Folders = ({ token, server }) => {
-  const [folders, setFolders] = useState("");
+  const [folders, setFolders] = useState([]);
   const [newFolder, setNewFolder] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [folderId, setFolderId] = useState("");
@@ -28,6 +28,7 @@ const Folders = ({ token, server }) => {
 
   // fetching forders useEffect
   useEffect(() => {
+    console.log("token", token);
     try {
       const fetchFolders = async () => {
         const response = await axios.get(`${server}/folders`, {
@@ -39,14 +40,15 @@ const Folders = ({ token, server }) => {
       };
       fetchFolders();
       setIsLoading(false);
-      setReload(false);
     } catch (error) {
       console.log("Erreur dans la récupération des dossiers :", error.data);
     }
+    setReload(false);
   }, [token, newFolder, server, reload]);
 
   //create a new folder function
-  const createFolder = async () => {
+  const createFolder = async (e) => {
+    e.preventDefault();
     try {
       await axios.post(
         `${server}/folder/create`,
@@ -60,6 +62,7 @@ const Folders = ({ token, server }) => {
           },
         }
       );
+
       setNewFolder(false);
     } catch (error) {
       console.log("Erreur lors de la création du dossier :", error.data);
@@ -78,11 +81,12 @@ const Folders = ({ token, server }) => {
     }
     //delete the folder
     try {
-      await axios.delete(`${server}/folder/${folderId}`, {
+      const { data } = await axios.delete(`${server}/folder/${folderId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log(data);
       setReload(true);
     } catch (error) {
       console.log("Erreur lors de la suppression du dossier :", error.data);
