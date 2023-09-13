@@ -28,7 +28,7 @@ import NewUser from "./pages/NewUser";
 
 // const server = "http://localhost:3000";
 
-const server = "https://site--connectify-back--6cc8ffpxkbwr.code.run";
+const server = "site--connectify-back-lrd--6cc8ffpxkbwr.code.run";
 
 function App() {
   const [token, SetToken] = useState(Cookies.get("token") || "");
